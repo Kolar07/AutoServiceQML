@@ -4,6 +4,7 @@
 #include <QDebug>
 #include "registercontroller.h"
 #include "databasecontroller.h"
+#include "logincontroller.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,10 +13,10 @@ int main(int argc, char *argv[])
 
     //TESTING
     RegisterController test;
-    QString name = "Jakub43";
-    QString surname = "Kolarczyk43";
-    QString email = "jakubkolarczyk@gmail.com43";
-    QString psw = "kochamKasdfrodsflinke1df23123123";
+    QString name = "kuba";
+    QString surname = "kolarczyk";
+    QString email = "kubakolarczyk@gmail.com";
+    QString psw = "123456789";
 
 
 
@@ -28,7 +29,11 @@ int main(int argc, char *argv[])
     } else {
         qDebug() << "Signal and slot connected successfully";
     }
-    test.registerCustomer(name,surname,email,psw);
+    Customer customer;
+    LoginController logController(&customer,&dbController);
+    logController.login(email,psw);
+    customer.print();
+    //test.registerCustomer(name,surname,email,psw);
     dbController.close();
     //dbController.addCustomer(name,surname,email,test.hashPassword(psw,salt));
     //dbController.close();

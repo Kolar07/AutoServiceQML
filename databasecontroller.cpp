@@ -70,6 +70,35 @@ bool DatabaseController::changeCustomerPassword(int &customerId, QString &newPas
     return true;
 }
 
+QMap<QString, QVariant> DatabaseController::getCustomerByEmail(QString &email)
+{
+    QMap<QString, QVariant> customerData;
+
+    if(!db.open()) {
+        qDebug()<<"Database is not open!";
+        return customerData;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT * from customers WHERE email = :email");
+    query.bindValue(":email", email);
+    if(!query.exec()) {
+        qDebug()<<"Failed to execute query.";
+        return customerData;
+    }
+
+    if(query.next()) {
+        QSqlRecord record = query.record();
+        for(int i=0; i<record.count(); i++) {
+            customerData.insert(record.fieldName(i), record.value(i));
+        }
+        qDebug() << "Got customer data from database for email:" << email;
+    } else {
+        qDebug() << "No customer found with that email:" << email;
+    }
+    return customerData;
+}
+
 void DatabaseController::registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password)
 {
     qDebug()<<"Performing signal answer";

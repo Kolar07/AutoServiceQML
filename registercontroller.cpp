@@ -1,7 +1,10 @@
 #include "registercontroller.h"
 
-RegisterController::RegisterController(QObject *parent)
-    : QObject{parent}
+RegisterController::RegisterController(Customer *_customer,QObject *parent)
+    : QObject{parent}, customer{_customer}
+{}
+
+RegisterController::RegisterController()
 {}
 
 void RegisterController::registerCustomer(QString &name, QString &surname, QString &email, QString &password)

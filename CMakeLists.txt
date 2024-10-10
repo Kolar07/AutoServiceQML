@@ -26,6 +26,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES vehicle.h vehicle.cpp
     SOURCES databasecontroller.h databasecontroller.cpp
     QML_FILES RegistrationView.qml
+    SOURCES logincontroller.h logincontroller.cpp
 )
 
 # Ustawienia właściwości celu

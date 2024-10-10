@@ -42,3 +42,18 @@ void Customer::setPassword(const QString &newPassword)
 {
     password = newPassword;
 }
+
+int Customer::getId() const
+{
+    return id;
+}
+
+void Customer::setId(int newId)
+{
+    id = newId;
+}
+
+void Customer::print() const
+{
+    qDebug()<<"Customer name: "<<name<< ", surname: "<<surname<<", email: "<<email;
+}

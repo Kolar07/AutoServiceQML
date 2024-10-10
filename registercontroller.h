@@ -11,7 +11,8 @@ class RegisterController : public QObject
 {
     Q_OBJECT
 public:
-    explicit RegisterController(QObject *parent = nullptr);
+    explicit RegisterController(Customer *_customer, QObject *parent = nullptr);
+    RegisterController();
 
     void registerCustomer(QString &name, QString &surname, QString &email, QString &password);
     QByteArray generateSalt();
@@ -22,7 +23,7 @@ signals:
     void registrationFailed(const QString &errorMessage);
 
 private:
-    Customer customer;
+    Customer *customer;
 
 signals:
 };

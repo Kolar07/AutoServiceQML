@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "vehicle.h"
+#include <QDebug>
 
 class Customer : public QObject
 {
@@ -22,7 +23,12 @@ public:
     QString getPassword() const;
     void setPassword(const QString &newPassword);
 
+    int getId() const;
+    void setId(int newId);
+    void print() const;
+
 private:
+    int id;
     QString name;
     QString surname;
     QString email;

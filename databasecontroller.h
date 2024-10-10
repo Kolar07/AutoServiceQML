@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
+#include <QtSql/QSqlRecord>
 
 class DatabaseController : public QObject
 {
@@ -20,10 +21,11 @@ public:
     //CUSTOMER
     bool addCustomer(QString name, QString surname, QString email, QString password);
     bool changeCustomerPassword(int &customerId, QString &newPassword);
+    QMap<QString, QVariant> getCustomerByEmail(QString &email);
 
     public slots:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);
-    void customerPasswordChanged(const int &id, const QString &newPassword);
+    //void customerPasswordChanged(const int &id, const QString &newPassword);
 
 private:
     QSqlDatabase db;
