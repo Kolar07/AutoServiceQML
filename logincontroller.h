@@ -5,15 +5,21 @@
 #include "customer.h"
 #include "databasecontroller.h"
 #include "registercontroller.h"
+#include <QDebug>
 
 class LoginController : public QObject
 {
     Q_OBJECT
 public:
     explicit LoginController(Customer *_customer, DatabaseController *_db,  QObject *parent = nullptr);
-    std::shared_ptr<Customer> login(QString &email, QString &password);
+    void login(QString &email, QString &password);
+
+    std::shared_ptr<Customer> getCustomer() const;
+
+    void printingPtr() const;
 
 signals:
+    void successfullyLogged(std::shared_ptr<Customer> &customer);
 
 private:
     std::shared_ptr<Customer> customer;

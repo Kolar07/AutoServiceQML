@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls 2
 
 Window {
     width: 640
@@ -12,3 +13,4 @@ Window {
 	anchors.fill: parent
     }
 }
+

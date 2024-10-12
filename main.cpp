@@ -5,6 +5,7 @@
 #include "registercontroller.h"
 #include "databasecontroller.h"
 #include "logincontroller.h"
+#include "sessioncontroller.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +13,8 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Material");
 
     //TESTING
+    //
+
     RegisterController test;
     QString name = "kuba";
     QString surname = "kolarczyk";
@@ -23,22 +26,24 @@ int main(int argc, char *argv[])
     DatabaseController dbController("localhost","root","root", "db_autoservice");
     dbController.open();
     bool isConnected = QObject::connect(&test,&RegisterController::registrationSuccess,
-                     &dbController,&DatabaseController::registrationSuccess);
-    if (!isConnected) {
-        qDebug() << "Failed to connect signal and slot";
-    } else {
-        qDebug() << "Signal and slot connected successfully";
-    }
+                                        &dbController,&DatabaseController::registrationSuccess);
+
     Customer customer;
     LoginController logController(&customer,&dbController);
+    SessionController session;
+    bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
+                                         &session, &SessionController::successfullyLogged);
+
     logController.login(email,psw);
-    customer.print();
     //test.registerCustomer(name,surname,email,psw);
+
     dbController.close();
     //dbController.addCustomer(name,surname,email,test.hashPassword(psw,salt));
     //dbController.close();
-    //END OF TESTING
 
+    //
+    //END OF TESTING
+    //
 
 
     QQmlApplicationEngine engine;
