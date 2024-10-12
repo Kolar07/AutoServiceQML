@@ -12,7 +12,7 @@ class LoginController : public QObject
     Q_OBJECT
 public:
     explicit LoginController(Customer *_customer, DatabaseController *_db,  QObject *parent = nullptr);
-    void login(QString &email, QString &password);
+    Q_INVOKABLE bool login(QString email, QString password);
 
     std::shared_ptr<Customer> getCustomer() const;
 
@@ -20,6 +20,7 @@ public:
 
 signals:
     void successfullyLogged(std::shared_ptr<Customer> &customer);
+    void failedLogin();
 
 private:
     std::shared_ptr<Customer> customer;

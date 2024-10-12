@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2/QQuickStyle>
 #include <QDebug>
+#include <QQmlContext>
 #include "registercontroller.h"
 #include "databasecontroller.h"
 #include "logincontroller.h"
@@ -34,10 +35,10 @@ int main(int argc, char *argv[])
     bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
 
-    logController.login(email,psw);
+    //logController.login(email,psw);
     //test.registerCustomer(name,surname,email,psw);
 
-    dbController.close();
+    //dbController.close();
     //dbController.addCustomer(name,surname,email,test.hashPassword(psw,salt));
     //dbController.close();
 
@@ -47,6 +48,8 @@ int main(int argc, char *argv[])
 
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("loginController", &logController);
+    engine.rootContext()->setContextProperty("sessionController", &session);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

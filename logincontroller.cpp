@@ -4,16 +4,18 @@ LoginController::LoginController(Customer *_customer,DatabaseController *_db,QOb
     : QObject{parent}, customer{_customer}, db{_db}
 {}
 
-void LoginController::login(QString &email, QString &password)
+bool LoginController::login(QString email, QString password)
 {
     if(email.isEmpty() || password.isEmpty()) {
         qDebug()<<"While logging in: email or password is empty";
+        return false;
     }
 
     QMap<QString, QVariant> customerFromDB = db->getCustomerByEmail(email);
     QStringList parts = customerFromDB.value("password").toString().split(":");
     if(parts.size()!=2){
         qDebug()<<"Wrong data format";
+        return false;
     }
     QByteArray storedSalt = QByteArray::fromBase64(parts[1].toUtf8());
     //QByteArray storedPassword = QByteArray::fromBase64(parts[0].toUtf8());
@@ -30,8 +32,11 @@ void LoginController::login(QString &email, QString &password)
         //SET VEHICLE LIST TO CUSTOMER AFTER LOGIN
         qDebug()<<"Login controller pointer: "<<customer.get();
         emit successfullyLogged(customer);
+        return true;
     } else
     qDebug()<<"WRONG PASSWORD!";
+    emit failedLogin();
+    return false;
 }
 
 std::shared_ptr<Customer> LoginController::getCustomer() const

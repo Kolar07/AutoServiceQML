@@ -1,16 +1,14 @@
 import QtQuick
 import QtQuick.Controls 2
 
-Window {
-    width: 640
-    height: 480
+ApplicationWindow {
     visible: true
-    title: qsTr("Auto Service")
+    width: 1280
+    height: 720
 
-    Rectangle {
-	id: backgroundRectId
-	color: "white"
+    Loader {
+	id: viewLoader
 	anchors.fill: parent
+	source: "LoginPage.qml"
     }
 }
-
