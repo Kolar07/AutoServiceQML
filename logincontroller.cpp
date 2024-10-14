@@ -8,6 +8,7 @@ bool LoginController::login(QString email, QString password)
 {
     if(email.isEmpty() || password.isEmpty()) {
         qDebug()<<"While logging in: email or password is empty";
+        emit failedLogin();
         return false;
     }
 
@@ -15,6 +16,7 @@ bool LoginController::login(QString email, QString password)
     QStringList parts = customerFromDB.value("password").toString().split(":");
     if(parts.size()!=2){
         qDebug()<<"Wrong data format";
+        emit failedLogin();
         return false;
     }
     QByteArray storedSalt = QByteArray::fromBase64(parts[1].toUtf8());

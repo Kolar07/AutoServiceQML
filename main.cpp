@@ -16,17 +16,17 @@ int main(int argc, char *argv[])
     //TESTING
     //
 
-    RegisterController test;
-    QString name = "kuba";
-    QString surname = "kolarczyk";
-    QString email = "kubakolarczyk@gmail.com";
-    QString psw = "123456789";
+    RegisterController registerController;
+    //QString name = "kuba";
+    //QString surname = "kolarczyk";
+    //QString email = "kubakolarczyk@gmail.com";
+    //QString psw = "123456789";
 
 
 
     DatabaseController dbController("localhost","root","root", "db_autoservice");
     dbController.open();
-    bool isConnected = QObject::connect(&test,&RegisterController::registrationSuccess,
+    bool isConnected = QObject::connect(&registerController,&RegisterController::registrationSuccess,
                                         &dbController,&DatabaseController::registrationSuccess);
 
     Customer customer;
@@ -35,13 +35,6 @@ int main(int argc, char *argv[])
     bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
 
-    //logController.login(email,psw);
-    //test.registerCustomer(name,surname,email,psw);
-
-    //dbController.close();
-    //dbController.addCustomer(name,surname,email,test.hashPassword(psw,salt));
-    //dbController.close();
-
     //
     //END OF TESTING
     //
@@ -49,6 +42,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("loginController", &logController);
+    engine.rootContext()->setContextProperty("registerController", &registerController);
     engine.rootContext()->setContextProperty("sessionController", &session);
     QObject::connect(
         &engine,

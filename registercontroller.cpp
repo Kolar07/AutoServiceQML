@@ -7,14 +7,35 @@ RegisterController::RegisterController(Customer *_customer,QObject *parent)
 RegisterController::RegisterController()
 {}
 
-void RegisterController::registerCustomer(QString &name, QString &surname, QString &email, QString &password)
+void RegisterController::registerCustomer(QString name, QString surname, QString email, QString password, QString repeatPassword)
 {
-    if(name.isEmpty() || surname.isEmpty() || email.isEmpty()){
-        emit registrationFailed("Name, surname and email can not be empty!");
+
+    static QRegularExpression nameRegex("^[A-Za-z]+$");
+    static QRegularExpression emailRegex("^[\\w\\.-]+@[\\w\\.-]+\\.[A-Za-z]{2,}$");
+
+    if (name.isEmpty() || !nameRegex.match(name).hasMatch()) {
+        emit registrationFailedName();
+        return;
+    }
+
+    if (surname.isEmpty() || !nameRegex.match(surname).hasMatch()) {
+        emit registrationFailedSurname();
+        return;
+    }
+
+    if (email.isEmpty() || !emailRegex.match(email).hasMatch()) {
+        emit registrationFailedEmail();
+        return;
     }
 
     if(password.length()<8) {
-        emit registrationFailed("Password must be over 8 characters long!");
+        emit registrationFailedPassword();
+        return;
+    }
+
+    if(password != repeatPassword) {
+        emit registrationFailedRepeatPassword();
+        return;
     }
 
     QByteArray salt = generateSalt();

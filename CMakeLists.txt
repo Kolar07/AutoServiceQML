@@ -25,7 +25,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES registercontroller.h registercontroller.cpp
     SOURCES vehicle.h vehicle.cpp
     SOURCES databasecontroller.h databasecontroller.cpp
-    QML_FILES RegistrationView.qml
+    QML_FILES RegistrationPage.qml
     SOURCES logincontroller.h logincontroller.cpp
     QML_FILES LoginPage.qml
     SOURCES sessioncontroller.h sessioncontroller.cpp

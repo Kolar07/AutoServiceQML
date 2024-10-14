@@ -6,6 +6,7 @@
 #include <QCryptographicHash>
 #include <QRandomGenerator>
 #include <QDebug>
+#include <QRegularExpression>
 
 class RegisterController : public QObject
 {
@@ -14,13 +15,18 @@ public:
     explicit RegisterController(Customer *_customer, QObject *parent = nullptr);
     RegisterController();
 
-    void registerCustomer(QString &name, QString &surname, QString &email, QString &password);
+    Q_INVOKABLE void registerCustomer(QString name, QString surname, QString email, QString password, QString repeatPassword);
     QByteArray generateSalt();
     QString hashPassword(QString &password, QByteArray &salt, int iterations = 10000);
 
 signals:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);
     void registrationFailed(const QString &errorMessage);
+    void registrationFailedPassword();
+    void registrationFailedName();
+    void registrationFailedSurname();
+    void registrationFailedRepeatPassword();
+    void registrationFailedEmail();
 
 private:
     Customer *customer;

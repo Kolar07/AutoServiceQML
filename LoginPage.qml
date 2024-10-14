@@ -27,7 +27,7 @@ Item {
 	    background: Rectangle {
 		id: emailBackground
 		width: 300
-		height: 25
+		height: 35
 		color: "white"
 		radius: 10
 		border.color: "black"
@@ -46,7 +46,7 @@ Item {
 	    background: Rectangle {
 		id: passwordBackground
 		width: 300
-		height: 25
+		height: 35
 		color: "white"
 		radius: 10
 		border.color: "black"
@@ -56,15 +56,6 @@ Item {
 	    placeholderText: "Password                        "
 	}
 
-	Button {
-	    id: loginButtonId
-	    text: "Login"
-	    anchors.horizontalCenter: loginColumnId.horizontalCenter
-	    onClicked: {
-		loginController.login(emailInput.text, passwordInput.text);
-	    }
-	}
-
 	Label {
 	    id: wrongDataLabelId
 	    visible: false
@@ -72,6 +63,44 @@ Item {
 	    font.pixelSize: 10
 	    color: "red"
 	    anchors.horizontalCenter: parent.horizontalCenter
+	}
+
+	Button {
+	    id: loginButtonId
+	    text: "Login"
+	    anchors.horizontalCenter: loginColumnId.horizontalCenter
+	    onClicked: {
+		wrongDataLabelId.visible = false;
+		loginController.login(emailInput.text, passwordInput.text);
+	    }
+	}
+
+	Row {
+	    anchors.topMargin: 10
+	    anchors.horizontalCenter: loginColumnId.horizontalCenter
+	    Label {
+		id: noAccountLabelId
+		text: "or create an account "
+		font.pixelSize: 15
+		color: "black"
+	    }
+
+	    Label {
+		id: registerHereText
+		text: "HERE"
+		font.pixelSize: 20
+		color: "black"
+		font.bold: true
+		anchors.baseline: noAccountLabelId.baseline
+		font.underline: true
+		MouseArea {
+		    anchors.fill: parent
+		    cursorShape: Qt.PointingHandCursor
+		    onClicked: {
+			viewLoader.source = "RegistrationPage.qml";
+		    }
+		}
+	    }
 	}
     }
 
