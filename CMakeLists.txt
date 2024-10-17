@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(AutoServiceQML VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Znalezienie Qt
@@ -29,6 +30,13 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES logincontroller.h logincontroller.cpp
     QML_FILES LoginPage.qml
     SOURCES sessioncontroller.h sessioncontroller.cpp
+    QML_FILES MainViewPage.qml
+    RESOURCES resource.qrc
+    SOURCES service.h service.cpp
+    SOURCES vehicletype.h vehicletype.cpp
+    SOURCES notification.h notification.cpp
+    SOURCES maintenanceservice.h maintenanceservice.cpp
+    SOURCES repairservice.h repairservice.cpp
 )
 
 # Ustawienia właściwości celu

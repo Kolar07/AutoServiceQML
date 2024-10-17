@@ -7,6 +7,9 @@
 #include "databasecontroller.h"
 #include "logincontroller.h"
 #include "sessioncontroller.h"
+#include "service.h"
+#include "maintenanceservice.h"
+#include "repairservice.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,13 +18,7 @@ int main(int argc, char *argv[])
 
     //TESTING
     //
-
     RegisterController registerController;
-    //QString name = "kuba";
-    //QString surname = "kolarczyk";
-    //QString email = "kubakolarczyk@gmail.com";
-    //QString psw = "123456789";
-
 
 
     DatabaseController dbController("localhost","root","root", "db_autoservice");

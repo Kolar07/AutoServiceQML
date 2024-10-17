@@ -9,6 +9,6 @@ ApplicationWindow {
     Loader {
 	id: viewLoader
 	anchors.fill: parent
-	source: "LoginPage.qml"
+	source: "MainViewPage.qml"
     }
 }

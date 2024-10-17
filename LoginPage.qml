@@ -3,6 +3,15 @@ import QtQuick.Controls 2
 
 Item {
 
+    Image {
+	id: logoId
+	anchors.left: parent.left
+	anchors.top: parent.top
+	width: 300
+	height: 200
+	source: "qrc:/assets/logo.png"
+    }
+
     Label {
 	anchors.horizontalCenter: parent.horizontalCenter
 	anchors.bottom: loginColumnId.top
@@ -107,7 +116,7 @@ Item {
     Connections {
 	target: loginController
 	function onSuccessfullyLogged() {
-	    viewLoader.source = "Main.qml";
+	    viewLoader.source = "MainViewPage.qml";
 	}
 	function onFailedLogin() {
 	    //viewLoader.source = "LoginPage.qml";

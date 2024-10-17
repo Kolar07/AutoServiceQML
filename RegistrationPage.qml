@@ -3,6 +3,15 @@ import QtQuick.Controls 2
 
 Item {
 
+    Image {
+	id: logoId
+	anchors.left: parent.left
+	anchors.top: parent.top
+	width: 300
+	height: 200
+	source: "qrc:/assets/logo.png"
+    }
+
     Label {
 	anchors.horizontalCenter: parent.horizontalCenter
 	anchors.bottom: registerColumnId.top
