@@ -5,6 +5,7 @@
 #include "service.h"
 #include "notification.h"
 #include "vehicletype.h"
+#include <QDebug>
 
 class Vehicle : public QObject
 {

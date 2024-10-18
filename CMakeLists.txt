@@ -37,6 +37,8 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES notification.h notification.cpp
     SOURCES maintenanceservice.h maintenanceservice.cpp
     SOURCES repairservice.h repairservice.cpp
+    SOURCES serviceoil.h serviceoil.cpp
+    SOURCES servicetiming.h servicetiming.cpp
 )
 
 # Ustawienia właściwości celu

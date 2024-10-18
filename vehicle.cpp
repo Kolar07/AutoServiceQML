@@ -86,7 +86,9 @@ void Vehicle::setRegistrationNumber(const QString &newRegistrationNumber)
 
 void Vehicle::addService(std::unique_ptr<Service> service)
 {
+    if(service != nullptr)
     services.push_back(service);
+    else qDebug()<<"Service is a nullptr";
 }
 
 Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber) : id(id),

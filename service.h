@@ -11,6 +11,15 @@ public:
     Service(int _id, int _milleage, QString _type);
 
     virtual void print()=0;
+    int getId() const;
+    void setId(int newId);
+
+    int getMilleage() const;
+    void setMilleage(int newMilleage);
+
+    QString getType() const;
+    void setType(const QString &newType);
+
 private:
     int id;
     int milleage;

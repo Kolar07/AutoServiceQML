@@ -15,6 +15,15 @@ public:
     MaintenanceService(int _id, int _mileage,int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type);
     virtual void print();
 
+    int getInterval_km() const;
+    void setInterval_km(int newInterval_km);
+
+    QDate getInterval_time() const;
+    void setInterval_time(const QDate &newInterval_time);
+
+    QString getService() const;
+    void setService(const QString &newService);
+
 private:
     int interval_km;
     QDate interval_time;
