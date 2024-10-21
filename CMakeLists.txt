@@ -39,6 +39,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES repairservice.h repairservice.cpp
     SOURCES serviceoil.h serviceoil.cpp
     SOURCES servicetiming.h servicetiming.cpp
+    SOURCES vehicletypecontainer.h vehicletypecontainer.cpp
 )
 
 # Ustawienia właściwości celu

@@ -99,6 +99,31 @@ QMap<QString, QVariant> DatabaseController::getCustomerByEmail(QString &email)
     return customerData;
 }
 
+bool DatabaseController::fetchVehicleTypes()
+{
+    QVector<QPair<int, QString>> vehicleTypes;
+    if(!db.open()) {
+        qDebug()<<"Database is not open!"<<db.lastError();
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT id, type FROM vehicleTypes");
+
+    if(query.exec()) {
+        while(query.next()) {
+            int id = query.value(0).toInt();
+            QString type = query.value(1).toString();
+            vehicleTypes.append(qMakePair(id,type));
+        }
+    } else {
+        qDebug()<<"Query execution failed: "<<query.lastError();
+        return false;
+    }
+    emit vehicleTypesFetched(vehicleTypes);
+    return true;
+}
+
 void DatabaseController::registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password)
 {
     qDebug()<<"Performing signal answer";

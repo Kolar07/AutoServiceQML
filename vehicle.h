@@ -40,6 +40,7 @@ public:
     void setRegistrationNumber(const QString &newRegistrationNumber);
 
     void addService(std::unique_ptr<Service> service);
+    void removeService(int serviceId);
 
 private:
     int id;
@@ -51,7 +52,7 @@ private:
     QString engine;
     QString vin;
     QString registrationNumber;
-    QVector<std::unique_ptr<Service>> services;
+    QList<std::unique_ptr<Service>> services; //CHANGE TO RAW POINTERS AND ALLOCATE DYNAMICALLY
     QVector<Notification> notifications;
 
 signals:

@@ -10,6 +10,8 @@
 #include "service.h"
 #include "maintenanceservice.h"
 #include "repairservice.h"
+#include "vehicletypecontainer.h"
+#include "vehicletype.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +33,14 @@ int main(int argc, char *argv[])
     SessionController session;
     bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
+    VehicleTypeContainer vehicleTypeContainer;
 
+    QObject::connect(&dbController, &::DatabaseController::vehicleTypesFetched,
+                    &vehicleTypeContainer, &VehicleTypeContainer::onVehicleTypesFetched);
+    dbController.fetchVehicleTypes();
+    VehicleType typeTest;
+    typeTest.setProperties(vehicleTypeContainer.get(0));
+    typeTest.print();
     //
     //END OF TESTING
     //
@@ -41,6 +50,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("loginController", &logController);
     engine.rootContext()->setContextProperty("registerController", &registerController);
     engine.rootContext()->setContextProperty("sessionController", &session);
+    engine.rootContext()->setContextProperty("vehicleTypeModel", &vehicleTypeContainer);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

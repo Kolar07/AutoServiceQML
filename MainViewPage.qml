@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls 2
 
 Item {
 
@@ -30,6 +31,15 @@ Item {
 	    text: "Table with vehicles"
 	    color: "black"
 	    font.pixelSize: 30
+	}
+
+	ComboBox {
+	    model: vehicleTypeModel
+	    textRole: "typeName"  // Wyświetla nazwę typu pojazdu
+	    width: implicitWidth + 50
+	    onCurrentIndexChanged: {
+		console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+	    }
 	}
     }
 

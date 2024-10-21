@@ -23,6 +23,14 @@ public:
     bool changeCustomerPassword(int &customerId, QString &newPassword);
     QMap<QString, QVariant> getCustomerByEmail(QString &email);
 
+
+    //VEHICLE TYPES
+    bool fetchVehicleTypes();
+
+
+ signals:
+    void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);
+
     public slots:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);
     //void customerPasswordChanged(const int &id, const QString &newPassword);
