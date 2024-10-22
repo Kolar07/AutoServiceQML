@@ -13,7 +13,7 @@ class Vehicle : public QObject
 public:
     explicit Vehicle(QObject *parent = nullptr);
     Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
-    Vehicle();
+    Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
 
     int getId() const;
     void setId(int newId);
@@ -39,8 +39,13 @@ public:
     QString getRegistrationNumber() const;
     void setRegistrationNumber(const QString &newRegistrationNumber);
 
-    void addService(std::unique_ptr<Service> service);
+    void addService(std::shared_ptr<Service> &service);
     void removeService(int serviceId);
+
+
+    QVector<std::shared_ptr<Service> > getServices() const;
+    std::shared_ptr<Service> getServiceByNumber(int nb) const;
+    void setServices(const QVector<std::shared_ptr<Service> > &newServices);
 
 private:
     int id;
@@ -52,7 +57,7 @@ private:
     QString engine;
     QString vin;
     QString registrationNumber;
-    QList<std::unique_ptr<Service>> services; //CHANGE TO RAW POINTERS AND ALLOCATE DYNAMICALLY
+    QVector<std::shared_ptr<Service>> services;
     QVector<Notification> notifications;
 
 signals:

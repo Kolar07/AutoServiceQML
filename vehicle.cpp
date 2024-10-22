@@ -4,6 +4,9 @@ Vehicle::Vehicle(QObject *parent)
     : QObject{parent}
 {}
 
+//Vehicle::Vehicle(){}
+
+
 int Vehicle::getId() const
 {
     return id;
@@ -84,10 +87,10 @@ void Vehicle::setRegistrationNumber(const QString &newRegistrationNumber)
     registrationNumber = newRegistrationNumber;
 }
 
-void Vehicle::addService(std::unique_ptr<Service> service)
+void Vehicle::addService(std::shared_ptr<Service> &service)
 {
     if(service != nullptr)
-    services.push_back(std::move(service));
+        services.push_back(std::move(service));
     else qDebug()<<"Service is a nullptr";
 }
 
@@ -95,6 +98,33 @@ void Vehicle::removeService(int serviceId)
 {
 
 }
+
+QVector<std::shared_ptr<Service> > Vehicle::getServices() const
+{
+    return services;
+}
+
+std::shared_ptr<Service> Vehicle::getServiceByNumber(int nb) const
+{
+    if(nb>=0 && nb < services.size()) {
+        return services[nb];
+    } else return nullptr;
+}
+
+void Vehicle::setServices(const QVector<std::shared_ptr<Service> > &newServices)
+{
+    services = newServices;
+}
+
+// QVector<Service *> Vehicle::getServices() const
+// {
+//     return services;
+// }
+
+// void Vehicle::setServices(const QVector<Service *> &newServices)
+// {
+//     services = newServices;
+// }
 
 Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber) : id(id),
     type(type),
@@ -106,3 +136,13 @@ Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QSt
     vin(vin),
     registrationNumber(registrationNumber)
 {}
+
+Vehicle::Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber)
+    :type(type),
+    mark(mark),
+    model(model),
+    year(year),
+    version(version),
+    engine(engine),
+    vin(vin),
+    registrationNumber(registrationNumber){}

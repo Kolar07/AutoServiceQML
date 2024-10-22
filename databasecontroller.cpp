@@ -108,7 +108,7 @@ bool DatabaseController::fetchVehicleTypes()
     }
 
     QSqlQuery query;
-    query.prepare("SELECT id, type FROM vehicleTypes");
+    query.prepare("SELECT id, type_name FROM vehicle_types");
 
     if(query.exec()) {
         while(query.next()) {
@@ -122,6 +122,58 @@ bool DatabaseController::fetchVehicleTypes()
     }
     emit vehicleTypesFetched(vehicleTypes);
     return true;
+}
+
+bool DatabaseController::addVehicle(int customerId, QString mark, QString model, int year, QString version, QString engine, QString vin, QString registrationNumber, int typeId)
+{
+    if(!db.open()) {
+        qDebug()<<"Database is not open!"<<db.lastError();
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO vehicles (customer_id,mark,model,year,version,engine,vin,registration_number,type_id) VALUES (?,?,?,?,?,?,?,?,?)");
+    query.addBindValue(customerId);
+    query.addBindValue(mark);
+    query.addBindValue(model);
+    query.addBindValue(year);
+    query.addBindValue(version);
+    query.addBindValue(engine);
+    query.addBindValue(vin);
+    query.addBindValue(registrationNumber);
+    query.addBindValue(typeId);
+
+    if(!query.exec()) {
+        qDebug()<<"Nope "<<query.lastError();
+        return false;
+    } return true;
+}
+
+bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QDate interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)
+{
+    if(!db.open()) {
+        qDebug()<<"Database is not open!"<<db.lastError();
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+    query.addBindValue(vehicle_id);
+    query.addBindValue(mileage);
+    query.addBindValue(type);
+    query.addBindValue(interval_km);
+    query.addBindValue(interval_time.toString("yyyy-MM-dd"));
+    query.addBindValue(service);
+    query.addBindValue(oil);
+    query.addBindValue(oilFilter);
+    query.addBindValue(airFilter);
+    query.addBindValue(cabinFilter);
+    query.addBindValue(timing);
+
+    if(!query.exec()) {
+        qDebug()<<"Nope "<<query.lastQuery();
+        return false;
+    } return true;
+
 }
 
 void DatabaseController::registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password)

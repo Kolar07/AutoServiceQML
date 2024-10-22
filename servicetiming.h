@@ -10,6 +10,7 @@ class ServiceTiming : public MaintenanceService
 public:
     ServiceTiming();
     ServiceTiming(int _id, int _mileage,int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type, const QString _timing);
+    ServiceTiming(int _mileage,int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type, const QString _timing);
 
     QString getTiming() const;
     void setTiming(const QString &newTiming);

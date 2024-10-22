@@ -13,6 +13,13 @@ ServiceOil::ServiceOil(int _id, int _mileage, int _interval_km, const QDate &_in
 
 }
 
+ServiceOil::ServiceOil(int _mileage, int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type, const QString _oil, const QString _oilFilter, const QString _airFilter, const QString _cabinFilter)
+    : MaintenanceService(_mileage,_interval_km,_interval_time,_service,_type),
+    oil(_oil),
+    oilFilter(_oilFilter),
+    airFilter(_airFilter),
+    cabinFilter(_cabinFilter){}
+
 QString ServiceOil::getOil() const
 {
     return oil;

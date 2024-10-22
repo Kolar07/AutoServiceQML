@@ -5,7 +5,10 @@ Service::Service(QObject *parent)
 {}
 
 Service::Service(int _id, int _milleage, QString _type) : id(_id),
-    milleage(_milleage), type(_type)
+    mileage(_milleage), type(_type)
+{}
+
+Service::Service(int _mileage, QString _type): mileage(_mileage), type(_type)
 {}
 
 int Service::getId() const
@@ -20,12 +23,12 @@ void Service::setId(int newId)
 
 int Service::getMilleage() const
 {
-    return milleage;
+    return mileage;
 }
 
 void Service::setMilleage(int newMilleage)
 {
-    milleage = newMilleage;
+    mileage = newMilleage;
 }
 
 QString Service::getType() const

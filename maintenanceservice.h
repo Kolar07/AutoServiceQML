@@ -13,6 +13,7 @@ class MaintenanceService : public Service
 public:
     MaintenanceService();
     MaintenanceService(int _id, int _mileage,int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type);
+    MaintenanceService(int _mileage,int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type);
     virtual void print();
 
     int getInterval_km() const;

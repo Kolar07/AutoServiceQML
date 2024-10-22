@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     Customer customer;
     LoginController logController(&customer,&dbController);
     SessionController session;
+    logController.login("blablabla@gmail.com","testtest123");
     bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
     VehicleTypeContainer vehicleTypeContainer;
@@ -41,6 +42,13 @@ int main(int argc, char *argv[])
     VehicleType typeTest;
     typeTest.setProperties(vehicleTypeContainer.get(0));
     typeTest.print();
+    Vehicle vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
+    QDate date;
+    date.setDate(2024,10,22);
+    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,date,"Xyz change", "RepairService");
+    vehicle.addService(service);
+    //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1",typeTest.getId());
+    dbController.addService(6,100500,"RepairService",15000,date,"Xyz change","","","","","");
     //
     //END OF TESTING
     //

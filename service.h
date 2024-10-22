@@ -9,6 +9,7 @@ class Service : public QObject
 public:
     explicit Service(QObject *parent = nullptr);
     Service(int _id, int _milleage, QString _type);
+    Service(int _milleage, QString _type);
 
     virtual void print()=0;
     int getId() const;
@@ -22,7 +23,7 @@ public:
 
 private:
     int id;
-    int milleage;
+    int mileage;
     QString type;
 
 signals:

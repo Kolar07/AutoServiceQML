@@ -33,7 +33,7 @@ private:
     QString surname;
     QString email;
     QString password;
-    QList<Vehicle> vehicles;
+    QVector<Vehicle> vehicles;
 };
 
 #endif // CUSTOMER_H
