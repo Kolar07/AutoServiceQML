@@ -149,7 +149,7 @@ bool DatabaseController::addVehicle(int customerId, QString mark, QString model,
     } return true;
 }
 
-bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QDate interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)
+bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -161,7 +161,7 @@ bool DatabaseController::addService(int vehicle_id, int mileage, QString type, i
     query.addBindValue(mileage);
     query.addBindValue(type);
     query.addBindValue(interval_km);
-    query.addBindValue(interval_time.toString("yyyy-MM-dd"));
+    query.addBindValue(interval_time);
     query.addBindValue(service);
     query.addBindValue(oil);
     query.addBindValue(oilFilter);

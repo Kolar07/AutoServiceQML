@@ -3,15 +3,20 @@
 MaintenanceService::MaintenanceService()
 {}
 
-MaintenanceService::MaintenanceService(int _id, int _mileage,int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type) :Service(_id,_mileage,_type), interval_km(_interval_km),
-    interval_time(_interval_time),
+MaintenanceService::MaintenanceService(int _id, int _mileage, int _interval_km, QString date, const QString _interval_time, const QString &_service, const QString &_type) :Service(_id,_mileage,_type,date), interval_km(_interval_km),
     service(_service)
-{}
+{
+    interval_time = Service::getServiceDate().addMonths(_interval_time.toInt());
+    qDebug()<<"Interval time: "<<interval_time.toString();
 
-MaintenanceService::MaintenanceService(int _mileage, int _interval_km, const QDate &_interval_time, const QString &_service, const QString &_type)
-    :Service(_mileage,_type), interval_km(_interval_km),
-    interval_time(_interval_time),
-    service(_service){}
+}
+
+MaintenanceService::MaintenanceService(int _mileage, int _interval_km, QString date, const QString _interval_time, const QString &_service, const QString &_type)
+    :Service(_mileage,_type,date), interval_km(_interval_km),
+    service(_service){
+    interval_time = Service::getServiceDate().addMonths(_interval_time.toInt());
+    qDebug()<<"Interval time: "<<interval_time.toString();
+}
 
 void MaintenanceService::print()
 {
@@ -47,3 +52,5 @@ void MaintenanceService::setService(const QString &newService)
 {
     service = newService;
 }
+
+

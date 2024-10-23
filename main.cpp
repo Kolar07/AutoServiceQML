@@ -45,10 +45,11 @@ int main(int argc, char *argv[])
     Vehicle vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
     QDate date;
     date.setDate(2024,10,22);
-    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,date,"Xyz change", "RepairService");
-    vehicle.addService(service);
+    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService");
+    //vehicle.addService(service);
     //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1",typeTest.getId());
-    dbController.addService(6,100500,"RepairService",15000,date,"Xyz change","","","","","");
+    //qDebug()<<"Getting interval: "<<service->getInterval_time().toString();
+    dbController.addService(6,100500,"RepairService",15000,service->getInterval_time().toString("yyyy-MM-dd"),"Xyz change","","","","","");
     //
     //END OF TESTING
     //

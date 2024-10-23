@@ -4,12 +4,28 @@ Service::Service(QObject *parent)
     : QObject{parent}
 {}
 
-Service::Service(int _id, int _milleage, QString _type) : id(_id),
-    mileage(_milleage), type(_type)
-{}
 
-Service::Service(int _mileage, QString _type): mileage(_mileage), type(_type)
-{}
+
+Service::Service(int _id, int _milleage, QString _type, QString date) : id(_id),
+    mileage(_milleage), type(_type)
+{
+    QDate temp = QDate::fromString(date,"yyyy-MM-dd");
+    qDebug()<<"Date input: "<<date;
+    if(!temp.isValid()){
+        qDebug()<<"Wrong date format!";
+    } else serviceDate = temp;
+
+}
+
+Service::Service(int _mileage, QString _type, QString date): mileage(_mileage), type(_type)
+{
+    QDate temp = QDate::fromString(date,"yyyy-MM-dd");
+    qDebug()<<"Date input: "<<date;
+    if(!temp.isValid()){
+        qDebug()<<"Wrong date format!";
+    } else serviceDate = temp;
+
+}
 
 int Service::getId() const
 {
@@ -39,4 +55,14 @@ QString Service::getType() const
 void Service::setType(const QString &newType)
 {
     type = newType;
+}
+
+QDate Service::getServiceDate() const
+{
+    return serviceDate;
+}
+
+void Service::setServiceDate(const QDate &newServiceDate)
+{
+    serviceDate = newServiceDate;
 }
