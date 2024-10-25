@@ -116,6 +116,16 @@ void Vehicle::setServices(const QVector<std::shared_ptr<Service> > &newServices)
     services = newServices;
 }
 
+VehicleType Vehicle::getType() const
+{
+    return type;
+}
+
+// void Vehicle::setType(const VehicleType &newType)
+// {
+//     type = newType;
+// }
+
 // QVector<Service *> Vehicle::getServices() const
 // {
 //     return services;

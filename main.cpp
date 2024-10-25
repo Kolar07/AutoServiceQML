@@ -41,15 +41,18 @@ int main(int argc, char *argv[])
     dbController.fetchVehicleTypes();
     VehicleType typeTest;
     typeTest.setProperties(vehicleTypeContainer.get(0));
-    typeTest.print();
-    Vehicle vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
-    QDate date;
-    date.setDate(2024,10,22);
-    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService");
+    // typeTest.print();
+     Vehicle *vehicle = new Vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
+    customer.getVehicles()->setData(QVector<Vehicle*>() << vehicle);
+
+    // QDate date;
+    // date.setDate(2024,10,22);
+    // std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService");
+    //qDebug()<<service->getServiceDate().toString();
     //vehicle.addService(service);
     //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1",typeTest.getId());
     //qDebug()<<"Getting interval: "<<service->getInterval_time().toString();
-    dbController.addService(6,100500,"RepairService",15000,service->getInterval_time().toString("yyyy-MM-dd"),"Xyz change","","","","","");
+    //dbController.addService(6,100500,"RepairService",15000,service->getServiceDate().toString("yyyy-MM-dd"),service->getInterval_time().toString("yyyy-MM-dd"),"Xyz change","","","","","");
     //
     //END OF TESTING
     //
@@ -60,6 +63,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("registerController", &registerController);
     engine.rootContext()->setContextProperty("sessionController", &session);
     engine.rootContext()->setContextProperty("vehicleTypeModel", &vehicleTypeContainer);
+    engine.rootContext()->setContextProperty("customer", &customer);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

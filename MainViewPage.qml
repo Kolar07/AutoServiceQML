@@ -32,15 +32,47 @@ Item {
 	    color: "black"
 	    font.pixelSize: 30
 	}
+	TableView {
+	    id: tableView
+	    anchors.top: parent.top
+	    anchors.right: parent.right
+	    anchors.bottom: parent.bottom
+	    anchors.left: parent.left
+	    clip: true
+	    ScrollBar.vertical:
+	    //width: 5
+	    // anchors.top: tableView.top
+	    // anchors.left: tableView.right
+	    // anchors.bottom: tableView.bottom
+	    ScrollBar {}
+	    columnSpacing: 1
+	    rowSpacing: 1
 
-	ComboBox {
-	    model: vehicleTypeModel
-	    textRole: "typeName"  // Wyświetla nazwę typu pojazdu
-	    width: implicitWidth + 50
-	    onCurrentIndexChanged: {
-		console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+	    model: customer.getVehicles()
+
+	    delegate: Rectangle {
+		color: "white"
+		width: 200
+		height: 200
+		Text {
+		    id: textId
+		    text: vin
+		    anchors.fill: parent
+		    wrapMode: "Wrap"
+		    verticalAlignment: Text.AlignVCenter
+		    horizontalAlignment: Text.AlignHCenter
+		    font.pixelSize: 14
+		}
 	    }
 	}
+	// ComboBox {
+	//     model: vehicleTypeModel
+	//     textRole: "typeName"  // Wyświetla nazwę typu pojazdu
+	//     width: implicitWidth + 50
+	//     onCurrentIndexChanged: {
+	// 	console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+	//     }
+	// }
     }
 
     //    Column {

@@ -1,8 +1,8 @@
 #include "customer.h"
 
 Customer::Customer(QObject *parent)
-    : QObject{parent}
-{}
+    : QObject{parent}, vehicles(new VehicleModel(this))
+{    }
 QString Customer::getName() const
 {
     return name;
@@ -56,4 +56,18 @@ void Customer::setId(int newId)
 void Customer::print() const
 {
     qDebug()<<"Customer name: "<<name<< ", surname: "<<surname<<", email: "<<email;
+}
+
+VehicleModel* Customer::getVehicles()
+{
+    qDebug()<<"Returning vehicles";
+    return vehicles;
+}
+
+void Customer::setVehicles(VehicleModel *newVehicles)
+{
+    if (vehicles) {
+        delete vehicles;
+    }
+    vehicles = newVehicles;
 }

@@ -33,7 +33,7 @@ public:
     bool addVehicle(int customerId, QString mark, QString model, int year, QString version, QString engine, QString vin, QString registrationNumber, int typeId);
 
     //SERVICE
-    bool addService(int vehicle_id, int mileage, QString type, int interval_km, QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing);
+    bool addService(int vehicle_id, int mileage, QString type, int interval_km, QString service_date,QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing);
 
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);

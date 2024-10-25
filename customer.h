@@ -4,6 +4,7 @@
 #include <QObject>
 #include "vehicle.h"
 #include <QDebug>
+#include <vehiclemodel.h>
 
 class Customer : public QObject
 {
@@ -27,13 +28,17 @@ public:
     void setId(int newId);
     void print() const;
 
+    Q_INVOKABLE VehicleModel *getVehicles();
+
+    void setVehicles(VehicleModel *newVehicles);
+
 private:
     int id;
     QString name;
     QString surname;
     QString email;
     QString password;
-    QVector<Vehicle> vehicles;
+    VehicleModel *vehicles;
 };
 
 #endif // CUSTOMER_H

@@ -47,6 +47,9 @@ public:
     std::shared_ptr<Service> getServiceByNumber(int nb) const;
     void setServices(const QVector<std::shared_ptr<Service> > &newServices);
 
+    VehicleType getType() const;
+    void setType(const VehicleType &newType);
+
 private:
     int id;
     VehicleType type;

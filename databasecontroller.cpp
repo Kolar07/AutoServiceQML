@@ -149,18 +149,19 @@ bool DatabaseController::addVehicle(int customerId, QString mark, QString model,
     } return true;
 }
 
-bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)
+bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
         return false;
     }
     QSqlQuery query;
-    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, service_date,interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
     query.addBindValue(vehicle_id);
     query.addBindValue(mileage);
     query.addBindValue(type);
     query.addBindValue(interval_km);
+    query.addBindValue(service_date);
     query.addBindValue(interval_time);
     query.addBindValue(service);
     query.addBindValue(oil);

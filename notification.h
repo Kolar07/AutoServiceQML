@@ -9,6 +9,9 @@ class Notification : public QObject
 public:
     explicit Notification(QObject *parent = nullptr);
 
+
+private:
+    int id;
 signals:
 };
 
