@@ -23,13 +23,12 @@ int VehicleModel::rowCount(const QModelIndex &parent) const {
 
 int VehicleModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return 10;
+    return 11;
 }
 
 QVariant VehicleModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid() || index.row() >= vehicles.size())
         return QVariant();
-
     const Vehicle *vehicle = vehicles.at(index.row());
     switch (role) {
     case IdRole : return vehicle->getId();
@@ -44,6 +43,27 @@ QVariant VehicleModel::data(const QModelIndex &index, int role) const {
     case SelectedRole: return selected.at(index.row());
     default: return QVariant();
     }
+
+}
+
+QVariant VehicleModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        switch(section) {
+        case 0: return "Choice";
+        case 1: return "ID";
+            case 7: return "Type";
+            case 2: return "Mark";
+            case 3: return "Model";
+            case 4: return "Year";
+            case 5: return "Version";
+            case 6: return "Engine";
+            case 8: return "VIN";
+            case 9: return "Registration";
+            case 10: return "Action";
+            default: return QVariant();
+        }
+    } return QVariant();
 }
 
 QHash<int, QByteArray> VehicleModel::roleNames() const {
@@ -73,6 +93,7 @@ void VehicleModel::toggleSelection(int index) {
         return;
 
     selected[index] = !selected[index];
+    qDebug()<<"Method working, selected: "<<selected;
     emit dataChanged(createIndex(index, 0), createIndex(index,0), {SelectedRole});
 }
 

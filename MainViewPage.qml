@@ -13,7 +13,7 @@ Item {
     }
 
     Rectangle {
-	id: tableViewId
+	id: tableViewContainer
 	anchors.bottom: logoId.top
 	anchors.left: parent.left
 	anchors.leftMargin: 30
@@ -21,112 +21,378 @@ Item {
 	anchors.topMargin: 30
 	anchors.right: parent.right
 	anchors.rightMargin: 30
-	width: 700
-	//height: 600
 	color: "white"
 	border.color: "black"
 
-	Text {
-	    anchors.centerIn: parent
-	    text: "Table with vehicles"
-	    color: "black"
-	    font.pixelSize: 30
+	HorizontalHeaderView {
+	    id: horizontalHeader
+	    anchors.left: tableView.left
+	    anchors.top: parent.top
+	    syncView: tableView
+	    clip: true
+	    resizableColumns: true
+
+	    delegate: Rectangle {
+		color: "black"
+		//height: 30
+		//width: tableView.width / 5
+		//border.color: "black"
+		Text {
+		    text: display
+		    anchors.centerIn: parent
+		    color: "white"
+		    font.bold: true
+		}
+	    }
 	}
+
 	TableView {
 	    id: tableView
-	    anchors.top: parent.top
-	    anchors.right: parent.right
+	    anchors.top: horizontalHeader.bottom
+	    //anchors.left: parent.left
+	    //anchors.right: parent.right
 	    anchors.bottom: parent.bottom
-	    anchors.left: parent.left
+	    //anchors.margins: 20
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    width: 1180
+	    //width: 1250
 	    clip: true
-	    ScrollBar.vertical:
-	    //width: 5
-	    // anchors.top: tableView.top
-	    // anchors.left: tableView.right
-	    // anchors.bottom: tableView.bottom
-	    ScrollBar {}
 	    columnSpacing: 1
 	    rowSpacing: 1
 
 	    model: customer.getVehicles()
 
+	    columnWidthProvider: function (column) {
+		let width = explicitColumnWidth(column);
+		switch (column) {
+		case 0:
+		    return 50;
+		case 1:
+		    if (width >= 80) {
+			return 80;
+		    } else if (width <= 50)
+			return 50;
+		    else
+			return explicitColumnWidth(column);
+		case 2:
+		    if (width <= 120) {
+			return 120;
+		    } else
+			return explicitColumnWidth(column);
+		case 3:
+		    if (width <= 120) {
+			return 120;
+		    } else
+			return explicitColumnWidth(column);
+		case 4:
+		    if (width <= 80) {
+			return 80;
+		    } else
+			return explicitColumnWidth(column);
+		case 5:
+		    if (width <= 120) {
+			return 120;
+		    } else
+			return explicitColumnWidth(column);
+		case 6:
+		    if (width <= 120) {
+			return 120;
+		    } else
+			return explicitColumnWidth(column);
+		case 7:
+		    if (width <= 120) {
+			return 120;
+		    } else
+			return explicitColumnWidth(column);
+		case 8:
+		    if (width <= 135) {
+			return 135;
+		    } else
+			return explicitColumnWidth(column);
+		case 9:
+		    if (width <= 95) {
+			return 95;
+		    } else
+			return explicitColumnWidth(column);
+		case 10:
+		    return 150;
+		default:
+		    return 120;
+		}
+	    }
+
 	    delegate: Rectangle {
+		width: tableView.columnWidthProvider(column)
+		height: 50
 		color: "white"
-		width: 200
-		height: 200
-		Text {
-		    id: textId
-		    text: vin
+		border.color: "#cccccc"
+
+		Loader {
 		    anchors.fill: parent
-		    wrapMode: "Wrap"
-		    verticalAlignment: Text.AlignVCenter
-		    horizontalAlignment: Text.AlignHCenter
-		    font.pixelSize: 14
+
+		    sourceComponent: {
+			if (column === 0) {
+			    return checkBoxDelegate;
+			} else if (column === 10)
+			    return actionFieldDelegate;
+			else
+			    return textDelegate;
+		    }
+		}
+
+		Component {
+		    id: textDelegate
+		    Rectangle {
+			width: parent.width
+			height: parent.height
+			color: "lightgray"
+
+			Text {
+			    anchors.fill: parent
+			    font.pixelSize: 14
+			    wrapMode: "Wrap"
+			    verticalAlignment: Text.AlignVCenter
+			    horizontalAlignment: Text.AlignHCenter
+			    text: {
+				switch (column) {
+				case 1:
+				    return id;
+				case 7:
+				    return type;
+				case 2:
+				    return mark;
+				case 3:
+				    return model;
+				case 4:
+				    return year;
+				case 5:
+				    return version;
+				case 6:
+				    return engine;
+				case 8:
+				    return vin;
+				case 9:
+				    return regNumber;
+				default:
+				    return "";
+				}
+			    }
+			}
+		    }
+		}
+
+		Component {
+		    id: checkBoxDelegate
+		    Rectangle {
+			id: checkBoxRect
+			width: parent.width
+			height: parent.height
+			color: "lightgray"
+
+			// CheckBox {
+			//     id: control
+			//     checked: false
+
+			//     anchors.centerIn: parent
+
+			//     indicator: Rectangle {
+			// 	implicitWidth: 26
+			// 	implicitHeight: 26
+			// 	radius: 3
+			// 	border.color: control.down ? "black" : "black"
+			// 	anchors.centerIn: parent
+
+			// 	Rectangle {
+			// 	    width: 14
+			// 	    height: 14
+			// 	    x: 6
+			// 	    y: 6
+			// 	    radius: 2
+			// 	    color: control.down ? "black" : "black"
+			// 	    visible: control.checked
+			// 	}
+			// 	onCheckedChanged: {}
+			//     }
+
+			//    contentItem: Text {
+			// //text: control.text
+			// font: control.font
+			// opacity: enabled ? 1.0 : 0.3
+			// color: control.down ? "#17a81a" : "#21be2b"
+			// verticalAlignment: Text.AlignVCenter
+			// leftPadding: control.indicator.width + control.spacing
+			//    }
+			//}
+
+			CheckBox {
+			    anchors.centerIn: parent
+			    checked: selected
+
+			    onCheckedChanged: {
+				customer.getVehicles().toggleSelection(index);
+			    }
+			}
+		    }
+		}
+
+		Component {
+		    id: actionFieldDelegate
+		    Rectangle {
+			width: parent.width
+			height: parent.height
+			color: "lightgray"
+
+			Row {
+			    anchors.horizontalCenter: parent.horizontalCenter
+			    anchors.verticalCenter: parent.verticalCenter
+			    spacing: 4
+
+			    Rectangle {
+				id: showVehicleButton
+				width: 30
+				height: 30
+				color: "white"
+				radius: 5
+				border.color: "black"
+				scale: 1.0
+				Image {
+				    anchors.centerIn: parent
+				    width: parent.width - 4
+				    height: parent.height - 4
+				    source: "qrc:/assets/magnifier.png"
+				    fillMode: Image.PreserveAspectFit
+				}
+				MouseArea {
+				    anchors.fill: parent
+				    hoverEnabled: true
+				    onEntered: {
+					parent.scale = 1.07;
+				    }
+				    onExited: {
+					parent.scale = 1.0;
+				    }
+				    onPressed: {
+					parent.scale = 1.0;
+				    }
+				    onReleased: {
+					parent.scale = 1.07;
+				    }
+				}
+			    }
+
+			    Rectangle {
+				id: addServiceButton
+				width: 30
+				height: 30
+				color: "white"
+				radius: 5
+				border.color: "black"
+				scale: 1.0
+				Image {
+				    anchors.centerIn: parent
+				    width: parent.width - 4
+				    height: parent.height - 4
+				    source: "qrc:/assets/addService2.png"
+				    fillMode: Image.PreserveAspectFit
+				}
+				MouseArea {
+				    anchors.fill: parent
+				    hoverEnabled: true
+				    onEntered: {
+					parent.scale = 1.07;
+				    }
+				    onExited: {
+					parent.scale = 1.0;
+				    }
+				    onPressed: {
+					parent.scale = 1.0;
+				    }
+				    onReleased: {
+					parent.scale = 1.07;
+				    }
+				}
+			    }
+
+			    Rectangle {
+				id: editVehicleButton
+				width: 30
+				height: 30
+				color: "white"
+				radius: 5
+				border.color: "black"
+				scale: 1.0
+				Image {
+				    anchors.centerIn: parent
+				    width: parent.width - 4
+				    height: parent.height - 4
+				    source: "qrc:/assets/edit2.png"
+				    fillMode: Image.PreserveAspectFit
+				}
+				MouseArea {
+				    anchors.fill: parent
+				    hoverEnabled: true
+				    onEntered: {
+					parent.scale = 1.07;
+				    }
+				    onExited: {
+					parent.scale = 1.0;
+				    }
+				    onPressed: {
+					parent.scale = 1.0;
+				    }
+				    onReleased: {
+					parent.scale = 1.07;
+				    }
+				}
+			    }
+			    Rectangle {
+				id: removeVehicleButton
+				width: 30
+				height: 30
+				color: "white"
+				radius: 5
+				border.color: "black"
+				scale: 1.0
+				Image {
+				    anchors.centerIn: parent
+				    width: parent.width - 4
+				    height: parent.height - 4
+				    source: "qrc:/assets/delete.png"
+				    fillMode: Image.PreserveAspectFit
+				}
+
+				MouseArea {
+				    anchors.fill: parent
+				    hoverEnabled: true
+				    onEntered: {
+					parent.scale = 1.07;
+				    }
+				    onExited: {
+					parent.scale = 1.0;
+				    }
+
+				    onPressed: {
+					parent.scale = 1.0;
+				    }
+				    onReleased: {
+					parent.scale = 1.07;
+				    }
+				}
+			    }
+			}
+		    }
 		}
 	    }
 	}
-	// ComboBox {
-	//     model: vehicleTypeModel
-	//     textRole: "typeName"  // Wyświetla nazwę typu pojazdu
-	//     width: implicitWidth + 50
-	//     onCurrentIndexChanged: {
-	// 	console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
-	//     }
-	// }
     }
 
-    //    Column {
-    // id: buttonsColumn
-    // spacing: 7
-    // anchors.top: parent.top
-    // anchors.right: parent.right
-    // anchors.topMargin: 20
-    // anchors.rightMargin: 20
-    // anchors.left: tableViewId.right
-    // anchors.bottom: parent.bottom
-    // Rectangle {
-    //     id: addVehicleButton
-    //     color: "black"
-    //     radius: 10
-    //     width: 400
-    //     height: 40
-    //     anchors.horizontalCenter: parent.horizontalCenter
-    //     Text {
-    // 	anchors.centerIn: parent
-    // 	text: "Add vehicle"
-    // 	color: "white"
-    // 	font.pixelSize: 15
+    // ComboBox {
+    //     model: vehicleTypeModel
+    //     textRole: "typeName"  // Wyświetla nazwę typu pojazdu
+    //     width: implicitWidth + 50
+    //     onCurrentIndexChanged: {
+    // 	console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
     //     }
     // }
 
-    // Rectangle {
-    //     id: removeVehicleButton
-    //     color: "black"
-    //     radius: 10
-    //     width: 400
-    //     height: 40
-    //     anchors.horizontalCenter: parent.horizontalCenter
-    //     Text {
-    // 	anchors.centerIn: parent
-    // 	text: "Remove vehicle"
-    // 	color: "white"
-    // 	font.pixelSize: 15
-    //     }
-    // }
-
-    // Rectangle {
-    //     id: editVehicleButton
-    //     color: "black"
-    //     radius: 10
-    //     width: 400
-    //     height: 40
-    //     anchors.horizontalCenter: parent.horizontalCenter
-    //     Text {
-    // 	anchors.centerIn: parent
-    // 	text: "Edit vehicle"
-    // 	color: "white"
-    // 	font.pixelSize: 15
-    //     }
-    // }
-    //}
 }
