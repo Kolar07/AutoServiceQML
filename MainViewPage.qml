@@ -230,6 +230,7 @@ Item {
 
 			    onCheckedChanged: {
 				customer.getVehicles().toggleSelection(index);
+				customer.getVehicles().getSelectedVehicles();
 			    }
 			}
 		    }

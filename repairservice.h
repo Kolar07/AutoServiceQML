@@ -12,7 +12,9 @@ public:
     RepairService(int _mileage,int _interval_km, QString date, QString _interval_time, const QString &_service, const QString &_type);
 
    // void print() override;
-    QString parts;
+    QString customParts;
+    QString getCustomParts() const;
+    void setCustomParts(const QString &newParts);
 };
 
 #endif // REPAIRSERVICE_H

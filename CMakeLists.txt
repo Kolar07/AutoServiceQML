@@ -42,6 +42,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES vehicletypecontainer.h vehicletypecontainer.cpp
     SOURCES notificationtemplate.h notificationtemplate.cpp
     SOURCES vehiclemodel.h vehiclemodel.cpp
+    SOURCES servicemodel.h servicemodel.cpp
 )
 
 # Ustawienia właściwości celu

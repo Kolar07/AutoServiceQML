@@ -1,0 +1,56 @@
+#ifndef SERVICEMODEL_H
+#define SERVICEMODEL_H
+
+#include <QObject>
+#include <QAbstractTableModel>
+#include "service.h"
+#include "serviceoil.h"
+#include "servicetiming.h"
+#include "repairservice.h"
+#include "maintenanceservice.h"
+
+class ServiceModel : public QAbstractTableModel
+{
+    Q_OBJECT
+public:
+    explicit ServiceModel(QObject *parent = nullptr);
+
+    ServiceModel(ServiceModel &&other) noexcept;
+    ServiceModel &operator=(ServiceModel &&other) noexcept;
+    enum ServiceRoles {
+        IdRole = Qt::UserRole + 1,
+        MileageRole,
+        TypeRole,
+        ServiceDateRole,
+        IntervalKmRole,
+        IntervalTimeRole,
+        ServiceRole,
+        OilRole,
+        OilFilterRole,
+        AirFilterRole,
+        CabinFilterRole,
+        TimingRole,
+        CustomPartsRole,
+        SelectedRole
+    };
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+   // QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+
+    QHash<int, QByteArray> roleNames() const override;
+
+    void setData(QVector<std::shared_ptr<Service>> &_vehicles);
+    Q_INVOKABLE void toggleSelection(int index);
+    QVector<std::shared_ptr<Service>> getSelectedServices() const;
+
+
+private:
+    QVector<std::shared_ptr<Service>> services;
+    QVector<bool> selected;
+
+signals:
+};
+
+#endif // SERVICEMODEL_H

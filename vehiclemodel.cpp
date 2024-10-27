@@ -104,6 +104,7 @@ QVector<Vehicle*> VehicleModel::getSelectedVehicles() const {
             selectedVehicles.append(vehicles[i]);
         }
     }
+    qDebug()<<"Size of selected vehicles vector: "<< selectedVehicles.size();
     return selectedVehicles;
 }
 

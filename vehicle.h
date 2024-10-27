@@ -6,6 +6,7 @@
 #include "notification.h"
 #include "vehicletype.h"
 #include <QDebug>
+#include "servicemodel.h"
 
 class Vehicle : public QObject
 {
@@ -43,12 +44,15 @@ public:
     void removeService(int serviceId);
 
 
-    QVector<std::shared_ptr<Service> > getServices() const;
-    std::shared_ptr<Service> getServiceByNumber(int nb) const;
-    void setServices(const QVector<std::shared_ptr<Service> > &newServices);
+    //QVector<std::shared_ptr<Service> > getServices() const;
+    //std::shared_ptr<Service> getServiceByNumber(int nb) const;
+    //void setServices(const QVector<std::shared_ptr<Service> > &newServices);
 
     VehicleType getType() const;
     void setType(const VehicleType &newType);
+
+    ServiceModel *getServices() const;
+    void setServices(ServiceModel *newServices);
 
 private:
     int id;
@@ -60,7 +64,8 @@ private:
     QString engine;
     QString vin;
     QString registrationNumber;
-    QVector<std::shared_ptr<Service>> services;
+    //QVector<std::shared_ptr<Service>> services;
+    ServiceModel *services;
     QVector<Notification> notifications;
 
 signals:
