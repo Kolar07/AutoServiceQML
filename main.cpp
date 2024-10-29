@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     QObject::connect(&dbController, &::DatabaseController::vehicleTypesFetched,
                     &vehicleTypeContainer, &VehicleTypeContainer::onVehicleTypesFetched);
     dbController.fetchVehicleTypes();
-    dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz",1,"Truck","sad464asd56sad","SMIK8I1");
+    //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz",1,"Truck","sad464asd56sad","SMIK8I1");
     VehicleType typeTest;
     typeTest.setProperties(vehicleTypeContainer.get(0));
     VehicleType typeTest2;
@@ -47,11 +47,20 @@ int main(int argc, char *argv[])
     // typeTest.print();
      Vehicle *vehicle = new Vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
     Vehicle *vehicle2 = new Vehicle(typeTest2,"Peugeot","sdcdscdc",2020,"sdfsdf","sdfsdf","sdgdfhgfdhfghfdg","SMI45I1");
+
+    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService");
+    QVector<std::shared_ptr<Service>> vectorServices;
+    vectorServices.push_back(service);
+    if (vehicle->getServices()) {
+        vehicle->getServices()->setData(vectorServices);
+    } else {
+        qDebug() << "services is nullptr";
+    }
     QVector<Vehicle*> vector;
      vector.push_back(vehicle);
     qDebug()<<vector.size();
-     vector.push_back(vehicle2);
-     qDebug()<<vector.size();
+     //vector.push_back(vehicle2);
+     //qDebug()<<vector.size();
 
      customer.getVehicles()->setData(vector);
 

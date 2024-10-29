@@ -1,8 +1,30 @@
 #include "vehicle.h"
 
 Vehicle::Vehicle(QObject *parent)
-    : QObject{parent}
+    : QObject{parent}, services(new ServiceModel(this))
 {}
+
+
+Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber) : id(id),
+    type(type),
+    mark(mark),
+    model(model),
+    year(year),
+    version(version),
+    engine(engine),
+    vin(vin),
+    registrationNumber(registrationNumber), services(new ServiceModel(this))
+{}
+
+Vehicle::Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber)
+    :type(type),
+    mark(mark),
+    model(model),
+    year(year),
+    version(version),
+    engine(engine),
+    vin(vin),
+    registrationNumber(registrationNumber), services(new ServiceModel(this)){}
 
 //Vehicle::Vehicle(){}
 
@@ -121,7 +143,7 @@ VehicleType Vehicle::getType() const
     return type;
 }
 
-ServiceModel *Vehicle::getServices() const
+ServiceModel *Vehicle::getServices()
 {
     return services;
 }
@@ -149,23 +171,4 @@ void Vehicle::setServices(ServiceModel *newServices)
 //     services = newServices;
 // }
 
-Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber) : id(id),
-    type(type),
-    mark(mark),
-    model(model),
-    year(year),
-    version(version),
-    engine(engine),
-    vin(vin),
-    registrationNumber(registrationNumber)
-{}
 
-Vehicle::Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber)
-    :type(type),
-    mark(mark),
-    model(model),
-    year(year),
-    version(version),
-    engine(engine),
-    vin(vin),
-    registrationNumber(registrationNumber){}

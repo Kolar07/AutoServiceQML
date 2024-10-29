@@ -41,14 +41,14 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
-    void setData(QVector<std::shared_ptr<Service>> &_vehicles);
+    void setData(QVector<std::shared_ptr<Service>> &_services);
     Q_INVOKABLE void toggleSelection(int index);
-    QVector<std::shared_ptr<Service>> getSelectedServices() const;
+    Q_INVOKABLE QVector<std::shared_ptr<Service>> getSelectedServices() const;
 
 
 private:
     QVector<std::shared_ptr<Service>> services;
-    QVector<bool> selected;
+    QVector<bool> selectedServices;
 
 signals:
 };

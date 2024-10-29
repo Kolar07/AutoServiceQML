@@ -7,7 +7,7 @@ ServiceModel::ServiceModel(QObject *parent)
 ServiceModel::ServiceModel(ServiceModel &&other) noexcept
     :QAbstractTableModel(other.parent()),
     services(std::move(other.services)),
-    selected(std::move(other.selected)) {}
+    selectedServices(std::move(other.selectedServices)) {}
 
 
 
@@ -16,7 +16,7 @@ ServiceModel &ServiceModel::operator=(ServiceModel &&other) noexcept
     if (this == &other)
         return *this;
     services = std::move(other.services);
-    selected = std::move(other.selected);
+    selectedServices = std::move(other.selectedServices);
     return *this;
 }
 
@@ -43,39 +43,28 @@ QVariant ServiceModel::data(const QModelIndex &index, int role) const
     case MileageRole: return service->getMilleage();
     case TypeRole: return service->getType();
     case ServiceDateRole: return service->getServiceDate().toString("yyyy-MM-dd");
+    case SelectedRole: return selectedServices.at(index.row());
     }
 
     if(auto maintenanceService = dynamic_cast<MaintenanceService*>(service.get())) {
         if(role == IntervalKmRole) return maintenanceService->getInterval_km();
         if(role == IntervalTimeRole) return maintenanceService->getInterval_time().toString("yyyy-MM-dd");
         if(role == ServiceRole) return maintenanceService->getService();
-    } else {
-    if(role == IntervalKmRole) return "-";
-    if(role == IntervalTimeRole) return "-";
-    if(role == ServiceRole) return "-";
     }
-
-    if(auto oilService = dynamic_cast<ServiceOil*>(service.get())) {
+    else if(auto oilService = dynamic_cast<ServiceOil*>(service.get())) {
         if(role == OilRole) return oilService->getOil();
         if(role == OilFilterRole) return oilService->getOilFilter();
         if(role == AirFilterRole) return oilService->getAirFilter();
         if(role == CabinFilterRole) return oilService->getCabinFilter();
-    } else {
-        if(role == OilRole) return "-";
-        if(role == OilFilterRole) return "-";
-        if(role == AirFilterRole) return "-";
-        if(role == CabinFilterRole) return "-";
+    }
+    else if(auto timingService = dynamic_cast<ServiceTiming*>(service.get())) {
+        if(role == TimingRole) return timingService->getTiming();
+    }
+    else if (auto repairService = dynamic_cast<RepairService*>(service.get())) {
+        if (role == CustomPartsRole) return repairService->getCustomParts();
     }
 
-    if(auto timingService = dynamic_cast<ServiceTiming*>(service.get())) {
-        if(role == TimingRole) return timingService->getTiming();
-    } else if(role == TimingRole) return "-";
-
-    if (auto repairService = dynamic_cast<RepairService*>(service.get())) {
-        if (role == CustomPartsRole) return repairService->getCustomParts();
-    } else if (role == CustomPartsRole) return "-";
-
-    return QVariant();
+    return "-";
 
 }
 
@@ -95,24 +84,33 @@ QHash<int, QByteArray> ServiceModel::roleNames() const
     roles[CabinFilterRole] = "cabinFilter";
     roles[TimingRole] = "timing";
     roles[CustomPartsRole] = "parts";
-    roles[SelectedRole] = "selected";
+    roles[SelectedRole] = "selectedService";
     return roles;
+}
+
+void ServiceModel::setData(QVector<std::shared_ptr<Service> > &_services)
+{
+    beginResetModel();
+    services = _services;
+    selectedServices.resize(services.size(), false);
+    endResetModel();
 }
 
 void ServiceModel::toggleSelection(int index)
 {
-    if(index <0 || index >= selected.size()) {
+    if(index <0 || index >= selectedServices.size()) {
         return;
     }
-    selected[index] = !selected[index];
+    selectedServices[index] = !selectedServices[index];
+    qDebug()<<"Method working, selected: "<<selectedServices;
     emit dataChanged(createIndex(index, 0), createIndex(index,0), {SelectedRole});
 }
 
 QVector<std::shared_ptr<Service> > ServiceModel::getSelectedServices() const
 {
     QVector<std::shared_ptr<Service>> selectedServices;
-    for(int i = 0; i < selected.size(); i++) {
-        if(selected[i]){
+    for(int i = 0; i < selectedServices.size(); i++) {
+        if(selectedServices[i]){
             selectedServices.append(services[i]);
         }
     }

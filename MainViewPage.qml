@@ -2,7 +2,9 @@ import QtQuick
 import QtQuick.Controls 2
 
 Item {
+    id: mainViewPage
 
+    property int selectedVehicleId: -1
     Image {
 	id: logoId
 	anchors.left: parent.left
@@ -278,6 +280,9 @@ Item {
 				    onReleased: {
 					parent.scale = 1.07;
 				    }
+				    onClicked: {
+					showVehicle(row);
+				    }
 				}
 			    }
 
@@ -385,6 +390,21 @@ Item {
 		}
 	    }
 	}
+    }
+
+    Loader {
+	id: viewLoader
+	anchors.fill: parent
+	source: ""  // Początkowo nie ładowane
+    }
+
+    function showVehicle(vehicleId) {
+	selectedVehicleId = vehicleId;  // Ustaw ID wybranego pojazdu
+	viewLoader.source = "VehicleView.qml";  // Ładowanie widoku pojazdu
+    }
+
+    function goBack() {
+	viewLoader.source = "";  // Zatrzymaj widok pojazdu, co spowoduje jego niszczenie
     }
 
     // ComboBox {

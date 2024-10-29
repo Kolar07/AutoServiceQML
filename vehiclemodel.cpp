@@ -112,3 +112,10 @@ QVector<Vehicle *> VehicleModel::getVehicles() const
 {
     return vehicles;
 }
+
+Vehicle *VehicleModel::getVehicleByRow(int row) const
+{
+    if(row >=0 && row < vehicles.size()) {
+        return vehicles[row];
+    } else return nullptr;
+}

@@ -6,7 +6,14 @@ ApplicationWindow {
     width: 1280
     height: 720
 
-    Loader {
+    signal showVehicle(int vehicleId)
+
+    onShowVehicle: {
+	selectedVehicleId = vehicleId;
+	viewLoader.source = "VehicleView.qml"
+    }
+
+    Loader { //change to stackview so mainview will not be destroyed
 	id: viewLoader
 	anchors.fill: parent
 	source: "MainViewPage.qml"

@@ -51,7 +51,7 @@ public:
     VehicleType getType() const;
     void setType(const VehicleType &newType);
 
-    ServiceModel *getServices() const;
+    Q_INVOKABLE ServiceModel *getServices();
     void setServices(ServiceModel *newServices);
 
 private:
