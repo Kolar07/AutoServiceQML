@@ -3,18 +3,21 @@
 
 #include "service.h"
 #include "maintenanceservice.h"
+#include <QDebug>
 
 class RepairService : public MaintenanceService
 {
 public:
     RepairService();
-    RepairService(int _id, int _mileage,int _interval_km,QString date, QString _interval_time, const QString &_service, const QString &_type);
-    RepairService(int _mileage,int _interval_km, QString date, QString _interval_time, const QString &_service, const QString &_type);
+    RepairService(int _id, int _mileage, int _interval_km, QString date, QString _interval_time, const QString &_service, const QString &_type, const QString _customParts);
+    RepairService(int _mileage,int _interval_km, QString date, QString _interval_time, const QString &_service, const QString &_type,const QString _customParts);
 
-   // void print() override;
-    QString customParts;
+
     QString getCustomParts() const;
     void setCustomParts(const QString &newParts);
+
+private:
+     QString customParts;
 };
 
 #endif // REPAIRSERVICE_H

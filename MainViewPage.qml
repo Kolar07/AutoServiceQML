@@ -392,19 +392,208 @@ Item {
 	}
     }
 
-    Loader {
-	id: viewLoader
-	anchors.fill: parent
-	source: ""  // Początkowo nie ładowane
+    Rectangle {
+	width: 200
+	height: 40
+	color: "black"
+	anchors.top: tableViewContainer.bottom
+	anchors.topMargin: 10
+	anchors.horizontalCenter: tableViewContainer.horizontalCenter
+	radius: 30
+	Text {
+	    anchors.centerIn: parent
+	    color: "white"
+	    font.pixelSize: 20
+	    text: "Add Vehicle"
+	}
+
+	MouseArea {
+	    anchors.fill: parent
+	    onClicked: {
+		addVehicleDialog.open();
+	    }
+	}
+    }
+
+    Dialog {
+	id: addVehicleDialog
+	anchors.centerIn: parent
+	width: 450
+	height: 500
+	parent: Overlay.overlay
+	focus: true
+	modal: true
+	title: "Add vehicle"
+	standardButtons: Dialog.Ok | Dialog.Cancel
+
+	Column {
+	    spacing: 5
+	    anchors.horizontalCenter: parent.horizontalCenter
+
+	    TextField {
+		id: markInput
+		background: Rectangle {
+		    id: markTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: markTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Mark...                      "
+	    }
+
+	    Label {
+		id: wrongMarkInput
+		visible: false
+		text: "Mark should contain only letters!"
+	    }
+
+	    TextField {
+		id: modelInput
+		background: Rectangle {
+		    id: modelTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: modelTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Model...                      "
+	    }
+	    Label {
+		id: wrongModelInput
+		visible: false
+		text: "Model should not be empty"
+	    }
+
+	    TextField {
+		id: yearInput
+		background: Rectangle {
+		    id: yearTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: yearTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Year...                      "
+	    }
+
+	    Label {
+		id: wrongYearInput
+		visible: false
+		text: "Year should contain only digits!"
+	    }
+
+	    TextField {
+		id: versionInput
+		background: Rectangle {
+		    id: versionTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: versionTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Version...                      "
+	    }
+	    Label {
+		id: wrongVersionInput
+		visible: false
+		text: "Version should not be empty!"
+	    }
+
+	    TextField {
+		id: engineInput
+		background: Rectangle {
+		    id: engineTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: engineTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Engine...                      "
+	    }
+	    Label {
+		id: wrongEngineInput
+		visible: false
+		text: "Engine should not be empty!"
+	    }
+
+	    TextField {
+		id: vinInput
+		background: Rectangle {
+		    id: vinTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: vinTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Year...                      "
+	    }
+	    Label {
+		id: wrongVinInput
+		visible: false
+		text: "Year should contain 12 characters!"
+	    }
+
+	    TextField {
+		id: registrationInput
+		background: Rectangle {
+		    id: registrationTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: registrationTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Registration number...                      "
+	    }
+	    Label {
+		id: wrongRegistrationInput
+		visible: false
+		text: "Registration should not be empty!"
+	    }
+	}
+
+	Loader {
+	    id: viewLoader
+	    anchors.fill: parent
+	    source: ""
+	}
     }
 
     function showVehicle(vehicleId) {
-	selectedVehicleId = vehicleId;  // Ustaw ID wybranego pojazdu
-	viewLoader.source = "VehicleView.qml";  // Ładowanie widoku pojazdu
+	selectedVehicleId = vehicleId;
+	viewLoader.source = "VehicleView.qml";
     }
 
     function goBack() {
-	viewLoader.source = "";  // Zatrzymaj widok pojazdu, co spowoduje jego niszczenie
+	viewLoader.source = "";
     }
 
     // ComboBox {

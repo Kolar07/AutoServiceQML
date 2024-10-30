@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
      Vehicle *vehicle = new Vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
     Vehicle *vehicle2 = new Vehicle(typeTest2,"Peugeot","sdcdscdc",2020,"sdfsdf","sdfsdf","sdgdfhgfdhfghfdg","SMI45I1");
 
-    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService");
+    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService", "some parts");
     QVector<std::shared_ptr<Service>> vectorServices;
     vectorServices.push_back(service);
     if (vehicle->getServices()) {

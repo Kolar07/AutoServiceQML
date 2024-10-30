@@ -68,6 +68,7 @@ QVariant VehicleModel::headerData(int section, Qt::Orientation orientation, int 
 
 QHash<int, QByteArray> VehicleModel::roleNames() const {
     QHash<int, QByteArray> roles = QAbstractItemModel::roleNames();
+
     roles[IdRole] = "id";
     roles[TypeRole] = "type";
     roles[MarkRole] = "mark";

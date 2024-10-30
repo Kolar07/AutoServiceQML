@@ -9,15 +9,48 @@ Item {
 	color: "white"
 
 	Text {
+	    id: text
 	    anchors.centerIn: parent
 	    font.pixelSize: 50
 	    color: "black"
 	    text: "Vehicle ID: " + selectedVehicleId
 	}
 
+	Button {
+	    text: "Back"
+	    anchors.top: text.bottom
+	    //anchors.horizontalCenter: text.horizontalCenter
+	    onClicked: {
+		goBack();  // Powrót do widoku tabeli
+	    }
+	}
+
+	HorizontalHeaderView {
+	    id: horizontalHeader
+	    anchors.left: tableView.left
+	    anchors.top: parent.top
+	    syncView: tableView
+	    clip: true
+	    resizableColumns: true
+
+	    delegate: Rectangle {
+		color: "black"
+		//height: 30
+		//width: tableView.width / 5
+		//border.color: "black"
+		Text {
+		    text: display
+		    anchors.centerIn: parent
+		    color: "white"
+		    font.bold: true
+		    wrapMode: "Wrap"
+		}
+	    }
+	}
+
 	TableView {
 	    id: tableView
-	    anchors.top: parent.top
+	    anchors.top: horizontalHeader.bottom
 	    //anchors.left: parent.left
 	    //anchors.right: parent.right
 	    anchors.bottom: parent.bottom
@@ -34,59 +67,59 @@ Item {
 	    columnWidthProvider: function (column) {
 		let width = explicitColumnWidth(column);
 		switch (column) {
-		case 0:
-		    return 50;
-		case 1:
-		    if (width >= 80) {
-			return 80;
-		    } else if (width <= 50)
-			return 50;
-		    else
-			return explicitColumnWidth(column);
-		case 2:
-		    if (width <= 120) {
-			return 120;
-		    } else
-			return explicitColumnWidth(column);
-		case 3:
-		    if (width <= 120) {
-			return 120;
-		    } else
-			return explicitColumnWidth(column);
-		case 4:
-		    if (width <= 80) {
-			return 80;
-		    } else
-			return explicitColumnWidth(column);
-		case 5:
-		    if (width <= 120) {
-			return 120;
-		    } else
-			return explicitColumnWidth(column);
-		case 6:
-		    if (width <= 120) {
-			return 120;
-		    } else
-			return explicitColumnWidth(column);
-		case 7:
-		    if (width <= 120) {
-			return 120;
-		    } else
-			return explicitColumnWidth(column);
-		case 8:
-		    if (width <= 135) {
-			return 135;
-		    } else
-			return explicitColumnWidth(column);
-		case 9:
-		    if (width <= 95) {
-			return 95;
-		    } else
-			return explicitColumnWidth(column);
-		case 10:
-		    return 30;
+		// case 0:
+		//     return 50;
+		// case 1:
+		//     if (width >= 80) {
+		// 	return 80;
+		//     } else if (width <= 50)
+		// 	return 50;
+		//     else
+		// 	return explicitColumnWidth(column);
+		// case 2:
+		//     if (width <= 120) {
+		// 	return 120;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 3:
+		//     if (width <= 120) {
+		// 	return 120;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 4:
+		//     if (width <= 80) {
+		// 	return 80;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 5:
+		//     if (width <= 120) {
+		// 	return 120;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 6:
+		//     if (width <= 120) {
+		// 	return 120;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 7:
+		//     if (width <= 120) {
+		// 	return 120;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 8:
+		//     if (width <= 135) {
+		// 	return 135;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 9:
+		//     if (width <= 95) {
+		// 	return 95;
+		//     } else
+		// 	return explicitColumnWidth(column);
+		// case 13:
+		//     return 80;
 		default:
-		    return 30;
+		    return 130;
 		}
 	    }
 
@@ -149,7 +182,7 @@ Item {
 				case 12:
 				    return timing;
 				case 13:
-				    return parts;
+				    return customParts;
 				default:
 				    return "";
 				}
@@ -359,15 +392,6 @@ Item {
 			//     }
 			//}
 		    }
-		}
-	    }
-
-	    Button {
-		text: "Back"
-		anchors.bottom: parent.bottom
-		anchors.horizontalCenter: parent.horizontalCenter
-		onClicked: {
-		    goBack();  // Powrót do widoku tabeli
 		}
 	    }
 	}
