@@ -33,7 +33,7 @@ public:
 
 
     //VEHICLE
-    bool addVehicle(int customerId, QString mark, QString model, int year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
+    Q_INVOKABLE bool addVehicle(int customerId, QString mark, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
     bool addVehicle(int customerId, Vehicle vehicle);
 
     //SERVICE

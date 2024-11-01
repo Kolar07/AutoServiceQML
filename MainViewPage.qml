@@ -419,12 +419,13 @@ Item {
 	id: addVehicleDialog
 	anchors.centerIn: parent
 	width: 450
-	height: 500
+	height: 640
 	parent: Overlay.overlay
 	focus: true
 	modal: true
 	title: "Add vehicle"
-	standardButtons: Dialog.Ok | Dialog.Cancel
+
+	//standardButtons: Dialog.Ok | Dialog.Cancel
 
 	Column {
 	    spacing: 5
@@ -449,6 +450,8 @@ Item {
 	    Label {
 		id: wrongMarkInput
 		visible: false
+		font.pixelSize: 10
+		color: "red"
 		text: "Mark should contain only letters!"
 	    }
 
@@ -470,6 +473,8 @@ Item {
 	    Label {
 		id: wrongModelInput
 		visible: false
+		font.pixelSize: 10
+		color: "red"
 		text: "Model should not be empty"
 	    }
 
@@ -484,6 +489,9 @@ Item {
 		    border.color: "lightgray"
 		}
 		implicitWidth: yearTextRect.width
+		validator: RegularExpressionValidator {
+		    regularExpression: /^[0-9]*$/
+		}
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "Year...                      "
@@ -492,6 +500,8 @@ Item {
 	    Label {
 		id: wrongYearInput
 		visible: false
+		font.pixelSize: 10
+		color: "red"
 		text: "Year should contain only digits!"
 	    }
 
@@ -513,6 +523,8 @@ Item {
 	    Label {
 		id: wrongVersionInput
 		visible: false
+		font.pixelSize: 10
+		color: "red"
 		text: "Version should not be empty!"
 	    }
 
@@ -534,6 +546,8 @@ Item {
 	    Label {
 		id: wrongEngineInput
 		visible: false
+		font.pixelSize: 10
+		color: "red"
 		text: "Engine should not be empty!"
 	    }
 
@@ -550,12 +564,14 @@ Item {
 		implicitWidth: vinTextRect.width
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Year...                      "
+		placeholderText: "VIN...                      "
 	    }
 	    Label {
 		id: wrongVinInput
 		visible: false
-		text: "Year should contain 12 characters!"
+		font.pixelSize: 10
+		color: "red"
+		text: "VIN should contain 12 characters!"
 	    }
 
 	    TextField {
@@ -576,15 +592,91 @@ Item {
 	    Label {
 		id: wrongRegistrationInput
 		visible: false
+		font.pixelSize: 10
+		color: "red"
 		text: "Registration should not be empty!"
+	    }
+
+	    ComboBox {
+		id: vehicleTypeComboBox
+		model: vehicleTypeModel
+		textRole: "typeName"
+		width: implicitWidth + 50
+		onCurrentIndexChanged: {
+		    console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+		}
 	    }
 	}
 
-	Loader {
-	    id: viewLoader
-	    anchors.fill: parent
-	    source: ""
+	Row {
+	    spacing: 10
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    anchors.bottom: parent.bottom
+	    anchors.bottomMargin: 10
+
+	    Button {
+		text: "OK"
+		onClicked: {
+		    let isValid = true;
+		    if (!valid.modelIsValid(modelInput.text)) {
+			wrongModelInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongModelInput.visible = false;
+		    }
+		    if (!valid.markIsValid(markInput.text)) {
+			wrongMarkInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongMarkInput.visible = false;
+		    }
+		    if (!valid.yearIsValid(yearInput.text)) {
+			wrongYearInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongYearInput.visible = false;
+		    }
+		    if (!valid.engineIsValid(engineInput.text)) {
+			wrongEngineInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongEngineInput.visible = false;
+		    }
+		    if (!valid.versionIsValid(versionInput.text)) {
+			wrongVersionInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongVersionInput.visible = false;
+		    }
+		    if (!valid.vinIsValid(vinInput.text)) {
+			wrongVinInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongVinInput.visible = false;
+		    }
+		    if (!valid.regNumberIsValid(registrationInput.text)) {
+			wrongRegistrationInput.visible = true;
+			isValid = false;
+		    } else {
+			wrongRegistrationInput.visible = false;
+		    }
+		    if (isValid) {
+			dbController.addVehicle(customer.getId(), markInput.text, modelInput.text, yearInput.text, versionInput.text, engineInput.text, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).typeName, vinInput.text, registrationInput.text);
+			addVehicleDialog.close();
+		    }
+		}
+	    }
+
+	    Button {
+		text: "Cancel"
+		onClicked: addVehicleDialog.close()
+	    }
 	}
+    }
+    Loader {
+	id: viewLoader
+	anchors.fill: parent
+	source: ""
     }
 
     function showVehicle(vehicleId) {
@@ -595,14 +687,4 @@ Item {
     function goBack() {
 	viewLoader.source = "";
     }
-
-    // ComboBox {
-    //     model: vehicleTypeModel
-    //     textRole: "typeName"  // Wyświetla nazwę typu pojazdu
-    //     width: implicitWidth + 50
-    //     onCurrentIndexChanged: {
-    // 	console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
-    //     }
-    // }
-
 }

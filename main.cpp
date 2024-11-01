@@ -12,6 +12,7 @@
 #include "repairservice.h"
 #include "vehicletypecontainer.h"
 #include "vehicletype.h"
+#include "validationcontroller.h"
 
 int main(int argc, char *argv[])
 {
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
 
      customer.getVehicles()->setData(vector);
 
+    ValidationController valid;
 
 
     // QDate date;
@@ -85,6 +87,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("sessionController", &session);
     engine.rootContext()->setContextProperty("vehicleTypeModel", &vehicleTypeContainer);
     engine.rootContext()->setContextProperty("customer", &customer);
+    engine.rootContext()->setContextProperty("valid", &valid);
+    engine.rootContext()->setContextProperty("dbController", &dbController);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

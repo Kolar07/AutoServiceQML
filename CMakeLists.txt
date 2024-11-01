@@ -44,6 +44,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES vehiclemodel.h vehiclemodel.cpp
     SOURCES servicemodel.h servicemodel.cpp
     QML_FILES VehicleView.qml
+    SOURCES validationcontroller.h validationcontroller.cpp
 )
 
 # Ustawienia właściwości celu

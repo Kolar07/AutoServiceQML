@@ -24,7 +24,7 @@ public:
     QString getPassword() const;
     void setPassword(const QString &newPassword);
 
-    int getId() const;
+    Q_INVOKABLE int getId() const;
     void setId(int newId);
     void print() const;
 

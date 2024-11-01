@@ -166,7 +166,7 @@ bool DatabaseController::fetchVehicleTypes()
     return true;
 }
 
-bool DatabaseController::addVehicle(int customerId, QString mark, QString model, int year, QString version, QString engine,int typeId, QString type, QString vin, QString registrationNumber)
+bool DatabaseController::addVehicle(int customerId, QString mark, QString model, QString year, QString version, QString engine,int typeId, QString type, QString vin, QString registrationNumber)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -178,7 +178,7 @@ bool DatabaseController::addVehicle(int customerId, QString mark, QString model,
     query.addBindValue(customerId);
     query.addBindValue(mark);
     query.addBindValue(model);
-    query.addBindValue(year);
+    query.addBindValue(year.toInt());
     query.addBindValue(version);
     query.addBindValue(engine);
     query.addBindValue(typeId);
