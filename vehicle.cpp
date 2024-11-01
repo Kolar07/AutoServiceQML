@@ -26,6 +26,11 @@ Vehicle::Vehicle(const VehicleType &type, const QString &mark, const QString &mo
     vin(vin),
     registrationNumber(registrationNumber), services(new ServiceModel(this)){}
 
+Vehicle::~Vehicle()
+{
+    services->deleteLater();
+}
+
 //Vehicle::Vehicle(){}
 
 

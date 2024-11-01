@@ -419,7 +419,7 @@ Item {
 	id: addVehicleDialog
 	anchors.centerIn: parent
 	width: 450
-	height: 640
+	height: 630
 	parent: Overlay.overlay
 	focus: true
 	modal: true
@@ -428,6 +428,7 @@ Item {
 	//standardButtons: Dialog.Ok | Dialog.Cancel
 
 	Column {
+	    id: addVehicleColumn
 	    spacing: 5
 	    anchors.horizontalCenter: parent.horizontalCenter
 
@@ -597,13 +598,41 @@ Item {
 		text: "Registration should not be empty!"
 	    }
 
-	    ComboBox {
-		id: vehicleTypeComboBox
-		model: vehicleTypeModel
-		textRole: "typeName"
-		width: implicitWidth + 50
-		onCurrentIndexChanged: {
-		    console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+	    Row {
+		spacing: 5
+
+		ComboBox {
+		    id: vehicleTypeComboBox
+		    model: vehicleTypeModel
+		    textRole: "typeName"
+		    width: implicitWidth + 50
+		    onCurrentIndexChanged: {
+			console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+		    }
+		}
+
+		Rectangle {
+		    id: addTypeButton
+		    width: 100
+		    height: 30
+		    color: "white"
+		    radius: 5
+		    border.color: "black"
+		    scale: 1.0
+		    anchors.verticalCenter: vehicleTypeComboBox.verticalCenter
+		    Text {
+			text: "New type"
+			font.pixelSize: 15
+			anchors.centerIn: parent
+			color: "black"
+		    }
+
+		    MouseArea {
+			anchors.fill: parent
+			onClicked: {
+			    newTypeDialog.open();
+			}
+		    }
 		}
 	    }
 	}
@@ -673,6 +702,68 @@ Item {
 	    }
 	}
     }
+
+    Dialog {
+	id: newTypeDialog
+	anchors.centerIn: parent
+	width: 300
+	height: 250
+	parent: Overlay.overlay
+	focus: true
+	modal: true
+	title: "New Type"
+
+	Column {
+	    TextField {
+		id: typeInput
+		background: Rectangle {
+		    id: typeTextRect
+		    color: "white"
+		    radius: 10
+		    width: 200
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: typeTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Type...                      "
+	    }
+	    Label {
+		id: wrongTypeInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Type duplicate or empty!"
+	    }
+	}
+
+	Row {
+	    spacing: 10
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    anchors.bottom: parent.bottom
+	    anchors.bottomMargin: 10
+	    Button {
+		text: "OK"
+		onClicked: {
+		    if (!vehicleTypeModel.findType(typeInput.text) && valid.typeIsValid(typeInput.text)) {
+			if (dbController.addVehicleType(typeInput.text)) {
+			    dbController.fetchVehicleTypes();
+			    console.log("Type added");
+			    newTypeDialog.close();
+			}
+		    } else
+			wrongTypeInput.visible = true;
+		}
+	    }
+
+	    Button {
+		text: "Cancel"
+		onClicked: newTypeDialog.close()
+	    }
+	}
+    }
+
     Loader {
 	id: viewLoader
 	anchors.fill: parent

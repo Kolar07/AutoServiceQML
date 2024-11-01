@@ -3,6 +3,11 @@
 Customer::Customer(QObject *parent)
     : QObject{parent}, vehicles(new VehicleModel(this))
 {    }
+
+Customer::~Customer()
+{
+    vehicles->deleteLater();
+}
 QString Customer::getName() const
 {
     return name;
@@ -62,6 +67,12 @@ VehicleModel* Customer::getVehicles()
 {
     qDebug()<<"Returning vehicles";
     return vehicles;
+}
+
+void Customer::onVehiclesFetched(VehicleModel *_vehicles)
+{
+    if(_vehicles!=nullptr)
+    setVehicles(_vehicles);
 }
 
 void Customer::setVehicles(VehicleModel *newVehicles)

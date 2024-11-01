@@ -25,6 +25,7 @@ public:
 
     VehicleModel(QObject *parent = nullptr);
     VehicleModel(VehicleModel &&other) noexcept;
+    ~VehicleModel();
     VehicleModel &operator=(VehicleModel &&other) noexcept;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -36,7 +37,6 @@ public:
     void setData(QVector<Vehicle*> &_vehicles);
     Q_INVOKABLE void toggleSelection(int index);
     Q_INVOKABLE QVector<Vehicle*> getSelectedVehicles() const;
-
 
 
     QVector<Vehicle *> getVehicles() const;

@@ -10,6 +10,7 @@ class VehicleType : public QObject
     Q_OBJECT
 public:
     explicit VehicleType(QObject *parent = nullptr);
+    VehicleType(int _id, QString _typeName);
     VehicleType(const VehicleType &other);
     bool operator==(const VehicleType &other);
 

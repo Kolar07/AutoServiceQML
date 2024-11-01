@@ -99,6 +99,23 @@ QMap<QString, QVariant> DatabaseController::getCustomerByEmail(QString &email)
     return customerData;
 }
 
+bool DatabaseController::addVehicleType(QString type)
+{
+    if(!db.open()) {
+        qDebug()<<"Database is not open!";
+        return false;
+    }
+     QSqlQuery query;
+    query.prepare("INSERT INTO vehicle_types (type_name) VALUES (?)");
+    query.addBindValue(type);
+    if(!query.exec()) {
+        qDebug()<<"Failed to execute query." << query.lastError();
+        return false;
+    }
+
+    return true;
+}
+
 // bool DatabaseController::fetchVehiclesForCustomer(Customer &currentCustomer)
 // {
 //     if(!db.open()) {
@@ -191,6 +208,33 @@ bool DatabaseController::addVehicle(int customerId, QString mark, QString model,
         qDebug()<<"Nope "<<query.lastError();
         return false;
     } return true;
+}
+
+void DatabaseController::onFetchVehicles(int customer_id)
+{
+    if(!db.open()) {
+        qDebug()<<"Database is not open!"<<db.lastError();
+        return;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT id,mark,model,year,version,engine,type_id,type,vin,registration_number FROM vehicles WHERE customer_id = :customerId");
+    query.bindValue(":customerId", customer_id);
+    if(query.exec()) {
+        QVector<Vehicle*> vehiclesVector;
+        while(query.next()) {
+            VehicleType type(query.value(6).toInt(), query.value(7).toString());
+            Vehicle *vehicle = new Vehicle(query.value(0).toInt(),type,query.value(1).toString(),query.value(2).toString(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toString(),query.value(8).toString(),query.value(9).toString());
+            vehiclesVector.push_back(vehicle);
+        }
+        VehicleModel* model = new VehicleModel();
+        model->setData(vehiclesVector);
+        emit vehiclesFetched(model);
+    }
+        else {
+            qDebug()<<"Query execution failed: "<<query.lastError();
+            return;
+        }
 }
 
 bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)

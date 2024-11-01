@@ -4,6 +4,9 @@ VehicleType::VehicleType(QObject *parent)
     : QObject{parent}
 {}
 
+VehicleType::VehicleType(int _id, QString _typeName):id(_id),typeName(_typeName)
+{}
+
 VehicleType::VehicleType(const VehicleType &other)
     : QObject(other.parent()), id(other.id),typeName(other.typeName){}
 

@@ -11,6 +11,7 @@ class Customer : public QObject
     Q_OBJECT
 public:
     explicit Customer(QObject *parent = nullptr);
+    ~Customer();
 
     QString getName() const;
     void setName(const QString &newName);
@@ -29,8 +30,13 @@ public:
     void print() const;
 
     Q_INVOKABLE VehicleModel *getVehicles();
+    void setVehicles(VehicleModel *_vehicles);
 
-    void setVehicles(VehicleModel *newVehicles);
+public: signals:
+    void fetchVehicles(int customerId);
+
+public slots:
+    void onVehiclesFetched(VehicleModel *_vehicles);
 
 private:
     int id;

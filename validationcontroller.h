@@ -18,7 +18,7 @@ public:
    Q_INVOKABLE bool versionIsValid(QString version) const;
    Q_INVOKABLE bool vinIsValid(QString vin) const;
    Q_INVOKABLE bool regNumberIsValid(QString regNb) const;
-   Q_INVOKABLE  bool validateType(VehicleType type)const;
+   Q_INVOKABLE  bool typeIsValid(QString type)const;
 
 };
 

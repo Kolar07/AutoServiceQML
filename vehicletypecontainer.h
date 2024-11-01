@@ -21,6 +21,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     Q_INVOKABLE QVariantMap get(int row) const;
+    Q_INVOKABLE bool findType(QString type) const;
 
     QHash<int, QByteArray> roleNames() const override;
 

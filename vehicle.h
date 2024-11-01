@@ -15,7 +15,7 @@ public:
     explicit Vehicle(QObject *parent = nullptr);
     Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
     Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
-
+    ~Vehicle();
     int getId() const;
     void setId(int newId);
 

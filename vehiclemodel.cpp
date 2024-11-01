@@ -7,6 +7,11 @@ VehicleModel::VehicleModel(VehicleModel &&other) noexcept
     vehicles(std::move(other.vehicles)),
     selected(std::move(other.selected)) {}
 
+VehicleModel::~VehicleModel()
+{
+    qDeleteAll(vehicles);
+}
+
 VehicleModel &VehicleModel::operator=(VehicleModel &&other) noexcept {
     if (this == &other)
         return *this;

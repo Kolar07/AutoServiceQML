@@ -53,9 +53,9 @@ bool ValidationController::regNumberIsValid(QString regNb) const
     return false;
 }
 
-bool ValidationController::validateType(VehicleType type) const
+bool ValidationController::typeIsValid(QString type) const
 {
-    if(type.getTypeName() != "")
+    if(type != "" && type.size() <50)
         return true;
     return false;
 }

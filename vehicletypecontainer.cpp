@@ -50,6 +50,13 @@ QVariantMap VehicleTypeContainer::get(int row) const
     return vehicleTypeData;
 }
 
+bool VehicleTypeContainer::findType(QString type) const
+{
+    return std::any_of(types.begin(), types.end(), [&type](const QPair<int, QString> &pair){
+        return pair.second.toLower() == type.toLower();
+    });
+}
+
 QHash<int, QByteArray> VehicleTypeContainer::roleNames() const
 {
     QHash<int, QByteArray> roles;
