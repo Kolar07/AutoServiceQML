@@ -64,6 +64,19 @@ Item {
 
 	    model: customer.getVehicles()
 
+	    ScrollBar {
+		orientation: Qt.Horizontal
+		policy: ScrollBar.AlwaysOn
+		anchors.bottom: parent.bottom
+	    }
+
+	    // Vertical ScrollBar for rows
+	    ScrollBar {
+		orientation: Qt.Vertical
+		policy: ScrollBar.AlwaysOn
+		anchors.right: parent.right
+	    }
+
 	    columnWidthProvider: function (column) {
 		let width = explicitColumnWidth(column);
 		switch (column) {
@@ -107,8 +120,8 @@ Item {
 		    } else
 			return explicitColumnWidth(column);
 		case 8:
-		    if (width <= 135) {
-			return 135;
+		    if (width <= 145) {
+			return 145;
 		    } else
 			return explicitColumnWidth(column);
 		case 9:
@@ -281,7 +294,7 @@ Item {
 					parent.scale = 1.07;
 				    }
 				    onClicked: {
-					showVehicle(row);
+					showVehicle(customer.getVehicles().getVehicleByRow(row).getId());
 				    }
 				}
 			    }
@@ -349,6 +362,10 @@ Item {
 				    onReleased: {
 					parent.scale = 1.07;
 				    }
+				    onClicked: {
+					setSelectedVehicle(customer.getVehicles().getVehicleByRow(row).getId());
+					editVehicleDialog.open();
+				    }
 				}
 			    }
 			    Rectangle {
@@ -383,9 +400,367 @@ Item {
 				    onReleased: {
 					parent.scale = 1.07;
 				    }
+				    onClicked: {
+					setSelectedVehicle(customer.getVehicles().getVehicleByRow(row).getId());
+					removeVehicleDialog.open();
+				    }
 				}
 			    }
 			}
+		    }
+		}
+	    }
+	}
+    }
+
+    Dialog {
+	id: editVehicleDialog
+	anchors.centerIn: parent
+	width: 450
+	height: 630
+	parent: Overlay.overlay
+	focus: true
+	modal: true
+	title: "Edit vehicle"
+
+	Column {
+	    id: editVehicleColumn
+	    spacing: 5
+	    anchors.horizontalCenter: parent.horizontalCenter
+
+	    TextField {
+		id: editMarkInput
+		background: Rectangle {
+		    id: editMarkTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editMarkTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Mark (" + customer.getVehicles().getVehicleById(selectedVehicleId).getMark() + ")"
+	    }
+
+	    Label {
+		id: wrongEditMarkInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Mark should contain only letters!"
+	    }
+
+	    TextField {
+		id: editModelInput
+		background: Rectangle {
+		    id: editModelTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editModelTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Model (" + customer.getVehicles().getVehicleById(selectedVehicleId).getModel() + ")"
+	    }
+	    Label {
+		id: wrongEditModelInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Model should not be empty"
+	    }
+
+	    TextField {
+		id: editYearInput
+		background: Rectangle {
+		    id: editYearTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editYearTextRect.width
+		validator: RegularExpressionValidator {
+		    regularExpression: /^[0-9]*$/
+		}
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Year (" + customer.getVehicles().getVehicleById(selectedVehicleId).getYear() + ")"
+	    }
+
+	    Label {
+		id: wrongEditYearInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Year should contain only digits!"
+	    }
+
+	    TextField {
+		id: editVersionInput
+		background: Rectangle {
+		    id: editVersionTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editVersionTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Version (" + customer.getVehicles().getVehicleById(selectedVehicleId).getVersion() + ")"
+	    }
+	    Label {
+		id: wrongEditVersionInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Version should not be empty!"
+	    }
+
+	    TextField {
+		id: editEngineInput
+		background: Rectangle {
+		    id: editEngineTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editEngineTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Engine (" + customer.getVehicles().getVehicleById(selectedVehicleId).getEngine() + ")"
+	    }
+	    Label {
+		id: wrongEditEngineInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Engine should not be empty!"
+	    }
+
+	    TextField {
+		id: editVinInput
+		background: Rectangle {
+		    id: editVinTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editVinTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "VIN (" + customer.getVehicles().getVehicleById(selectedVehicleId).getVin() + ")"
+	    }
+
+	    Label {
+		id: wrongEditVinInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "VIN should contain 17 characters!"
+	    }
+
+	    TextField {
+		id: editRegistrationInput
+		background: Rectangle {
+		    id: editRegistrationTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 30
+		    border.color: "lightgray"
+		}
+		implicitWidth: editRegistrationTextRect.width
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Registration (" + customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber() + ")"
+	    }
+	    Label {
+		id: wrongEditRegistrationInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Registration should not be empty!"
+	    }
+
+	    Row {
+		spacing: 5
+		ComboBox {
+		    id: vehicleEditTypeComboBox
+		    model: vehicleTypeModel
+		    textRole: "typeName"
+		    width: implicitWidth + 50
+		    currentIndex: vehicleTypeModel.findIndex(customer.getVehicles().getVehicleById(selectedVehicleId).getTypeInt())
+		    onCurrentIndexChanged: {
+			console.log("Selected Vehicle Type:", vehicleTypeModel.get(currentIndex).typeName);
+		    }
+		}
+
+		Rectangle {
+		    id: addEditTypeButton
+		    width: 100
+		    height: 30
+		    color: "white"
+		    radius: 5
+		    border.color: "black"
+		    scale: 1.0
+		    anchors.verticalCenter: vehicleEditTypeComboBox.verticalCenter
+		    Text {
+			text: "New type"
+			font.pixelSize: 15
+			anchors.centerIn: parent
+			color: "black"
+		    }
+
+		    MouseArea {
+			anchors.fill: parent
+			onClicked: {
+			    newTypeDialog.open();
+			}
+		    }
+		}
+	    }
+	}
+
+	Row {
+	    spacing: 10
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    anchors.bottom: parent.bottom
+	    anchors.bottomMargin: 10
+
+	    Button {
+		text: "OK"
+		onClicked: {
+		    let isValid = true;
+		    if (editModelInput.text !== "") {
+			if (!valid.modelIsValid(editModelInput.text)) {
+			    wrongEditModelInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditModelInput.visible = false;
+			}
+		    }
+		    if (editMarkInput.text !== "") {
+			if (!valid.markIsValid(editMarkInput.text)) {
+			    wrongEditMarkInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditMarkInput.visible = false;
+			}
+		    }
+		    if (editYearInput.text !== "") {
+			if (!valid.yearIsValid(editYearInput.text)) {
+			    wrongEditYearInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditYearInput.visible = false;
+			}
+		    }
+		    if (editEngineInput.text !== "") {
+			if (!valid.engineIsValid(editEngineInput.text)) {
+			    wrongEditEngineInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditEngineInput.visible = false;
+			}
+		    }
+		    if (editVersionInput.text !== "") {
+			if (!valid.versionIsValid(editVersionInput.text)) {
+			    wrongEditVersionInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditVersionInput.visible = false;
+			}
+		    }
+		    if (editVinInput.text !== "") {
+			if (!valid.vinIsValid(editVinInput.text)) {
+			    wrongEditVinInput.text = "VIN should contain 17 characters withoud O, I and Q";
+			    wrongEditVinInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditVinInput.visible = false;
+			}
+		    }
+		    if (editRegistrationInput.text !== "") {
+			if (!valid.regNumberIsValid(editRegistrationInput.text)) {
+			    wrongEditRegistrationInput.text = "Registration should not be empty!";
+			    wrongEditRegistrationInput.visible = true;
+			    isValid = false;
+			} else {
+			    wrongEditRegistrationInput.visible = false;
+			}
+		    }
+		    if (isValid) {
+			if (!dbController.checkVin(editVinInput.text)) {
+			    if (!dbController.checkRegistration(editRegistrationInput.text)) {
+				if (dbController.updateVehicle(selectedVehicleId, editMarkInput.text, editModelInput.text, editYearInput.text, editVersionInput.text, editEngineInput.text, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).typeName, editVinInput.text, editRegistrationInput.text)) {
+				    customer.fetchVehicles(customer.getId());
+				    editVehicleDialog.close();
+				}
+			    } else {
+				wrongEditRegistrationInput.text = "That registration already exists!";
+				wrongEditRegistrationInput.visible = true;
+			    }
+			} else {
+			    wrongEditVinInput.text = "That vin already exists!";
+			    wrongEditVinInput.visible = true;
+			}
+		    }
+		}
+	    }
+	    Button {
+		text: "Cancel"
+		onClicked: editVehicleDialog.close()
+	    }
+	}
+    }
+
+    Dialog {
+	id: removeVehicleDialog
+	anchors.centerIn: parent
+	width: 300
+	height: 150
+	parent: Overlay.overlay
+	focus: true
+	modal: true
+	title: ""
+	Column {
+	    spacing: 5
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    Label {
+		text: "This CAN NOT be undone!"
+		font.pixelSize: 20
+		color: "black"
+		font.bold: true
+	    }
+	    Row {
+		spacing: 5
+		anchors.horizontalCenter: parent.horizontalCenter
+		Button {
+		    text: "Remove"
+		    onClicked: {
+			if (dbController.removeVehicle(selectedVehicleId)) {
+			    customer.fetchVehicles(customer.getId());
+			    removeVehicleDialog.close();
+			}
+		    }
+		}
+		Button {
+		    text: "Cancel"
+		    onClicked: {
+			removeVehicleDialog.close();
 		    }
 		}
 	    }
@@ -424,8 +799,6 @@ Item {
 	focus: true
 	modal: true
 	title: "Add vehicle"
-
-	//standardButtons: Dialog.Ok | Dialog.Cancel
 
 	Column {
 	    id: addVehicleColumn
@@ -567,12 +940,13 @@ Item {
 		font.pixelSize: 15
 		placeholderText: "VIN...                      "
 	    }
+
 	    Label {
 		id: wrongVinInput
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "VIN should contain 12 characters!"
+		text: "VIN should contain 17 characters!"
 	    }
 
 	    TextField {
@@ -678,20 +1052,34 @@ Item {
 			wrongVersionInput.visible = false;
 		    }
 		    if (!valid.vinIsValid(vinInput.text)) {
+			wrongVinInput.text = "VIN should contain 17 characters withoud O, I and Q";
 			wrongVinInput.visible = true;
 			isValid = false;
 		    } else {
 			wrongVinInput.visible = false;
 		    }
 		    if (!valid.regNumberIsValid(registrationInput.text)) {
+			wrongRegistrationInput.text = "Registration should not be empty!";
 			wrongRegistrationInput.visible = true;
 			isValid = false;
 		    } else {
 			wrongRegistrationInput.visible = false;
 		    }
 		    if (isValid) {
-			dbController.addVehicle(customer.getId(), markInput.text, modelInput.text, yearInput.text, versionInput.text, engineInput.text, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).typeName, vinInput.text, registrationInput.text);
-			addVehicleDialog.close();
+			if (!dbController.checkVin(vinInput.text)) {
+			    if (!dbController.checkRegistration(registrationInput.text)) {
+				if (dbController.addVehicle(customer.getId(), markInput.text, modelInput.text, yearInput.text, versionInput.text, engineInput.text, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).typeName, vinInput.text, registrationInput.text)) {
+				    customer.fetchVehicles(customer.getId());
+				    addVehicleDialog.close();
+				}
+			    } else {
+				wrongRegistrationInput.text = "That registration already exists!";
+				wrongRegistrationInput.visible = true;
+			    }
+			} else {
+			    wrongVinInput.text = "That vin already exists!";
+			    wrongVinInput.visible = true;
+			}
 		    }
 		}
 	    }
@@ -773,6 +1161,10 @@ Item {
     function showVehicle(vehicleId) {
 	selectedVehicleId = vehicleId;
 	viewLoader.source = "VehicleView.qml";
+    }
+
+    function setSelectedVehicle(vehicleId) {
+	selectedVehicleId = vehicleId;
     }
 
     function goBack() {

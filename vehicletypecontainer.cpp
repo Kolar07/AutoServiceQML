@@ -57,6 +57,18 @@ bool VehicleTypeContainer::findType(QString type) const
     });
 }
 
+int VehicleTypeContainer::findIndex(int id) const
+{
+    for (int i = 0; i < types.size(); ++i) {
+        if (types[i].first == id) { // `first` to ID
+            return i; // Zwróć indeks
+        }
+    }
+    return -1; // Zwróć -1, jeśli nie znaleziono
+}
+
+
+
 QHash<int, QByteArray> VehicleTypeContainer::roleNames() const
 {
     QHash<int, QByteArray> roles;

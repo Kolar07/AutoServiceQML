@@ -148,6 +148,16 @@ VehicleType Vehicle::getType() const
     return type;
 }
 
+QString Vehicle::getTypeString() const
+{
+    return getType().getTypeName();
+}
+
+int Vehicle::getTypeInt() const
+{
+    return getType().getId();
+}
+
 ServiceModel *Vehicle::getServices()
 {
     return services;

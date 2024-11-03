@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     QObject::connect(&dbController, &DatabaseController::vehiclesFetched,
                      &customer, &Customer::onVehiclesFetched);
     dbController.fetchVehicleTypes();
-    customer.fetchVehicles(customer.getId());
+    emit customer.fetchVehicles(customer.getId());
     //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz",1,"Truck","sad464asd56sad","SMIK8I1");
     //VehicleType typeTest;
     //typeTest.setProperties(vehicleTypeContainer.get(0));

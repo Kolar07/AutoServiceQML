@@ -69,10 +69,12 @@ VehicleModel* Customer::getVehicles()
     return vehicles;
 }
 
-void Customer::onVehiclesFetched(VehicleModel *_vehicles)
+void Customer::onVehiclesFetched(QVector<Vehicle *> vehiclesVector)
 {
-    if(_vehicles!=nullptr)
-    setVehicles(_vehicles);
+    if(!vehiclesVector.empty())
+        qDebug()<<"From customer - setting vehicles, size: "<<vehiclesVector.size();
+    vehicles->setData(vehiclesVector);
+    qDebug()<<"From customer - after setting vehicles: "<<vehicles->getVehicles().size();
 }
 
 void Customer::setVehicles(VehicleModel *newVehicles)

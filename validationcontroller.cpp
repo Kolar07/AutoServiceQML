@@ -41,7 +41,7 @@ bool ValidationController::versionIsValid(QString version) const
 bool ValidationController::vinIsValid(QString vin) const
 {
     static QRegularExpression vinRegex("^[A-HJ-NPR-Z0-9]{17}$");
-    if(vin!="" || vinRegex.match(vin).hasMatch())
+    if(vin!="" && vinRegex.match(vin).hasMatch())
         return true;
     return false;
 }

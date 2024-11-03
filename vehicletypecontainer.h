@@ -22,6 +22,7 @@ public:
 
     Q_INVOKABLE QVariantMap get(int row) const;
     Q_INVOKABLE bool findType(QString type) const;
+    Q_INVOKABLE int findIndex(int id) const;
 
     QHash<int, QByteArray> roleNames() const override;
 

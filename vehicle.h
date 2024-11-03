@@ -16,28 +16,28 @@ public:
     Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
     Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
     ~Vehicle();
-    int getId() const;
+    Q_INVOKABLE int getId() const;
     void setId(int newId);
 
-    QString getMark() const;
+  Q_INVOKABLE  QString getMark() const;
     void setMark(const QString &newMark);
 
-    QString getModel() const;
+  Q_INVOKABLE  QString getModel() const;
     void setModel(const QString &newModel);
 
-    int getYear() const;
+   Q_INVOKABLE int getYear() const;
     void setYear(int newYear);
 
-    QString getVersion() const;
+   Q_INVOKABLE QString getVersion() const;
     void setVersion(const QString &newVersion);
 
-    QString getEngine() const;
+   Q_INVOKABLE QString getEngine() const;
     void setEngine(const QString &newEngine);
 
-    QString getVin() const;
+   Q_INVOKABLE QString getVin() const;
     void setVin(const QString &newVin);
 
-    QString getRegistrationNumber() const;
+   Q_INVOKABLE QString getRegistrationNumber() const;
     void setRegistrationNumber(const QString &newRegistrationNumber);
 
     void addService(std::shared_ptr<Service> &service);
@@ -49,6 +49,8 @@ public:
     //void setServices(const QVector<std::shared_ptr<Service> > &newServices);
 
     VehicleType getType() const;
+    Q_INVOKABLE QString getTypeString() const;
+    Q_INVOKABLE int getTypeInt() const;
     void setType(const VehicleType &newType);
 
     Q_INVOKABLE ServiceModel *getServices();

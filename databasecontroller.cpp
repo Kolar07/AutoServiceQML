@@ -116,48 +116,6 @@ bool DatabaseController::addVehicleType(QString type)
     return true;
 }
 
-// bool DatabaseController::fetchVehiclesForCustomer(Customer &currentCustomer)
-// {
-//     if(!db.open()) {
-//         qDebug()<<"Database is not open!";
-//         return false;
-//     }
-
-//     QSqlQuery query;
-//     query.prepare("SELECT v.id, v.mark, v.model, v.year, v.version, v.engine, vt.type_name, v.vin, v.registration_number "
-//                   "FROM vehicles v "
-//                   "JOIN vehicle_types vt ON v.type_id = vt.id "
-//                   "WHERE v.customer_id = ?");
-//     query.bindValue(0, currentCustomer.getId());
-//     if (!query.exec()) {
-//         qDebug() << "Query execution error:" << query.lastError();
-//         return false;
-//     }
-
-//     VehicleType type;
-//     QVector<Vehicle*> vehicles;
-//     while(query.next()){
-//         type.setTypeName(query.value("type_name").toString());
-//         type.setId(query.value("type_id").toInt());
-//         Vehicle *vehicle = new Vehicle (
-//             query.value("id").toInt(),
-//             type,
-//             query.value("mark").toString(),
-//             query.value("model").toString(),
-//             query.value("year").toInt(),
-//             query.value("version").toString(),
-//             query.value("engine").toString(),
-//             query.value("vin").toString(),
-//             query.value("registration_number").toString()
-//             );
-//         vehicles.append(vehicle);
-
-//     }
-//     currentCustomer.getVehicles()->setData(vehicles);
-//     qDebug()<<"Vehicles set successfully";
-//     return true;
-// } //FINISH SERVICES AND NOTIFICATIONS AND CORRECT THIS METHOD
-
 bool DatabaseController::fetchVehicleTypes()
 {
     QVector<QPair<int, QString>> vehicleTypes;
@@ -210,6 +168,160 @@ bool DatabaseController::addVehicle(int customerId, QString mark, QString model,
     } return true;
 }
 
+bool DatabaseController::checkVin(QString vin)
+{
+    if (!db.open()) {
+        qDebug() << "Database is not open:" << db.lastError();
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT 1 FROM vehicles WHERE vin = :vin LIMIT 1"); // Limit to one row, optimizing the query
+    query.bindValue(":vin", vin);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError();
+        return false;
+    }
+
+    if (query.next()) {
+        qDebug() << "Found a vehicle with the given VIN";
+        return true;
+    }
+
+    qDebug() << "No vehicle found with the given VIN";
+    return false;
+}
+
+bool DatabaseController::checkRegistration(QString registration)
+{
+    if (!db.open()) {
+        qDebug() << "Database is not open:" << db.lastError();
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT 1 FROM vehicles WHERE registration_number = :registration LIMIT 1");
+    query.bindValue(":registration", registration);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError();
+        return false;
+    }
+
+    if (query.next()) {
+        qDebug() << "Found a vehicle with the given registration";
+        return true;
+    }
+
+    qDebug() << "No vehicle found with the given registration";
+    return false;
+}
+
+bool DatabaseController::removeVehicle(int id)
+{
+    if (!db.open()) {
+        qDebug() << "Database is not open:" << db.lastError();
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM vehicles WHERE id  =:id");
+    query.bindValue(":id",id);
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError();
+        return false;
+    }
+    qDebug()<<"Vehicle removed successfully";
+    return true;
+}
+
+bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber)
+{
+    QString updateQuery = "UPDATE vehicles SET ";
+    QStringList setClauses;
+
+    if (!mark.isEmpty()) {
+        setClauses.append("mark = ?");
+    }
+    if (!model.isEmpty()) {
+        setClauses.append("model = ?");
+    }
+    if (!year.isEmpty()) {
+        setClauses.append("year = ?");
+    }
+    if (!version.isEmpty()) {
+        setClauses.append("version = ?");
+    }
+    if (!engine.isEmpty()) {
+        setClauses.append("engine = ?");
+    }
+    if (typeId != -1) {  // Zmiana typu, jeżeli nie jest -1
+        setClauses.append("type_id = ?");
+    }
+    if (!type.isEmpty()) {
+        setClauses.append("type = ?");
+    }
+    if (!vin.isEmpty()) {
+        setClauses.append("vin = ?");
+    }
+    if (!registrationNumber.isEmpty()) {
+        setClauses.append("registration_number = ?");
+    }
+
+    if (setClauses.isEmpty()) {
+        qDebug() << "No fields to update.";
+        return false;
+    }
+
+    updateQuery += setClauses.join(", ") + " WHERE id = ?";
+
+    QSqlQuery query;
+    query.prepare(updateQuery);
+
+    // Dodaj wartości do zapytania
+    for (const QString &clause : setClauses) {
+        if (clause.startsWith("mark")) {
+            query.addBindValue(mark);
+            qDebug() << "Updating mark to:" << mark;
+        } else if (clause.startsWith("model")) {
+            query.addBindValue(model);
+            qDebug() << "Updating model to:" << model;
+        } else if (clause.startsWith("year")) {
+            query.addBindValue(year.toInt());  // Upewnij się, że year jest konwertowany na int
+            qDebug() << "Updating year to:" << year;
+        } else if (clause.startsWith("version")) {
+            query.addBindValue(version);
+            qDebug() << "Updating version to:" << version;
+        } else if (clause.startsWith("engine")) {
+            query.addBindValue(engine);
+            qDebug() << "Updating engine to:" << engine;
+        } else if (clause.startsWith("type_id")) {
+            query.addBindValue(typeId);
+            qDebug() << "Updating type_id to:" << typeId;
+        } else if (clause.startsWith("type")) {
+            query.addBindValue(type);
+            qDebug() << "Updating type to:" << type;
+        } else if (clause.startsWith("vin")) {
+            query.addBindValue(vin);
+            qDebug() << "Updating VIN to:" << vin;
+        } else if (clause.startsWith("registration_number")) {
+            query.addBindValue(registrationNumber);
+            qDebug() << "Updating registration_number to:" << registrationNumber;
+        }
+    }
+
+    query.addBindValue(vehicleId);  // Dodajemy ID pojazdu na końcu
+
+    // Wykonujemy zapytanie
+    if (!query.exec()) {
+        qDebug() << "Failed to update vehicle: " << query.lastError().text();
+        return false;
+    }
+    qDebug() << "Vehicle with ID" << vehicleId << "successfully updated.";
+    return true;
+}
+
 void DatabaseController::onFetchVehicles(int customer_id)
 {
     if(!db.open()) {
@@ -227,9 +339,11 @@ void DatabaseController::onFetchVehicles(int customer_id)
             Vehicle *vehicle = new Vehicle(query.value(0).toInt(),type,query.value(1).toString(),query.value(2).toString(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toString(),query.value(8).toString(),query.value(9).toString());
             vehiclesVector.push_back(vehicle);
         }
-        VehicleModel* model = new VehicleModel();
-        model->setData(vehiclesVector);
-        emit vehiclesFetched(model);
+        //VehicleModel* model = new VehicleModel();
+        // qDebug()<<"Vehicles to fetch: "<<vehiclesVector.size();
+        // model->setData(vehiclesVector);
+        // qDebug()<<"After setting data: "<<model->getVehicles().size();
+        emit vehiclesFetched(vehiclesVector);
     }
         else {
             qDebug()<<"Query execution failed: "<<query.lastError();

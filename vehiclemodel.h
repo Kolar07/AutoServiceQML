@@ -41,6 +41,7 @@ public:
 
     QVector<Vehicle *> getVehicles() const;
     Q_INVOKABLE Vehicle* getVehicleByRow(int row) const;
+    Q_INVOKABLE Vehicle* getVehicleById(int id) const;
 
 private:
     QVector<Vehicle*> vehicles;

@@ -36,6 +36,10 @@ public:
     //VEHICLE
     Q_INVOKABLE bool addVehicle(int customerId, QString mark, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
     bool addVehicle(int customerId, Vehicle vehicle);
+    Q_INVOKABLE bool checkVin(QString vin);
+    Q_INVOKABLE bool checkRegistration(QString registration);
+    Q_INVOKABLE bool removeVehicle(int id);
+    Q_INVOKABLE bool updateVehicle(int vehicleId, QString mark, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
     //Q_INVOKABLE bool fetchVehicles(int customer_id);
 
     //SERVICE
@@ -44,7 +48,7 @@ public:
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);
 
-     void vehiclesFetched(VehicleModel *_vehicles); //fetched vehicles for customer
+     void vehiclesFetched(QVector<Vehicle*> vehiclesVector); //fetched vehicles for customer
 
     public slots:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);

@@ -10,6 +10,7 @@ VehicleModel::VehicleModel(VehicleModel &&other) noexcept
 VehicleModel::~VehicleModel()
 {
     qDeleteAll(vehicles);
+    vehicles.clear();
 }
 
 VehicleModel &VehicleModel::operator=(VehicleModel &&other) noexcept {
@@ -89,8 +90,11 @@ QHash<int, QByteArray> VehicleModel::roleNames() const {
 
 void VehicleModel::setData(QVector<Vehicle*> &_vehicles) {
     beginResetModel();
+    qDeleteAll(vehicles);
     vehicles = _vehicles;
-    selected.resize(vehicles.size(), false);
+    selected.fill(false, vehicles.size());
+    // vehicles = _vehicles;
+    // selected.resize(vehicles.size(), false);
     endResetModel();
 }
 
@@ -124,4 +128,17 @@ Vehicle *VehicleModel::getVehicleByRow(int row) const
     if(row >=0 && row < vehicles.size()) {
         return vehicles[row];
     } else return nullptr;
+}
+
+Vehicle *VehicleModel::getVehicleById(int id) const
+{
+    if(id>=0) {
+       auto it = std::find_if(vehicles.begin(), vehicles.end(), [id]( Vehicle *vehicle){
+            return vehicle->getId() == id;
+});
+if (it != vehicles.end()) {
+           return *it;
+        }
+    }
+    return nullptr;
 }

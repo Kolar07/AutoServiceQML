@@ -36,7 +36,7 @@ public: signals:
     void fetchVehicles(int customerId);
 
 public slots:
-    void onVehiclesFetched(VehicleModel *_vehicles);
+    void onVehiclesFetched(QVector<Vehicle*> vehiclesVector);
 
 private:
     int id;
