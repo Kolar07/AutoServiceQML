@@ -499,7 +499,7 @@ Item {
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "Year should contain only digits!"
+		text: "Year should contain only digits! (1900-2025)"
 	    }
 
 	    TextField {
@@ -569,7 +569,7 @@ Item {
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "VIN should contain 17 characters!"
+		text: "VIN should contain 17 characters! (Digits and capital letters without O,I,Q)"
 	    }
 
 	    TextField {
@@ -876,7 +876,7 @@ Item {
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "Year should contain only digits!"
+		text: "VIN should contain 17 characters! (Digits and capital letters without O,I,Q)"
 	    }
 
 	    TextField {

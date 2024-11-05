@@ -19,7 +19,7 @@ bool ValidationController::modelIsValid(QString model) const {
 
 bool ValidationController::yearIsValid(int year) const
 {
-    if(year>=1920 && year <=2025)
+    if(year>=1900 && year <=2025)
         return true;
     return false;
 }
