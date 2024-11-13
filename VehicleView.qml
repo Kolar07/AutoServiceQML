@@ -7,7 +7,7 @@ Item {
     Rectangle {
 	width: parent.width
 	height: parent.height
-	color: "#F9F9F9"
+	color: "#F0F0F0"
 
 	Rectangle {
 	    id: backButton

@@ -10,7 +10,7 @@ ApplicationWindow {
 
     onShowVehicle: {
 	selectedVehicleId = vehicleId;
-	viewLoader.source = "VehicleView.qml"
+	viewLoader.source = "VehicleView.qml";
     }
 
     Loader { //change to stackview so mainview will not be destroyed
