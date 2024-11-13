@@ -3,7 +3,7 @@
 ServiceOil::ServiceOil()
 {}
 
-ServiceOil::ServiceOil(int _id, int _mileage, int _interval_km,QString date,  QString _interval_time, const QString &_service, const QString &_type, const QString _oil, const QString _oilFilter, const QString _airFilter, const QString _cabinFilter)
+ServiceOil::ServiceOil(int _id, int _mileage, int _interval_km,QString date,  int _interval_time, const QString &_service, const QString &_type, const QString _oil, const QString _oilFilter, const QString _airFilter, const QString _cabinFilter)
     : MaintenanceService(_id,_mileage,_interval_km,date,_interval_time,_service,_type),
     oil(_oil),
     oilFilter(_oilFilter),
@@ -13,7 +13,7 @@ ServiceOil::ServiceOil(int _id, int _mileage, int _interval_km,QString date,  QS
 
 }
 
-ServiceOil::ServiceOil(int _mileage, int _interval_km,QString date,  QString _interval_time, const QString &_service, const QString &_type, const QString _oil, const QString _oilFilter, const QString _airFilter, const QString _cabinFilter)
+ServiceOil::ServiceOil(int _mileage, int _interval_km,QString date,  int _interval_time, const QString &_service, const QString &_type, const QString _oil, const QString _oilFilter, const QString _airFilter, const QString _cabinFilter)
     : MaintenanceService(_mileage,_interval_km,date,_interval_time,_service,_type),
     oil(_oil),
     oilFilter(_oilFilter),

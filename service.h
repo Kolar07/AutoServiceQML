@@ -13,7 +13,7 @@ public:
     Service(int _milleage, QString _type, QString date);
 
     virtual void print()=0;
-    virtual QDate getInterval_time()const = 0;
+    virtual int getInterval_time()const = 0;
     int getId() const;
     void setId(int newId);
 

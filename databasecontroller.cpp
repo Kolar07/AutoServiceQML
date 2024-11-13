@@ -351,29 +351,39 @@ void DatabaseController::onFetchVehicles(int customer_id)
         }
 }
 
-bool DatabaseController::addService(int vehicle_id, int mileage, QString type, int interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing)
+bool DatabaseController::addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
         return false;
     }
     QSqlQuery query;
-    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, service_date,interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, service_date,interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing, custom_parts) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
     query.addBindValue(vehicle_id);
-    query.addBindValue(mileage);
+    query.addBindValue(mileage.toInt());
     query.addBindValue(type);
-    query.addBindValue(interval_km);
+    if(interval_time.isEmpty()){
+        query.addBindValue(QVariant());
+    } else {
+        query.addBindValue(interval_km.toInt());
+    }
+
     query.addBindValue(service_date);
-    query.addBindValue(interval_time);
+    if(interval_time.isEmpty()){
+        query.addBindValue(QVariant());
+    } else {
+        query.addBindValue(interval_time.toInt());
+    }
     query.addBindValue(service);
     query.addBindValue(oil);
     query.addBindValue(oilFilter);
     query.addBindValue(airFilter);
     query.addBindValue(cabinFilter);
     query.addBindValue(timing);
+    query.addBindValue(customParts);
 
     if(!query.exec()) {
-        qDebug()<<"Nope "<<query.lastQuery();
+        qDebug()<<"Nope "<<query.lastError();
         return false;
     } return true;
 

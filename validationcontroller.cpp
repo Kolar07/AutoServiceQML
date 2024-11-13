@@ -59,3 +59,81 @@ bool ValidationController::typeIsValid(QString type) const
         return true;
     return false;
 }
+
+bool ValidationController::mileageIsValid(int mileage) const
+{
+    if(mileage>=0)
+        return true;
+    return false;
+}
+
+bool ValidationController::intervalKmIsValid(int intervalKm) const
+{
+    if(intervalKm >=0)
+        return true;
+    return false;
+}
+
+bool ValidationController::serviceDateIsValid(int day, int month, int year) const
+{
+    QDate date;
+    if(date.isValid(year,month,day))
+        return true;
+    return false;
+}
+
+bool ValidationController::intervalTimeIsValid(int months) const
+{
+    if(months>=0)
+        return true;
+    else return false;
+}
+
+bool ValidationController::serviceIsValid(QString service) const
+{
+    if(service != "" && service.length()<=255)
+        return true;
+    return false;
+}
+
+bool ValidationController::oilIsValid(QString oil) const
+{
+    if(oil.length()<=255)
+        return true;
+    else return false;
+}
+
+bool ValidationController::oilFilterIsValid(QString oilFilter) const
+{
+    if(oilFilter.length() <= 255)
+        return true;
+    return false;
+}
+
+bool ValidationController::airFilterIsValid(QString airFilter) const
+{
+    if(airFilter.length()<=255)
+        return true;
+    return false;
+}
+
+bool ValidationController::cabinFilterIsValid(QString cabinFilter) const
+{
+    if(cabinFilter.length() <=255)
+        return true;
+    return false;
+}
+
+bool ValidationController::timingIsValid(QString timing) const
+{
+    if(timing.length() <=255)
+        return true;
+    return false;
+}
+
+bool ValidationController::customPartsIsValid(QString customParts) const
+{
+    if(customParts.length()<=255)
+        return true;
+    else return false;
+}

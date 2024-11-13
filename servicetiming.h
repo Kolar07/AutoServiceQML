@@ -9,8 +9,8 @@ class ServiceTiming : public MaintenanceService
     Q_OBJECT
 public:
     ServiceTiming();
-    ServiceTiming(int _id, int _mileage,int _interval_km,QString date,  QString _interval_time, const QString &_service, const QString &_type, const QString _timing);
-    ServiceTiming(int _mileage,int _interval_km,QString date,  QString _interval_time, const QString &_service, const QString &_type, const QString _timing);
+    ServiceTiming(int _id, int _mileage,int _interval_km,QString date,  int _interval_time, const QString &_service, const QString &_type, const QString _timing);
+    ServiceTiming(int _mileage,int _interval_km,QString date,  int _interval_time, const QString &_service, const QString &_type, const QString _timing);
 
     //void print() override;
 

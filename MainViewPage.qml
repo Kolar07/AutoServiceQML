@@ -330,6 +330,7 @@ Item {
 					parent.scale = 1.07;
 				    }
 				    onClicked: {
+					setSelectedVehicle(customer.getVehicles().getVehicleByRow(row).getId());
 					addServiceDialog.openDialog();
 				    }
 				}

@@ -4,7 +4,8 @@ import QtQuick.Layouts
 
 Item {
     id: addServiceDialogContainer
-    property string type: ""
+    property string type: "MaintenanceService"
+    property string date: ""
     function openDialog() {
 	addServiceDialog.open();
     }
@@ -37,6 +38,7 @@ Item {
 		    text: qsTr("Maintenance Service")
 		    checked: true
 		    onToggled: {
+			clearInputs();
 			if (checked) {
 			    mileageInput.visible = true;
 			    intervalDateInput.visible = true;
@@ -70,6 +72,7 @@ Item {
 		    id: repairRadioButton
 		    text: qsTr("Repair Service")
 		    onToggled: {
+			clearInputs();
 			if (checked) {
 			    mileageInput.visible = true;
 			    intervalDateInput.visible = true;
@@ -104,6 +107,7 @@ Item {
 		    text: qsTr("Oil Service")
 		    onToggled: {
 			onToggled: {
+			    clearInputs();
 			    if (checked) {
 				mileageInput.visible = true;
 				intervalDateInput.visible = true;
@@ -138,6 +142,7 @@ Item {
 		    id: timingRadioButton
 		    text: qsTr("Timing Service")
 		    onToggled: {
+			clearInputs();
 			if (checked) {
 			    mileageInput.visible = true;
 			    intervalDateInput.visible = true;
@@ -238,273 +243,380 @@ Item {
 		}
 	    }
 
-	    Row {
-		spacing: 5
-		TextField {
-		    id: mileageInput
-		    background: Rectangle {
-			id: markTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: markTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Mileage...                      "
-		}
-
-		Label {
-		    id: wrongMileageInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Mileage should contain only digits!"
-		}
-
-		TextField {
-		    id: intervalKmInput
-		    background: Rectangle {
-			id: intervalKmTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: intervalKmTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Interval kilometers...                      "
-		}
-
-		Label {
-		    id: wrongIntervalKmInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Interval kilometers should contain only digits!"
-		}
-	    }
-	    Row {
-		spacing: 5
-		TextField {
-		    id: intervalDateInput
-		    background: Rectangle {
-			id: intervalDateTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: intervalDateTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Interval in months                      "
-		}
-
-		Label {
-		    id: wrongIntervalDateInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Interval months should contain only digits!"
-		}
-
-		TextField {
-		    id: serviceInput
-		    background: Rectangle {
-			id: serviceTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: serviceTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Service...                      "
-		}
-
-		Label {
-		    id: wrongServiceInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong service input!"
-		}
+	    Label {
+		id: wrongServiceDateInput
+		text: "Invalid date"
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		anchors.horizontalCenter: parent.horizontalCenter
 	    }
 
 	    Row {
 		spacing: 5
-		TextField {
-		    id: oilInput
-		    background: Rectangle {
-			id: oilTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
+		Column {
+		    TextField {
+			id: mileageInput
+			background: Rectangle {
+			    id: markTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: markTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Mileage...                      "
+			validator: RegularExpressionValidator {
+			    regularExpression: /^\d+$/
+			}
 		    }
-		    implicitWidth: oilTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Oil...                      "
-		    visible: false
-		}
 
-		Label {
-		    id: wrongOilInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong oil input!"
-		}
-
-		TextField {
-		    id: oilFilterInput
-		    background: Rectangle {
-			id: oilFilterTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
+		    Label {
+			id: wrongMileageInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Mileage should be 0 or more and contain only digits!"
 		    }
-		    implicitWidth: oilFilterTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Oil filter...                      "
-		    visible: false
 		}
+		Column {
+		    TextField {
+			id: intervalKmInput
+			background: Rectangle {
+			    id: intervalKmTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: intervalKmTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Interval kilometers...                      "
+		    }
 
-		Label {
-		    id: wrongOilFilterInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong oil filter input!"
+		    Label {
+			id: wrongIntervalKmInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Interval kilometers should contain only digits!"
+		    }
 		}
 	    }
 	    Row {
 		spacing: 5
-		TextField {
-		    id: airFilterInput
-		    background: Rectangle {
-			id: airFilterTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
+		Column {
+		    TextField {
+			id: intervalDateInput
+			background: Rectangle {
+			    id: intervalDateTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: intervalDateTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Interval in months                      "
 		    }
-		    implicitWidth: airFilterTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Air filter...                      "
-		    visible: false
-		}
 
-		Label {
-		    id: wrongAirFilterInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong air filter input!"
-		}
-
-		TextField {
-		    id: cabinFilterInput
-		    background: Rectangle {
-			id: cabinFilterTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
+		    Label {
+			id: wrongIntervalDateInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Interval months should contain only digits!"
 		    }
-		    implicitWidth: oilFilterTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Cabin filter...                      "
-		    visible: false
 		}
+		Column {
 
-		Label {
-		    id: wrongCabinFilterInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong cabin filter input!"
+		    TextField {
+			id: serviceInput
+			background: Rectangle {
+			    id: serviceTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: serviceTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Service...                      "
+		    }
+
+		    Label {
+			id: wrongServiceInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong service input!"
+		    }
 		}
 	    }
 
 	    Row {
 		spacing: 5
-		TextField {
-		    id: timingInput
-		    background: Rectangle {
-			id: timingTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
+		Column {
+		    TextField {
+			id: oilInput
+			background: Rectangle {
+			    id: oilTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: oilTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Oil...                      "
+			visible: false
 		    }
-		    implicitWidth: timingTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Timing...                      "
-		    visible: false
-		}
 
-		Label {
-		    id: wrongTimingInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong timing input!"
-		}
-
-		TextField {
-		    id: partsInput
-		    background: Rectangle {
-			id: partsTextRect
-			color: "white"
-			radius: 10
-			width: 350
-			height: 30
-			border.color: "lightgray"
+		    Label {
+			id: wrongOilInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong oil input!"
 		    }
-		    implicitWidth: partsTextRect.width
-		    wrapMode: "Wrap"
-		    font.pixelSize: 15
-		    placeholderText: "Repair parts...            "
-		    visible: false
 		}
+		Column {
 
-		Label {
-		    id: wrongPartsInput
-		    visible: false
-		    font.pixelSize: 10
-		    color: "red"
-		    text: "Wrong parts input!"
+		    TextField {
+			id: oilFilterInput
+			background: Rectangle {
+			    id: oilFilterTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: oilFilterTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Oil filter...                      "
+			visible: false
+		    }
+
+		    Label {
+			id: wrongOilFilterInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong oil filter input!"
+		    }
+		}
+	    }
+	    Row {
+		spacing: 5
+		Column {
+		    TextField {
+			id: airFilterInput
+			background: Rectangle {
+			    id: airFilterTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: airFilterTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Air filter...                      "
+			visible: false
+		    }
+
+		    Label {
+			id: wrongAirFilterInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong air filter input!"
+		    }
+		}
+		Column {
+
+		    TextField {
+			id: cabinFilterInput
+			background: Rectangle {
+			    id: cabinFilterTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: oilFilterTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Cabin filter...                      "
+			visible: false
+		    }
+
+		    Label {
+			id: wrongCabinFilterInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong cabin filter input!"
+		    }
+		}
+	    }
+
+	    Row {
+		spacing: 5
+		Column {
+		    TextField {
+			id: timingInput
+			background: Rectangle {
+			    id: timingTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: timingTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Timing...                      "
+			visible: false
+		    }
+
+		    Label {
+			id: wrongTimingInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong timing input!"
+		    }
+		}
+		Column {
+
+		    TextField {
+			id: partsInput
+			background: Rectangle {
+			    id: partsTextRect
+			    color: "white"
+			    radius: 10
+			    width: 350
+			    height: 30
+			    border.color: "lightgray"
+			}
+			implicitWidth: partsTextRect.width
+			wrapMode: "Wrap"
+			font.pixelSize: 15
+			placeholderText: "Repair parts...            "
+			visible: false
+		    }
+
+		    Label {
+			id: wrongPartsInput
+			visible: false
+			font.pixelSize: 10
+			color: "red"
+			text: "Wrong parts input!"
+		    }
 		}
 	    }
 
 	    Row {
 		spacing: 5
 		anchors.horizontalCenter: parent.horizontalCenter
+
+		Button {
+		    text: "Ok"
+		    onClicked: {
+			let isValid = true;
+			if (!valid.mileageIsValid(mileageInput.text)) {
+			    wrongMileageInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongMileageInput.visible = false;
+			if (!valid.intervalKmIsValid(intervalKmInput.text)) {
+			    wrongIntervalKmInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongIntervalKmInput.visible = false;
+			if (!valid.serviceDateIsValid(ddInput.text, mmInput.text, yyInput.text)) {
+			    wrongServiceDateInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongServiceDateInput.visible = false;
+			if (!valid.serviceIsValid(serviceInput.text)) {
+			    wrongServiceInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongServiceInput.visible = false;
+			if (!valid.oilIsValid(oilInput.text)) {
+			    wrongOilInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongOilInput.visible = false;
+			if (!valid.oilFilterIsValid(oilFilterInput.text)) {
+			    wrongOilFilterInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongOilFilterInput.visible = false;
+			if (!valid.airFilterIsValid(airFilterInput.text)) {
+			    wrongAirFilterInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongAirFilterInput.visible = false;
+			if (!valid.cabinFilterIsValid(cabinFilterInput.text)) {
+			    wrongCabinFilterInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongCabinFilterInput.visible = false;
+			if (!valid.timingIsValid(timingInput.text)) {
+			    wrongTimingInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongTimingInput.visible = false;
+			if (!valid.customPartsIsValid(partsInput.text)) {
+			    wrongPartsInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongPartsInput.visible = false;
+			if (isValid) {
+			    date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
+			    if (dbController.addService(customer.getVehicles().getVehicleById(selectedVehicleId).getId(), mileageInput.text, type, intervalKmInput.text, date, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text))
+				;
+			    {
+				console.log("Service added successfully");
+				addServiceDialog.close();
+			    }
+			}
+		    }
+		}
+
 		Button {
 		    text: "Cancel"
 		    onClicked: addServiceDialog.close()
 		}
 	    }
 	}
+    }
+
+    function clearInputs() {
+	oilInput.text = "";
+	oilFilterInput.text = "";
+	timingInput.text = "";
+	cabinFilterInput.text = "";
+	airFilterInput.text = "";
+	partsInput.text = "";
     }
 }

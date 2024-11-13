@@ -43,7 +43,7 @@ public:
     //Q_INVOKABLE bool fetchVehicles(int customer_id);
 
     //SERVICE
-    bool addService(int vehicle_id, int mileage, QString type, int interval_km, QString service_date,QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing);
+    Q_INVOKABLE bool addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date,QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts);
 
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);

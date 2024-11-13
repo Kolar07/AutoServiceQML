@@ -49,7 +49,7 @@ QVariant ServiceModel::data(const QModelIndex &index, int role) const
     if (auto repairService = dynamic_cast<RepairService*>(service.get())) {
         if (role == CustomPartsRole) return repairService->getCustomParts();
         if(role == IntervalKmRole) return repairService->getInterval_km();
-        if(role == IntervalTimeRole) return repairService->getInterval_time().toString("yyyy-MM-dd");
+        if(role == IntervalTimeRole) return repairService->getInterval_time();
         if(role == ServiceRole) return repairService->getService();
     }
 
@@ -59,20 +59,20 @@ QVariant ServiceModel::data(const QModelIndex &index, int role) const
         if(role == AirFilterRole) return oilService->getAirFilter();
         if(role == CabinFilterRole) return oilService->getCabinFilter();
         if(role == IntervalKmRole) return oilService->getInterval_km();
-        if(role == IntervalTimeRole) return oilService->getInterval_time().toString("yyyy-MM-dd");
+        if(role == IntervalTimeRole) return oilService->getInterval_time();
         if(role == ServiceRole) return oilService->getService();
     }
 
     else if(auto timingService = dynamic_cast<ServiceTiming*>(service.get())) {
         if(role == TimingRole) return timingService->getTiming();
         if(role == IntervalKmRole) return timingService->getInterval_km();
-        if(role == IntervalTimeRole) return timingService->getInterval_time().toString("yyyy-MM-dd");
+        if(role == IntervalTimeRole) return timingService->getInterval_time();
         if(role == ServiceRole) return timingService->getService();
     }
 
     else if(auto maintenanceService = dynamic_cast<MaintenanceService*>(service.get())) {
         if(role == IntervalKmRole) return maintenanceService->getInterval_km();
-        if(role == IntervalTimeRole) return maintenanceService->getInterval_time().toString("yyyy-MM-dd");
+        if(role == IntervalTimeRole) return maintenanceService->getInterval_time();
         if(role == ServiceRole) return maintenanceService->getService();
     }
 
