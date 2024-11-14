@@ -308,6 +308,7 @@ Item {
 	    anchors.rightMargin: 20
 	    anchors.bottomMargin: 30
 	    radius: 30
+	    clip: true
 
 	    HorizontalHeaderView {
 		id: horizontalHeader
@@ -677,6 +678,10 @@ Item {
 			    //}
 			}
 		    }
+		}
+		ScrollBar.horizontal: ScrollBar {
+		    policy: ScrollBar.AlwaysOn
+		    anchors.bottom: parent.bottom
 		}
 	    }
 	}

@@ -90,7 +90,13 @@ QHash<int, QByteArray> VehicleModel::roleNames() const {
 
 void VehicleModel::setData(QVector<Vehicle*> &_vehicles) {
     beginResetModel();
+    qDebug()<<"SetData activated";
     qDeleteAll(vehicles);
+    vehicles.clear();
+    for (Vehicle* vehicle : _vehicles) {
+        vehicle->setParent(this);
+        QQmlEngine::setObjectOwnership(vehicle, QQmlEngine::CppOwnership); // QML can not delete objects now
+    }
     vehicles = _vehicles;
     selected.fill(false, vehicles.size());
     // vehicles = _vehicles;

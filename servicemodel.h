@@ -8,6 +8,7 @@
 #include "servicetiming.h"
 #include "repairservice.h"
 #include "maintenanceservice.h"
+#include <QQmlEngine>
 
 class ServiceModel : public QAbstractTableModel
 {

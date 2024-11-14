@@ -7,6 +7,7 @@
 #include "vehicletype.h"
 #include <QDebug>
 #include "servicemodel.h"
+#include <QQmlEngine>
 
 class Vehicle : public QObject
 {
