@@ -337,12 +337,13 @@ void DatabaseController::onFetchVehicles(int customer_id)
         while(query.next()) {
             VehicleType type(query.value(6).toInt(), query.value(7).toString());
             Vehicle *vehicle = new Vehicle(query.value(0).toInt(),type,query.value(1).toString(),query.value(2).toString(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toString(),query.value(8).toString(),query.value(9).toString());
+            connect(this, &DatabaseController::servicesFetched, vehicle, &Vehicle::onFetchedServices);
+            connect(vehicle, &Vehicle::fetchServices, this, &DatabaseController::onFetchServices);
+            emit vehicle->fetchServices(vehicle->getId());
+            disconnect(this, &DatabaseController::servicesFetched, vehicle, &Vehicle::onFetchedServices);
+            disconnect(vehicle, &Vehicle::fetchServices, this, &DatabaseController::onFetchServices);
             vehiclesVector.push_back(vehicle);
         }
-        //VehicleModel* model = new VehicleModel();
-        // qDebug()<<"Vehicles to fetch: "<<vehiclesVector.size();
-        // model->setData(vehiclesVector);
-        // qDebug()<<"After setting data: "<<model->getVehicles().size();
         emit vehiclesFetched(vehiclesVector);
     }
         else {
@@ -350,6 +351,43 @@ void DatabaseController::onFetchVehicles(int customer_id)
             return;
         }
 }
+
+void DatabaseController::onFetchServices(int vehicleId)
+{
+    qDebug()<<"Started fetching services for vehicle id: "<<vehicleId;
+
+    if(!db.open()) {
+        qDebug()<<"Database is not open!"<<db.lastError();
+        return;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT id, mileage,type,interval_km,service_date,interval_time,service,oil,oil_filter,air_filter,cabin_filter,timing,custom_parts FROM services WHERE vehicle_id = :vehicleId");
+    query.bindValue(":vehicleId", vehicleId);
+    if(query.exec()) {
+        QVector<std::shared_ptr<Service>> services;
+        while(query.next()) {
+            if(query.value(2).toString() == "MaintenanceService") {
+                std::shared_ptr<Service> service = std::make_shared<MaintenanceService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString());
+                services.push_back(std::move(service));
+            } else if(query.value(2).toString() == "RepairService") {
+                std::shared_ptr<Service> service = std::make_shared<RepairService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(12).toString());
+                services.push_back(std::move(service));
+            } else if(query.value(2).toString() == "ServiceOil") {
+                std::shared_ptr<Service> service = std::make_shared<ServiceOil>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(7).toString(), query.value(8).toString(),query.value(9).toString(), query.value(10).toString());
+                services.push_back(std::move(service));
+            } else if(query.value(2).toString() == "ServiceTiming") {
+                std::shared_ptr<Service> service = std::make_shared<ServiceTiming>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(11).toString());
+                services.push_back(std::move(service));
+            } else return;
+        }
+        qDebug()<<"Services successfully fetched.";
+        emit servicesFetched(vehicleId,services);
+    } else {
+        qDebug()<<"Query execution failed: "<<query.lastError();
+        return;
+    }
+}
+
 
 bool DatabaseController::addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts)
 {

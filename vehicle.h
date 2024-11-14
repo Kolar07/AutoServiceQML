@@ -56,6 +56,12 @@ public:
     Q_INVOKABLE ServiceModel *getServices();
     void setServices(ServiceModel *newServices);
 
+ signals:
+    void fetchServices(int id);
+
+ public slots:
+    void onFetchedServices(int vehicleId,QVector<std::shared_ptr<Service>> services);
+
 private:
     int id;
     VehicleType type;

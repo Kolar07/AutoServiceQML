@@ -65,16 +65,21 @@ void Customer::print() const
 
 VehicleModel* Customer::getVehicles()
 {
-    qDebug()<<"Returning vehicles";
+    //qDebug()<<"Returning vehicles";
     return vehicles;
 }
 
 void Customer::onVehiclesFetched(QVector<Vehicle *> vehiclesVector)
 {
-    if(!vehiclesVector.empty())
+    if(!vehiclesVector.empty()) {
         qDebug()<<"From customer - setting vehicles, size: "<<vehiclesVector.size();
     vehicles->setData(vehiclesVector);
     qDebug()<<"From customer - after setting vehicles: "<<vehicles->getVehicles().size();
+    qDebug()<<"Vehicles services size: ";
+    // for(int i = 0; i<vehicles->getVehicles().size(); i++) {
+    //     qDebug()<<vehicles->getVehicleByRow(i)->getServices()->getServices().size();
+    // }
+    } else return;
 }
 
 void Customer::setVehicles(VehicleModel *newVehicles)

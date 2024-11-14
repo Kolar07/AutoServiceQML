@@ -10,6 +10,11 @@
 #include <QDate>
 #include "vehicle.h"
 #include "customer.h"
+#include "service.h"
+#include "maintenanceservice.h"
+#include "repairservice.h"
+#include "serviceoil.h"
+#include "servicetiming.h"
 
 class DatabaseController : public QObject
 {
@@ -47,14 +52,17 @@ public:
 
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);
+    void vehiclesFetched(QVector<Vehicle*> vehiclesVector); //fetched vehicles for customer
+    void servicesFetched(int vehicleId, QVector<std::shared_ptr<Service>> services); //fetches services for vehicle
 
-     void vehiclesFetched(QVector<Vehicle*> vehiclesVector); //fetched vehicles for customer
+
 
     public slots:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);
     //void customerPasswordChanged(const int &id, const QString &newPassword);
 
     void onFetchVehicles(int customerId); //from customer's signal fetchVehicles
+    void onFetchServices(int vehicleId); //from vehicle's signal fetchServices
 
 private:
     QSqlDatabase db;

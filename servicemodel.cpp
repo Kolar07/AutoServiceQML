@@ -153,3 +153,8 @@ QVector<std::shared_ptr<Service> > ServiceModel::getSelectedServices() const
     }
     return selectedServices;
 }
+
+QVector<std::shared_ptr<Service> > ServiceModel::getServices() const
+{
+    return services;
+}

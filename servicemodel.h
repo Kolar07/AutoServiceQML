@@ -46,6 +46,8 @@ public:
     Q_INVOKABLE QVector<std::shared_ptr<Service>> getSelectedServices() const;
 
 
+    QVector<std::shared_ptr<Service> > getServices() const;
+
 private:
     QVector<std::shared_ptr<Service>> services;
     QVector<bool> selectedServices;

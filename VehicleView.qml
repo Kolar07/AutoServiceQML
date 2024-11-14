@@ -346,7 +346,7 @@ Item {
 		columnSpacing: 1
 		rowSpacing: 1
 
-		model: customer.getVehicles().getVehicleByRow(selectedVehicleId).getServices()
+		model: customer.getVehicles().getVehicleById(selectedVehicleId).getServices()
 
 		columnWidthProvider: function (column) {
 		    let width = explicitColumnWidth(column);

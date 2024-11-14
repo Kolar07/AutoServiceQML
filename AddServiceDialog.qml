@@ -122,7 +122,7 @@ Item {
 				cabinFilterInput.visible = true;
 				airFilterInput.visible = true;
 				partsInput.visible = false;
-				type = "OilService";
+				type = "ServiceOil";
 			    } else {
 				wrongMileageInput.visible = false;
 				wrongAirFilterInput.visible = false;
@@ -157,7 +157,7 @@ Item {
 			    cabinFilterInput.visible = false;
 			    airFilterInput.visible = false;
 			    partsInput.visible = false;
-			    type = "TimingService";
+			    type = "ServiceTiming";
 			} else {
 			    wrongMileageInput.visible = false;
 			    wrongAirFilterInput.visible = false;
