@@ -14,16 +14,16 @@ public:
 
     virtual void print()=0;
     virtual int getInterval_time()const = 0;
-    int getId() const;
+    Q_INVOKABLE int getId() const;
     void setId(int newId);
 
-    int getMilleage() const;
+    Q_INVOKABLE int getMileage() const;
     void setMilleage(int newMilleage);
 
-    QString getType() const;
+    Q_INVOKABLE QString getType() const;
     void setType(const QString &newType);
 
-    QDate getServiceDate() const;
+    Q_INVOKABLE QDate getServiceDate() const;
     void setServiceDate(const QDate &newServiceDate);
 
 private:

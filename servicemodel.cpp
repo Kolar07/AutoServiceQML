@@ -40,7 +40,7 @@ QVariant ServiceModel::data(const QModelIndex &index, int role) const
 
     switch(role) {
     case IdRole: return service->getId();
-    case MileageRole: return service->getMilleage();
+    case MileageRole: return service->getMileage();
     case TypeRole: return service->getType();
     case ServiceDateRole: return service->getServiceDate().toString("yyyy-MM-dd");
     case SelectedRole: return selectedServices.at(index.row());
@@ -125,11 +125,17 @@ QHash<int, QByteArray> ServiceModel::roleNames() const
     return roles;
 }
 
-void ServiceModel::setData(QVector<std::shared_ptr<Service> > &_services)
+void ServiceModel::setData(QVector<std::shared_ptr<Service>> &_services)
 {
     beginResetModel();
-    services = _services;
+
+    for (auto& service : _services) {
+        service->setParent(this);
+    }
+
+    services = std::move(_services);
     selectedServices.resize(services.size(), false);
+
     endResetModel();
 }
 
@@ -157,4 +163,62 @@ QVector<std::shared_ptr<Service> > ServiceModel::getSelectedServices() const
 QVector<std::shared_ptr<Service> > ServiceModel::getServices() const
 {
     return services;
+}
+
+std::shared_ptr<Service> ServiceModel::getServiceByRow(int row) const
+{
+    if(row >=0 && row < services.size()) {
+        qDebug()<<"Service by row: "<<row<<" id:" <<services[row]->getId();
+        return services[row];
+    } else return nullptr;
+}
+
+std::shared_ptr<Service> ServiceModel::getServiceById(int id) const
+{
+    if(id>=0) {
+        auto it = std::find_if(services.begin(), services.end(), [id]( std::shared_ptr<Service> service){
+            return service->getId() == id;
+        });
+        if (it != services.end()) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
+QObject* ServiceModel::getServiceByRowQML(int row) const
+{
+    if (row >= 0 && row < services.size()) {
+        Service* service = services[row].get();
+
+        if (!service->parent()) {
+            service->setParent(const_cast<ServiceModel*>(this));
+                    qDebug()<<"Now has a parent";
+        }
+
+        return service;
+    } else {
+        return nullptr;
+    }
+}
+
+
+QObject* ServiceModel::getServiceByIdQML(int id) const
+{
+    if (id >= 0) {
+        auto it = std::find_if(services.begin(), services.end(), [id](std::shared_ptr<Service> service) {
+            return service->getId() == id;
+        });
+
+        if (it != services.end()) {
+            Service* service = it->get();
+
+            if (!service->parent()) {
+                service->setParent(const_cast<ServiceModel*>(this));
+                qDebug()<<"Now has a parent";
+            }
+            return service;
+        }
+    }
+    return nullptr;
 }

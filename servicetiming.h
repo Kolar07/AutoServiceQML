@@ -14,7 +14,7 @@ public:
 
     //void print() override;
 
-    QString getTiming() const;
+    Q_INVOKABLE QString getTiming() const;
     void setTiming(const QString &newTiming);
 
 private:

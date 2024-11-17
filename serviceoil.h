@@ -14,16 +14,16 @@ public:
 
     //oid print() override;
 
-    QString getOil() const;
+    Q_INVOKABLE QString getOil() const;
     void setOil(const QString &newOil);
 
-    QString getOilFilter() const;
+    Q_INVOKABLE QString getOilFilter() const;
     void setOilFilter(const QString &newOilFilter);
 
-    QString getAirFilter() const;
+    Q_INVOKABLE QString getAirFilter() const;
     void setAirFilter(const QString &newAirFilter);
 
-    QString getCabinFilter() const;
+    Q_INVOKABLE QString getCabinFilter() const;
     void setCabinFilter(const QString &newCabinFIlter);
 
 private:

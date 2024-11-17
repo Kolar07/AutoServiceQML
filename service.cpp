@@ -37,7 +37,7 @@ void Service::setId(int newId)
     id = newId;
 }
 
-int Service::getMilleage() const
+int Service::getMileage() const
 {
     return mileage;
 }

@@ -3,7 +3,7 @@ import QtQuick.Controls 2
 import QtQuick.Effects
 
 Item {
-
+    property int selectedServiceId: -1
     Rectangle {
 	width: parent.width
 	height: parent.height
@@ -308,18 +308,21 @@ Item {
 	    anchors.rightMargin: 20
 	    anchors.bottomMargin: 30
 	    radius: 30
+	    layer.enabled: true
 	    clip: true
 
 	    HorizontalHeaderView {
 		id: horizontalHeader
 		anchors.left: tableView.left
 		anchors.top: parent.top
+		anchors.topMargin: 10
 		syncView: tableView
 		clip: true
 		resizableColumns: true
 
 		delegate: Rectangle {
 		    color: "black"
+		    implicitHeight: 50
 		    //height: 30
 		    //width: tableView.width / 5
 		    //border.color: "black"
@@ -330,6 +333,7 @@ Item {
 			font.bold: true
 			wrapMode: "Wrap"
 		    }
+		    clip: true
 		}
 	    }
 
@@ -339,10 +343,14 @@ Item {
 		//anchors.left: parent.left
 		//anchors.right: parent.right
 		anchors.bottom: parent.bottom
+		anchors.bottomMargin: 10
 		//anchors.margins: 20
 		anchors.horizontalCenter: parent.horizontalCenter
-		width: 1180
-		//width: 1250
+		//width: 1180
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.rightMargin: 10
+		anchors.leftMargin: 10
 		clip: true
 		columnSpacing: 1
 		rowSpacing: 1
@@ -413,6 +421,7 @@ Item {
 		    height: 50
 		    color: "white"
 		    border.color: "#cccccc"
+		    clip: true
 
 		    Loader {
 			anchors.fill: parent
@@ -420,7 +429,7 @@ Item {
 			sourceComponent: {
 			    if (column === 0) {
 				return checkBoxServiceDelegate;
-			    } else if (column === 10)
+			    } else if (column === 14)
 				return actionFieldDelegate;
 			    else
 				return textDelegate;
@@ -433,6 +442,7 @@ Item {
 			    width: parent.width
 			    height: parent.height
 			    color: "lightgray"
+			    clip: true
 
 			    Text {
 				anchors.fill: parent
@@ -483,41 +493,7 @@ Item {
 			    width: parent.width
 			    height: parent.height
 			    color: "lightgray"
-
-			    // CheckBox {
-			    //     id: control
-			    //     checked: false
-
-			    //     anchors.centerIn: parent
-
-			    //     indicator: Rectangle {
-			    // 	implicitWidth: 26
-			    // 	implicitHeight: 26
-			    // 	radius: 3
-			    // 	border.color: control.down ? "black" : "black"
-			    // 	anchors.centerIn: parent
-
-			    // 	Rectangle {
-			    // 	    width: 14
-			    // 	    height: 14
-			    // 	    x: 6
-			    // 	    y: 6
-			    // 	    radius: 2
-			    // 	    color: control.down ? "black" : "black"
-			    // 	    visible: control.checked
-			    // 	}
-			    // 	onCheckedChanged: {}
-			    //     }
-
-			    //    contentItem: Text {
-			    // //text: control.text
-			    // font: control.font
-			    // opacity: enabled ? 1.0 : 0.3
-			    // color: control.down ? "#17a81a" : "#21be2b"
-			    // verticalAlignment: Text.AlignVCenter
-			    // leftPadding: control.indicator.width + control.spacing
-			    //    }
-			    //}
+			    clip: true
 
 			    CheckBox {
 				anchors.centerIn: parent
@@ -537,151 +513,130 @@ Item {
 			    width: parent.width
 			    height: parent.height
 			    color: "lightgray"
+			    clip: true
 
-			    // Row {
-			    //     anchors.horizontalCenter: parent.horizontalCenter
-			    //     anchors.verticalCenter: parent.verticalCenter
-			    //     spacing: 4
+			    Row {
+				anchors.horizontalCenter: parent.horizontalCenter
+				anchors.verticalCenter: parent.verticalCenter
+				spacing: 4
 
-			    //     Rectangle {
-			    // 	id: showVehicleButton
-			    // 	width: 30
-			    // 	height: 30
-			    // 	color: "white"
-			    // 	radius: 5
-			    // 	border.color: "black"
-			    // 	scale: 1.0
-			    // 	Image {
-			    // 	    anchors.centerIn: parent
-			    // 	    width: parent.width - 4
-			    // 	    height: parent.height - 4
-			    // 	    source: "qrc:/assets/magnifier.png"
-			    // 	    fillMode: Image.PreserveAspectFit
-			    // 	}
-			    // 	MouseArea {
-			    // 	    anchors.fill: parent
-			    // 	    hoverEnabled: true
-			    // 	    onEntered: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	    onExited: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onPressed: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onReleased: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	}
-			    //     }
+				Rectangle {
+				    id: showServiceButton
+				    width: 30
+				    height: 30
+				    color: "white"
+				    radius: 5
+				    border.color: "black"
+				    scale: 1.0
+				    Image {
+					anchors.centerIn: parent
+					width: parent.width - 4
+					height: parent.height - 4
+					source: "qrc:/assets/magnifier.png"
+					fillMode: Image.PreserveAspectFit
+				    }
+				    MouseArea {
+					anchors.fill: parent
+					hoverEnabled: true
+					onEntered: {
+					    parent.scale = 1.07;
+					}
+					onExited: {
+					    parent.scale = 1.0;
+					}
+					onPressed: {
+					    parent.scale = 1.0;
+					}
+					onReleased: {
+					    parent.scale = 1.07;
+					}
+					onClicked: {
+					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					}
+				    }
+				}
 
-			    //     Rectangle {
-			    // 	id: addServiceButton
-			    // 	width: 30
-			    // 	height: 30
-			    // 	color: "white"
-			    // 	radius: 5
-			    // 	border.color: "black"
-			    // 	scale: 1.0
-			    // 	Image {
-			    // 	    anchors.centerIn: parent
-			    // 	    width: parent.width - 4
-			    // 	    height: parent.height - 4
-			    // 	    source: "qrc:/assets/addService2.png"
-			    // 	    fillMode: Image.PreserveAspectFit
-			    // 	}
-			    // 	MouseArea {
-			    // 	    anchors.fill: parent
-			    // 	    hoverEnabled: true
-			    // 	    onEntered: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	    onExited: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onPressed: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onReleased: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	}
-			    //     }
+				Rectangle {
+				    id: editServiceButton
+				    width: 30
+				    height: 30
+				    color: "white"
+				    radius: 5
+				    border.color: "black"
+				    scale: 1.0
+				    Image {
+					anchors.centerIn: parent
+					width: parent.width - 4
+					height: parent.height - 4
+					source: "qrc:/assets/edit2.png"
+					fillMode: Image.PreserveAspectFit
+				    }
+				    MouseArea {
+					anchors.fill: parent
+					hoverEnabled: true
+					onEntered: {
+					    parent.scale = 1.07;
+					}
+					onExited: {
+					    parent.scale = 1.0;
+					}
+					onPressed: {
+					    parent.scale = 1.0;
+					}
+					onReleased: {
+					    parent.scale = 1.07;
+					}
+					onClicked: {
+					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					    editServiceDialog.openDialog();
+					}
+				    }
+				}
 
-			    //     Rectangle {
-			    // 	id: editVehicleButton
-			    // 	width: 30
-			    // 	height: 30
-			    // 	color: "white"
-			    // 	radius: 5
-			    // 	border.color: "black"
-			    // 	scale: 1.0
-			    // 	Image {
-			    // 	    anchors.centerIn: parent
-			    // 	    width: parent.width - 4
-			    // 	    height: parent.height - 4
-			    // 	    source: "qrc:/assets/edit2.png"
-			    // 	    fillMode: Image.PreserveAspectFit
-			    // 	}
-			    // 	MouseArea {
-			    // 	    anchors.fill: parent
-			    // 	    hoverEnabled: true
-			    // 	    onEntered: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	    onExited: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onPressed: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onReleased: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	}
-			    //     }
-			    //     Rectangle {
-			    // 	id: removeVehicleButton
-			    // 	width: 30
-			    // 	height: 30
-			    // 	color: "white"
-			    // 	radius: 5
-			    // 	border.color: "black"
-			    // 	scale: 1.0
-			    // 	Image {
-			    // 	    anchors.centerIn: parent
-			    // 	    width: parent.width - 4
-			    // 	    height: parent.height - 4
-			    // 	    source: "qrc:/assets/delete.png"
-			    // 	    fillMode: Image.PreserveAspectFit
-			    // 	}
-
-			    // 	MouseArea {
-			    // 	    anchors.fill: parent
-			    // 	    hoverEnabled: true
-			    // 	    onEntered: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	    onExited: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-
-			    // 	    onPressed: {
-			    // 		parent.scale = 1.0;
-			    // 	    }
-			    // 	    onReleased: {
-			    // 		parent.scale = 1.07;
-			    // 	    }
-			    // 	}
-			    //     }
-			    //}
+				Rectangle {
+				    id: removeServiceButton
+				    width: 30
+				    height: 30
+				    color: "white"
+				    radius: 5
+				    border.color: "black"
+				    scale: 1.0
+				    Image {
+					anchors.centerIn: parent
+					width: parent.width - 4
+					height: parent.height - 4
+					source: "qrc:/assets/delete.png"
+					fillMode: Image.PreserveAspectFit
+				    }
+				    MouseArea {
+					anchors.fill: parent
+					hoverEnabled: true
+					onEntered: {
+					    parent.scale = 1.07;
+					}
+					onExited: {
+					    parent.scale = 1.0;
+					}
+					onPressed: {
+					    parent.scale = 1.0;
+					}
+					onReleased: {
+					    parent.scale = 1.07;
+					}
+					onClicked: {
+					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					    console.log("Service id: " + selectedServiceId);
+					}
+				    }
+				}
+			    }
 			}
 		    }
 		}
 		ScrollBar.horizontal: ScrollBar {
 		    policy: ScrollBar.AlwaysOn
 		    anchors.bottom: parent.bottom
+		    clip: true
 		}
 	    }
 	}
@@ -694,5 +649,13 @@ Item {
 	    shadowVerticalOffset: 0
 	    shadowHorizontalOffset: 0
 	}
+    }
+
+    EditServiceDialog {
+	id: editServiceDialog
+    }
+
+    function setSelectedService(serviceId) {
+	selectedServiceId = serviceId;
     }
 }

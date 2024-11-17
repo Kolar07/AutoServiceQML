@@ -567,6 +567,7 @@ Item {
 	selectedVehicleId = vehicleId;
     }
 
+
     function goBack() {
 	viewLoader.source = "";
     }

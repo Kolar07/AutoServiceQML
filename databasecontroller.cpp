@@ -256,7 +256,7 @@ bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString mode
     if (!engine.isEmpty()) {
         setClauses.append("engine = ?");
     }
-    if (typeId != -1) {  // Zmiana typu, jeżeli nie jest -1
+    if (typeId != -1) {
         setClauses.append("type_id = ?");
     }
     if (!type.isEmpty()) {
@@ -279,7 +279,6 @@ bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString mode
     QSqlQuery query;
     query.prepare(updateQuery);
 
-    // Dodaj wartości do zapytania
     for (const QString &clause : setClauses) {
         if (clause.startsWith("mark")) {
             query.addBindValue(mark);
@@ -288,7 +287,7 @@ bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString mode
             query.addBindValue(model);
             qDebug() << "Updating model to:" << model;
         } else if (clause.startsWith("year")) {
-            query.addBindValue(year.toInt());  // Upewnij się, że year jest konwertowany na int
+            query.addBindValue(year.toInt());
             qDebug() << "Updating year to:" << year;
         } else if (clause.startsWith("version")) {
             query.addBindValue(version);
@@ -311,9 +310,9 @@ bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString mode
         }
     }
 
-    query.addBindValue(vehicleId);  // Dodajemy ID pojazdu na końcu
+    query.addBindValue(vehicleId);
 
-    // Wykonujemy zapytanie
+
     if (!query.exec()) {
         qDebug() << "Failed to update vehicle: " << query.lastError().text();
         return false;
@@ -425,6 +424,109 @@ bool DatabaseController::addService(int vehicle_id, QString mileage, QString typ
         return false;
     } return true;
 
+}
+
+bool DatabaseController::updateService(int serviceId, QString mileage, QString interval_km, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts)
+{
+    QString updateQuery = "UPDATE services SET ";
+    QStringList setClauses;
+
+    if (!mileage.isEmpty()) {
+        qDebug()<<"mileage: "<<mileage;
+        setClauses.append("mileage = ?");
+    }
+    if (!interval_km.isEmpty()) {
+        qDebug()<<"interval_km: "<<interval_km;
+        setClauses.append("interval_km= ?");
+    }
+    if (!interval_time.isEmpty()) {
+        qDebug()<<"interval time: "<<interval_time;
+        setClauses.append("interval_time = ?");
+    }
+    if (!service.isEmpty()) {
+        qDebug()<<"service: "<<service;
+        setClauses.append("service = ?");
+    }
+    if (!oil.isEmpty()) {
+        qDebug()<<"Oil: "<<oil;
+        setClauses.append("oil = ?");
+    }
+    if (!oilFilter.isEmpty()) {
+        qDebug()<<"OIL FILTER: "<<oilFilter;
+        setClauses.append("oil_filter = ?");
+    }
+    if (!airFilter.isEmpty()) {
+        qDebug()<<"airfilter: "<<airFilter;
+        setClauses.append("air_filter = ?");
+    }
+    if (!cabinFilter.isEmpty()) {
+        qDebug()<<"cabinfilter: "<<cabinFilter;
+        setClauses.append("cabin_filter = ?");
+    }
+    if (!timing.isEmpty()) {
+        qDebug()<<"timing: "<<timing;
+        setClauses.append("timing = ?");
+    }
+    if(!customParts.isEmpty()) {
+        qDebug()<<"customparts: "<<customParts;
+        setClauses.append("custom_parts = ?");
+    }
+
+    if (setClauses.isEmpty()) {
+        qDebug() << "No fields to update.";
+        return false;
+    }
+
+    updateQuery += setClauses.join(", ") + " WHERE id = ?";
+
+    QSqlQuery query;
+    query.prepare(updateQuery);
+
+    for (const QString &clause : setClauses) {
+        if (clause.startsWith("mileage")) {
+            query.addBindValue(mileage.toInt());
+            qDebug() << "Updating mileage to:" << mileage;
+        } else if (clause.startsWith("interval_km")) {
+            query.addBindValue(interval_km.toInt());
+            qDebug() << "Updating interval_km to:" << interval_km;
+        } else if (clause.startsWith("interval_time")) {
+            query.addBindValue(interval_time.toInt());
+            qDebug() << "Updating interval_time to:" << interval_time;
+        } else if (clause.startsWith("service")) {
+            query.addBindValue(service);
+            qDebug() << "Updating service to:" << service;
+        } else if (clause == "oil = ?") {
+            query.addBindValue(oil);
+            qDebug() << "Updating oil to:" << oil;
+        } else if (clause == "oil_filter = ?") {
+            query.addBindValue(oilFilter);
+            qDebug() << "Updating oil_filter to:" << oilFilter;
+        } else if (clause.startsWith("air_filter")) {
+            query.addBindValue(airFilter);
+            qDebug() << "Updating air_filter to:" << airFilter;
+        } else if (clause.startsWith("cabin_filter")) {
+            query.addBindValue(cabinFilter);
+            qDebug() << "Updating cabin_filter to:" << cabinFilter;
+        } else if (clause.startsWith("timing")) {
+            query.addBindValue(timing);
+            qDebug() << "Updating timing to:" << timing;
+        } else if (clause.startsWith("custom_parts")) {
+            query.addBindValue(customParts);
+            qDebug() << "Updating custom_parts to:" << customParts;
+        }
+    }
+    query.addBindValue(serviceId);
+    qDebug()<<"service id: "<<serviceId;
+
+    if (!query.exec()) {
+        qDebug() << "Failed to update service: " << query.lastError();
+        return false;
+    }
+    qDebug() << "Service with ID" << serviceId << "successfully updated.";
+    return true;
+
+
+    //Maybe add date change too?
 }
 
 void DatabaseController::registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password)

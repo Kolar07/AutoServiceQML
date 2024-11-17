@@ -16,13 +16,13 @@ public:
     MaintenanceService(int _mileage,int _interval_km, QString date, int _interval_time, const QString &_service, const QString &_type);
     virtual void print() override;
 
-    int getInterval_km() const;
+    Q_INVOKABLE int getInterval_km() const;
     void setInterval_km(int newInterval_km);
 
-    int getInterval_time() const override;
+    Q_INVOKABLE int getInterval_time() const override;
     void setInterval_time(const int &newInterval_time);
 
-    QString getService() const;
+    Q_INVOKABLE QString getService() const;
     void setService(const QString &newService);
 
 
