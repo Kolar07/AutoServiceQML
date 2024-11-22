@@ -127,15 +127,19 @@ QHash<int, QByteArray> ServiceModel::roleNames() const
 
 void ServiceModel::setData(QVector<std::shared_ptr<Service>> &_services)
 {
-    beginResetModel();
 
+    qDebug() << "DEBUG - Entering setData.";
+    qDebug() << "DEBUG - Services count:" << _services.size();
+
+    beginResetModel();
+    qDebug()<<"DEBUG - SETTING SERVICES RESETING MODEL";
     for (auto& service : _services) {
         service->setParent(this);
     }
 
     services = std::move(_services);
     selectedServices.resize(services.size(), false);
-
+    qDebug() << "DEBUG - Services reset complete. Total services:" << services.size();
     endResetModel();
 }
 

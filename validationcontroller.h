@@ -35,6 +35,7 @@ public:
    Q_INVOKABLE bool cabinFilterIsValid(QString cabinFilter) const;
    Q_INVOKABLE bool timingIsValid(QString timing) const;
    Q_INVOKABLE bool customPartsIsValid(QString customParts) const;
+   Q_INVOKABLE bool noteIsValid(QString note) const;
 
 };
 

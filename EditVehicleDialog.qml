@@ -23,27 +23,27 @@ Item {
 	    anchors.horizontalCenter: parent.horizontalCenter
 
 	    TextField {
-		id: editMarkInput
+		id: editBrandInput
 		background: Rectangle {
-		    id: editMarkTextRect
+		    id: editBrandTextRect
 		    color: "white"
 		    radius: 10
 		    width: 350
 		    height: 30
 		    border.color: "lightgray"
 		}
-		implicitWidth: editMarkTextRect.width
+		implicitWidth: editBrandTextRect.width
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Mark (" + customer.getVehicles().getVehicleById(selectedVehicleId).getMark() + ")"
+		placeholderText: "Brand (" + customer.getVehicles().getVehicleById(selectedVehicleId).getBrand() + ")"
 	    }
 
 	    Label {
-		id: wrongEditMarkInput
+		id: wrongEditBrandInput
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "Mark should contain only letters!"
+		text: "Brand should contain only letters!"
 	    }
 
 	    TextField {
@@ -246,12 +246,12 @@ Item {
 			    wrongEditModelInput.visible = false;
 			}
 		    }
-		    if (editMarkInput.text !== "") {
-			if (!valid.markIsValid(editMarkInput.text)) {
-			    wrongEditMarkInput.visible = true;
+		    if (editBrandInput.text !== "") {
+			if (!valid.markIsValid(editBrandInput.text)) {
+			    wrongEditBrandInput.visible = true;
 			    isValid = false;
 			} else {
-			    wrongEditMarkInput.visible = false;
+			    wrongEditBrandInput.visible = false;
 			}
 		    }
 		    if (editYearInput.text !== "") {
@@ -299,7 +299,7 @@ Item {
 		    if (isValid) {
 			if (!dbController.checkVin(editVinInput.text)) {
 			    if (!dbController.checkRegistration(editRegistrationInput.text)) {
-				if (dbController.updateVehicle(selectedVehicleId, editMarkInput.text, editModelInput.text, editYearInput.text, editVersionInput.text, editEngineInput.text, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).typeName, editVinInput.text, editRegistrationInput.text)) {
+				if (dbController.updateVehicle(selectedVehicleId, editBrandInput.text, editModelInput.text, editYearInput.text, editVersionInput.text, editEngineInput.text, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).typeName, editVinInput.text, editRegistrationInput.text)) {
 				    customer.fetchVehicles(customer.getId());
 				    editVehicleDialog.close();
 				}

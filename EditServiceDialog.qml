@@ -401,6 +401,36 @@ Item {
 		}
 	    }
 
+	    Column {
+
+		TextField {
+		    id: noteInput
+		    background: Rectangle {
+			id: noteTextRect
+			color: "white"
+			radius: 10
+			width: 350
+			height: 130
+			border.color: "lightgray"
+		    }
+		    implicitWidth: noteTextRect.width
+		    implicitHeight: noteTextRect.height
+		    wrapMode: "Wrap"
+		    font.pixelSize: 15
+		    placeholderText: "Note (optional)...            "
+		    horizontalAlignment: Text.AlignLeft
+		    verticalAlignment: Text.AlignTop
+		}
+
+		Label {
+		    id: wrongNoteInput
+		    visible: false
+		    font.pixelSize: 10
+		    color: "red"
+		    text: "Wrong note input! Maximum size: 255 characters"
+		}
+	    }
+
 	    Row {
 		spacing: 5
 		anchors.horizontalCenter: parent.horizontalCenter
@@ -477,6 +507,13 @@ Item {
 			    } else
 				wrongPartsInput.visible = false;
 			}
+			if (noteInput.text !== "") {
+			    if (!valid.noteIsValid(noteInput.text)) {
+				wrongNoteInput.visible = true;
+				isValid = false;
+			    } else
+				wrongNoteInput.visible = false;
+			}
 			if (isValid) {
 			    wrongMileageInput.visible = false;
 			    wrongAirFilterInput.visible = false;
@@ -488,11 +525,13 @@ Item {
 			    wrongServiceInput.visible = false;
 			    wrongTimingInput.visible = false;
 			    wrongPartsInput.visible = false;
+			    wrongNoteInput.visible = false;
 
 			    //date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
-			    if (dbController.updateService(selectedServiceId, mileageInput.text, intervalKmInput.text,intervalDateInput.text ,serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text))
+			    if (dbController.updateService(selectedServiceId, mileageInput.text, intervalKmInput.text, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text))
 				;
 			    {
+				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
 				console.log("Service updated successfully");
 				editServiceDialog.close();
 			    }

@@ -82,10 +82,18 @@ void Customer::onVehiclesFetched(QVector<Vehicle *> vehiclesVector)
     } else return;
 }
 
+void Customer::onServicesFetchedVersionSpecifiedVehicle(int vehicleId, QVector<std::shared_ptr<Service> > services)
+{
+    qDebug()<<"DEBUG - FROM CUSTOMER NOW SETTING DATA";
+    vehicles->getVehicleById(vehicleId)->getServices()->setData(services);
+}
+
 void Customer::setVehicles(VehicleModel *newVehicles)
 {
     if (vehicles) {
+        qDebug() << "DEBUG - Deleting old vehicles model.";
         delete vehicles;
     }
     vehicles = newVehicles;
+    qDebug() << "DEBUG - New vehicles model set.";
 }

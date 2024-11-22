@@ -14,14 +14,14 @@ class Vehicle : public QObject
     Q_OBJECT
 public:
     explicit Vehicle(QObject *parent = nullptr);
-    Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
-    Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
+    Vehicle(int id, const VehicleType &type, const QString &brand, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
+    Vehicle(const VehicleType &type, const QString &brand, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber);
     ~Vehicle();
     Q_INVOKABLE int getId() const;
     void setId(int newId);
 
-  Q_INVOKABLE  QString getMark() const;
-    void setMark(const QString &newMark);
+  Q_INVOKABLE  QString getBrand() const;
+    void setBrand(const QString &newMark);
 
   Q_INVOKABLE  QString getModel() const;
     void setModel(const QString &newModel);
@@ -58,7 +58,7 @@ public:
     void setServices(ServiceModel *newServices);
 
  signals:
-    void fetchServices(int id);
+    void fetchServices(int vehicleId);
 
  public slots:
     void onFetchedServices(int vehicleId,QVector<std::shared_ptr<Service>> services);
@@ -66,7 +66,7 @@ public:
 private:
     int id;
     VehicleType type;
-    QString mark;
+    QString brand;
     QString model;
     int year;
     QString version;

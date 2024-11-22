@@ -39,7 +39,7 @@ QVariant VehicleModel::data(const QModelIndex &index, int role) const {
     switch (role) {
     case IdRole : return vehicle->getId();
     case TypeRole: return vehicle->getType().getTypeName();
-    case MarkRole: return vehicle->getMark();
+    case BrandRole: return vehicle->getBrand();
     case ModelRole: return vehicle->getModel();
     case YearRole: return vehicle->getYear();
     case VersionRole: return vehicle->getVersion();
@@ -59,7 +59,7 @@ QVariant VehicleModel::headerData(int section, Qt::Orientation orientation, int 
         case 0: return "Choice";
         case 1: return "ID";
             case 7: return "Type";
-            case 2: return "Mark";
+            case 2: return "Brand";
             case 3: return "Model";
             case 4: return "Year";
             case 5: return "Version";
@@ -77,7 +77,7 @@ QHash<int, QByteArray> VehicleModel::roleNames() const {
 
     roles[IdRole] = "id";
     roles[TypeRole] = "type";
-    roles[MarkRole] = "mark";
+    roles[BrandRole] = "brand";
     roles[ModelRole] = "model";
     roles[YearRole] = "year";
     roles[VersionRole] = "version";
@@ -138,13 +138,16 @@ Vehicle *VehicleModel::getVehicleByRow(int row) const
 
 Vehicle *VehicleModel::getVehicleById(int id) const
 {
+    qDebug() << "DEBUG - Searching for vehicle ID:" << id;
     if(id>=0) {
        auto it = std::find_if(vehicles.begin(), vehicles.end(), [id]( Vehicle *vehicle){
             return vehicle->getId() == id;
 });
 if (it != vehicles.end()) {
+    qDebug() << "DEBUG - Vehicle found!";
            return *it;
         }
     }
+    qDebug() << "DEBUG - Vehicle not found.";
     return nullptr;
 }

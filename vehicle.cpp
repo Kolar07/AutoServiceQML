@@ -5,9 +5,9 @@ Vehicle::Vehicle(QObject *parent)
 {}
 
 
-Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber) : id(id),
+Vehicle::Vehicle(int id, const VehicleType &type, const QString &brand, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber) : id(id),
     type(type),
-    mark(mark),
+    brand(brand),
     model(model),
     year(year),
     version(version),
@@ -16,9 +16,9 @@ Vehicle::Vehicle(int id, const VehicleType &type, const QString &mark, const QSt
     registrationNumber(registrationNumber), services(new ServiceModel(this))
 {}
 
-Vehicle::Vehicle(const VehicleType &type, const QString &mark, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber)
+Vehicle::Vehicle(const VehicleType &type, const QString &brand, const QString &model, int year, const QString &version, const QString &engine, const QString &vin, const QString &registrationNumber)
     :type(type),
-    mark(mark),
+    brand(brand),
     model(model),
     year(year),
     version(version),
@@ -44,14 +44,14 @@ void Vehicle::setId(int newId)
     id = newId;
 }
 
-QString Vehicle::getMark() const
+QString Vehicle::getBrand() const
 {
-    return mark;
+    return brand;
 }
 
-void Vehicle::setMark(const QString &newMark)
+void Vehicle::setBrand(const QString &newMark)
 {
-    mark = newMark;
+    brand = newMark;
 }
 
 QString Vehicle::getModel() const
@@ -160,6 +160,10 @@ int Vehicle::getTypeInt() const
 
 ServiceModel *Vehicle::getServices()
 {
+
+    if (!services) {
+        qDebug() << "DEBUG - Services not initialized for vehicle!";
+    }
     return services;
 }
 

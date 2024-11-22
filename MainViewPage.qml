@@ -5,6 +5,7 @@ Item {
     id: mainViewPage
 
     property int selectedVehicleId: -1
+    property int selectedServiceId: -1
     Image {
 	id: logoId
 	anchors.left: parent.left
@@ -175,7 +176,7 @@ Item {
 				case 7:
 				    return type;
 				case 2:
-				    return mark;
+				    return brand;
 				case 3:
 				    return model;
 				case 4:
@@ -566,7 +567,6 @@ Item {
     function setSelectedVehicle(vehicleId) {
 	selectedVehicleId = vehicleId;
     }
-
 
     function goBack() {
 	viewLoader.source = "";

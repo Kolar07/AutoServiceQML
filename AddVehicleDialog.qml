@@ -22,27 +22,27 @@ Item {
 	    anchors.horizontalCenter: parent.horizontalCenter
 
 	    TextField {
-		id: markInput
+		id: brandInput
 		background: Rectangle {
-		    id: markTextRect
+		    id: brandTextRect
 		    color: "white"
 		    radius: 10
 		    width: 350
 		    height: 30
 		    border.color: "lightgray"
 		}
-		implicitWidth: markTextRect.width
+		implicitWidth: brandTextRect.width
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Mark...                      "
+		placeholderText: "Brand...                      "
 	    }
 
 	    Label {
-		id: wrongMarkInput
+		id: wrongBrandInput
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "Mark should contain only letters!"
+		text: "Brand should contain only letters!"
 	    }
 
 	    TextField {
@@ -243,11 +243,11 @@ Item {
 		    } else {
 			wrongModelInput.visible = false;
 		    }
-		    if (!valid.markIsValid(markInput.text)) {
-			wrongMarkInput.visible = true;
+		    if (!valid.markIsValid(brandInput.text)) {
+			wrongBrandInput.visible = true;
 			isValid = false;
 		    } else {
-			wrongMarkInput.visible = false;
+			wrongBrandInput.visible = false;
 		    }
 		    if (!valid.yearIsValid(yearInput.text)) {
 			wrongYearInput.visible = true;
@@ -284,7 +284,7 @@ Item {
 		    if (isValid) {
 			if (!dbController.checkVin(vinInput.text)) {
 			    if (!dbController.checkRegistration(registrationInput.text)) {
-				if (dbController.addVehicle(customer.getId(), markInput.text, modelInput.text, yearInput.text, versionInput.text, engineInput.text, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).typeName, vinInput.text, registrationInput.text)) {
+				if (dbController.addVehicle(customer.getId(), brandInput.text, modelInput.text, yearInput.text, versionInput.text, engineInput.text, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).typeName, vinInput.text, registrationInput.text)) {
 				    customer.fetchVehicles(customer.getId());
 				    addVehicleDialog.close();
 				}

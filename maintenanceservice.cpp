@@ -3,15 +3,15 @@
 MaintenanceService::MaintenanceService()
 {}
 
-MaintenanceService::MaintenanceService(int _id, int _mileage, int _interval_km, QString date, const int _interval_time, const QString &_service, const QString &_type) :Service(_id,_mileage,_type,date), interval_km(_interval_km),
-    service(_service), interval_time(_interval_time)
+MaintenanceService::MaintenanceService(int _id, int _mileage, int _interval_km, QString date, const int _interval_time, const QString &_service, const QString &_type, const QString &_note) :Service(_id,_mileage,_type,date), interval_km(_interval_km),
+    service(_service), interval_time(_interval_time), note(_note)
 {
 
 }
 
-MaintenanceService::MaintenanceService(int _mileage, int _interval_km, QString date, const int _interval_time, const QString &_service, const QString &_type)
+MaintenanceService::MaintenanceService(int _mileage, int _interval_km, QString date, const int _interval_time, const QString &_service, const QString &_type, const QString &_note)
     :Service(_mileage,_type,date), interval_km(_interval_km),
-    service(_service),interval_time(_interval_time) {
+    service(_service),interval_time(_interval_time), note(_note) {
 }
 
 void MaintenanceService::print()
@@ -47,6 +47,16 @@ QString MaintenanceService::getService() const
 void MaintenanceService::setService(const QString &newService)
 {
     service = newService;
+}
+
+QString MaintenanceService::getNote() const
+{
+    return note;
+}
+
+void MaintenanceService::setNote(const QString &newNote)
+{
+    note = newNote;
 }
 
 

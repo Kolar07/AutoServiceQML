@@ -13,7 +13,7 @@ public:
     enum VehicleRoles {
         IdRole = Qt::UserRole +1,
         TypeRole,
-        MarkRole,
+        BrandRole,
         ModelRole,
         YearRole,
         VersionRole,

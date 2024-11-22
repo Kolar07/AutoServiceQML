@@ -65,6 +65,7 @@ Item {
 			    wrongServiceInput.visible = false;
 			    wrongTimingInput.visible = false;
 			    wrongPartsInput.visible = false;
+			    wrongNoteInput.visible = false;
 			}
 		    }
 		}
@@ -173,13 +174,13 @@ Item {
 		    }
 		}
 
-		//Make textfields for all attributes and then in functions make visible only the ones that specified type requires
+
 	    }
 	    Label {
 		text: "Service date: "
 		font.pixelSize: 15
 		anchors.horizontalCenter: parent.horizontalCenter
-		//anchors.verticalCenter: ddInput.verticalCenter
+
 	    }
 	    Row {
 
@@ -325,6 +326,9 @@ Item {
 			wrapMode: "Wrap"
 			font.pixelSize: 15
 			placeholderText: "Interval in months                      "
+			validator: RegularExpressionValidator {
+			    regularExpression: /^\d+$/
+			}
 		    }
 
 		    Label {
@@ -533,6 +537,33 @@ Item {
 		}
 	    }
 
+	    TextField {
+		id: noteInput
+		background: Rectangle {
+		    id: noteTextRect
+		    color: "white"
+		    radius: 10
+		    width: 350
+		    height: 130
+		    border.color: "lightgray"
+		}
+		implicitWidth: noteTextRect.width
+		implicitHeight: noteTextRect.height
+		wrapMode: "Wrap"
+		font.pixelSize: 15
+		placeholderText: "Note (optional)...            "
+		horizontalAlignment: Text.AlignLeft
+		verticalAlignment: Text.AlignTop
+	    }
+
+	    Label {
+		id: wrongNoteInput
+		visible: false
+		font.pixelSize: 10
+		color: "red"
+		text: "Wrong note input! Maximum size: 255 characters"
+	    }
+
 	    Row {
 		spacing: 5
 		anchors.horizontalCenter: parent.horizontalCenter
@@ -591,11 +622,15 @@ Item {
 			    isValid = false;
 			} else
 			    wrongPartsInput.visible = false;
+			if (!valid.noteIsValid(noteInput.text)) {
+			    wrongNoteInput.visible = true;
+			    isValid = false;
+			} else
+			    wrongPartsInput.visible = false;
 			if (isValid) {
 			    date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
-			    if (dbController.addService(customer.getVehicles().getVehicleById(selectedVehicleId).getId(), mileageInput.text, type, intervalKmInput.text, date, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text))
-				;
-			    {
+			    if (dbController.addService(customer.getVehicles().getVehicleById(selectedVehicleId).getId(), mileageInput.text, type, intervalKmInput.text, date, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text)) {
+				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId); //////
 				console.log("Service added successfully");
 				addServiceDialog.close();
 			    }
@@ -618,5 +653,6 @@ Item {
 	cabinFilterInput.text = "";
 	airFilterInput.text = "";
 	partsInput.text = "";
+	noteInput.text = "";
     }
 }

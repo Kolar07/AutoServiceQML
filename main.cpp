@@ -46,6 +46,12 @@ int main(int argc, char *argv[])
     QObject::connect(&dbController, &DatabaseController::vehiclesFetched,
                      &customer, &Customer::onVehiclesFetched);
 
+    QObject::connect(&customer, &Customer::fetchServicesVersionSpecifiedVehicle,
+                     &dbController, &DatabaseController::onServicesFetchVersionSpecifiedVehicle);
+
+    QObject::connect(&dbController, &DatabaseController::servicesFetchedVersionSpecifiedVehicle,
+                     &customer, &Customer::onServicesFetchedVersionSpecifiedVehicle);
+
     dbController.fetchVehicleTypes();
     emit customer.fetchVehicles(customer.getId());
     //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz",1,"Truck","sad464asd56sad","SMIK8I1");
@@ -57,9 +63,9 @@ int main(int argc, char *argv[])
     //Vehicle *vehicle = new Vehicle(typeTest,"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz","sad464asd56sad","SMIK8I1");
     //Vehicle *vehicle2 = new Vehicle(typeTest2,"Peugeot","sdcdscdc",2020,"sdfsdf","sdfsdf","sdgdfhgfdhfghfdg","SMI45I1");
 
-    std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10",36,"Xyz change", "RepairService", "some parts");
-    service->setId(8);
-    qDebug()<<service->getId();
+    // std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10",36,"Xyz change", "RepairService", "some parts");
+    // service->setId(8);
+    // qDebug()<<service->getId();
     //QVector<std::shared_ptr<Service>> vectorServices;
     //vectorServices.push_back(service);
     //if (vehicle->getServices()) {

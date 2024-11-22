@@ -3,7 +3,7 @@ import QtQuick.Controls 2
 import QtQuick.Effects
 
 Item {
-    property int selectedServiceId: -1
+
     Rectangle {
 	width: parent.width
 	height: parent.height
@@ -144,17 +144,17 @@ Item {
 		    spacing: 10
 		    width: parent.width
 		    Label {
-			id: markLabel
-			text: "Mark:"
+			id: brandLabel
+			text: "Brand:"
 			font.pixelSize: 21
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
-			text: customer.getVehicles().getVehicleById(selectedVehicleId).getMark()
+			text: customer.getVehicles().getVehicleById(selectedVehicleId).getBrand()
 			font.pixelSize: 21
 			color: "#333333"
-			width: parent.width - markLabel.width
+			width: parent.width - brandLabel.width
 			wrapMode: "Wrap"
 		    }
 		}
@@ -551,7 +551,7 @@ Item {
 					    parent.scale = 1.07;
 					}
 					onClicked: {
-					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					    showService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
 					}
 				    }
 				}
@@ -625,7 +625,7 @@ Item {
 					}
 					onClicked: {
 					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
-					    console.log("Service id: " + selectedServiceId);
+					    removeServiceDialog.openDialog();
 					}
 				    }
 				}
@@ -654,8 +654,16 @@ Item {
     EditServiceDialog {
 	id: editServiceDialog
     }
+    RemoveServiceDialog {
+	id: removeServiceDialog
+    }
 
     function setSelectedService(serviceId) {
 	selectedServiceId = serviceId;
+    }
+
+    function showService(serviceId) {
+	selectedServiceId = serviceId;
+	viewLoader.source = "ServiceView.qml";
     }
 }

@@ -141,7 +141,7 @@ bool DatabaseController::fetchVehicleTypes()
     return true;
 }
 
-bool DatabaseController::addVehicle(int customerId, QString mark, QString model, QString year, QString version, QString engine,int typeId, QString type, QString vin, QString registrationNumber)
+bool DatabaseController::addVehicle(int customerId, QString brand, QString model, QString year, QString version, QString engine,int typeId, QString type, QString vin, QString registrationNumber)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -149,9 +149,9 @@ bool DatabaseController::addVehicle(int customerId, QString mark, QString model,
     }
 
     QSqlQuery query;
-    query.prepare("INSERT INTO vehicles (customer_id,mark,model,year,version,engine,type_id,type,vin,registration_number) VALUES (?,?,?,?,?,?,?,?,?,?)");
+    query.prepare("INSERT INTO vehicles (customer_id,brand,model,year,version,engine,type_id,type,vin,registration_number) VALUES (?,?,?,?,?,?,?,?,?,?)");
     query.addBindValue(customerId);
-    query.addBindValue(mark);
+    query.addBindValue(brand);
     query.addBindValue(model);
     query.addBindValue(year.toInt());
     query.addBindValue(version);
@@ -236,13 +236,13 @@ bool DatabaseController::removeVehicle(int id)
     return true;
 }
 
-bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber)
+bool DatabaseController::updateVehicle(int vehicleId, QString brand, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber)
 {
     QString updateQuery = "UPDATE vehicles SET ";
     QStringList setClauses;
 
-    if (!mark.isEmpty()) {
-        setClauses.append("mark = ?");
+    if (!brand.isEmpty()) {
+        setClauses.append("brand = ?");
     }
     if (!model.isEmpty()) {
         setClauses.append("model = ?");
@@ -281,9 +281,9 @@ bool DatabaseController::updateVehicle(int vehicleId, QString mark, QString mode
 
     for (const QString &clause : setClauses) {
         if (clause.startsWith("mark")) {
-            query.addBindValue(mark);
-            qDebug() << "Updating mark to:" << mark;
-        } else if (clause.startsWith("model")) {
+            query.addBindValue(brand);
+            qDebug() << "Updating brand to:" << brand;
+        } else if (clause.startsWith("brand")) {
             query.addBindValue(model);
             qDebug() << "Updating model to:" << model;
         } else if (clause.startsWith("year")) {
@@ -329,7 +329,7 @@ void DatabaseController::onFetchVehicles(int customer_id)
     }
 
     QSqlQuery query;
-    query.prepare("SELECT id,mark,model,year,version,engine,type_id,type,vin,registration_number FROM vehicles WHERE customer_id = :customerId");
+    query.prepare("SELECT id,brand,model,year,version,engine,type_id,type,vin,registration_number FROM vehicles WHERE customer_id = :customerId");
     query.bindValue(":customerId", customer_id);
     if(query.exec()) {
         QVector<Vehicle*> vehiclesVector;
@@ -360,22 +360,22 @@ void DatabaseController::onFetchServices(int vehicleId)
         return;
     }
     QSqlQuery query;
-    query.prepare("SELECT id, mileage,type,interval_km,service_date,interval_time,service,oil,oil_filter,air_filter,cabin_filter,timing,custom_parts FROM services WHERE vehicle_id = :vehicleId");
+    query.prepare("SELECT id, mileage,type,interval_km,service_date,interval_time,service,oil,oil_filter,air_filter,cabin_filter,timing,custom_parts,note FROM services WHERE vehicle_id = :vehicleId");
     query.bindValue(":vehicleId", vehicleId);
     if(query.exec()) {
         QVector<std::shared_ptr<Service>> services;
         while(query.next()) {
             if(query.value(2).toString() == "MaintenanceService") {
-                std::shared_ptr<Service> service = std::make_shared<MaintenanceService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString());
+                std::shared_ptr<Service> service = std::make_shared<MaintenanceService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(13).toString());
                 services.push_back(std::move(service));
             } else if(query.value(2).toString() == "RepairService") {
-                std::shared_ptr<Service> service = std::make_shared<RepairService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(12).toString());
+                std::shared_ptr<Service> service = std::make_shared<RepairService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(12).toString(),query.value(13).toString());
                 services.push_back(std::move(service));
             } else if(query.value(2).toString() == "ServiceOil") {
-                std::shared_ptr<Service> service = std::make_shared<ServiceOil>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(7).toString(), query.value(8).toString(),query.value(9).toString(), query.value(10).toString());
+                std::shared_ptr<Service> service = std::make_shared<ServiceOil>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(7).toString(), query.value(8).toString(),query.value(9).toString(), query.value(10).toString(),query.value(13).toString());
                 services.push_back(std::move(service));
             } else if(query.value(2).toString() == "ServiceTiming") {
-                std::shared_ptr<Service> service = std::make_shared<ServiceTiming>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(11).toString());
+                std::shared_ptr<Service> service = std::make_shared<ServiceTiming>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(11).toString(),query.value(13).toString());
                 services.push_back(std::move(service));
             } else return;
         }
@@ -387,15 +387,52 @@ void DatabaseController::onFetchServices(int vehicleId)
     }
 }
 
+void DatabaseController::onServicesFetchVersionSpecifiedVehicle(int vehicleId)
+{
+    qDebug()<<"DEBUGING SERVICES FETCHING FOR VEHICLE ID: "<<vehicleId;
 
-bool DatabaseController::addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts)
+    if(!db.open()) {
+        qDebug()<<"Database is not open!"<<db.lastError();
+        return;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT id, mileage,type,interval_km,service_date,interval_time,service,oil,oil_filter,air_filter,cabin_filter,timing,custom_parts,note FROM services WHERE vehicle_id = :vehicleId");
+    query.bindValue(":vehicleId", vehicleId);
+    if(query.exec()) {
+        QVector<std::shared_ptr<Service>> services;
+        while(query.next()) {
+            if(query.value(2).toString() == "MaintenanceService") {
+                std::shared_ptr<Service> service = std::make_shared<MaintenanceService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(13).toString());
+                services.push_back(std::move(service));
+            } else if(query.value(2).toString() == "RepairService") {
+                std::shared_ptr<Service> service = std::make_shared<RepairService>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(12).toString(),query.value(13).toString());
+                services.push_back(std::move(service));
+            } else if(query.value(2).toString() == "ServiceOil") {
+                std::shared_ptr<Service> service = std::make_shared<ServiceOil>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(7).toString(), query.value(8).toString(),query.value(9).toString(), query.value(10).toString(),query.value(13).toString());
+                services.push_back(std::move(service));
+            } else if(query.value(2).toString() == "ServiceTiming") {
+                std::shared_ptr<Service> service = std::make_shared<ServiceTiming>(query.value(0).toInt(),query.value(1).toInt(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toInt(),query.value(6).toString(),query.value(2).toString(),query.value(11).toString(),query.value(13).toString());
+                services.push_back(std::move(service));
+            } else return;
+        }
+        qDebug()<<"SERVICESS SUCCESSFULLY FETCHED - DEBUG";
+        emit servicesFetchedVersionSpecifiedVehicle(vehicleId,services);
+        qDebug() << "DEBUG - Emitting servicesFetched for vehicle ID:" << vehicleId << ", Services size:" << services.size();
+    } else {
+        qDebug()<<"Query execution failed: "<<query.lastError();
+        return;
+    }
+}
+
+
+bool DatabaseController::addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
         return false;
     }
     QSqlQuery query;
-    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, service_date,interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing, custom_parts) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    query.prepare("INSERT INTO services (vehicle_id, mileage, type, interval_km, service_date,interval_time, service, oil, oil_filter, air_filter, cabin_filter, timing, custom_parts,note) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     query.addBindValue(vehicle_id);
     query.addBindValue(mileage.toInt());
     query.addBindValue(type);
@@ -418,6 +455,7 @@ bool DatabaseController::addService(int vehicle_id, QString mileage, QString typ
     query.addBindValue(cabinFilter);
     query.addBindValue(timing);
     query.addBindValue(customParts);
+    query.addBindValue(note);
 
     if(!query.exec()) {
         qDebug()<<"Nope "<<query.lastError();
@@ -426,7 +464,7 @@ bool DatabaseController::addService(int vehicle_id, QString mileage, QString typ
 
 }
 
-bool DatabaseController::updateService(int serviceId, QString mileage, QString interval_km, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts)
+bool DatabaseController::updateService(int serviceId, QString mileage, QString interval_km, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note)
 {
     QString updateQuery = "UPDATE services SET ";
     QStringList setClauses;
@@ -471,6 +509,10 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
         qDebug()<<"customparts: "<<customParts;
         setClauses.append("custom_parts = ?");
     }
+    if(!note.isEmpty()) {
+        qDebug()<<"note: "<<note;
+        setClauses.append("note = ?");
+    }
 
     if (setClauses.isEmpty()) {
         qDebug() << "No fields to update.";
@@ -513,6 +555,9 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
         } else if (clause.startsWith("custom_parts")) {
             query.addBindValue(customParts);
             qDebug() << "Updating custom_parts to:" << customParts;
+        } else if (clause.startsWith("note")) {
+            query.addBindValue(note);
+            qDebug() << "Updating note to:" << note;
         }
     }
     query.addBindValue(serviceId);
@@ -527,6 +572,26 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
 
 
     //Maybe add date change too?
+}
+
+bool DatabaseController::removeService(int serviceId)
+{
+    {
+        if (!db.open()) {
+            qDebug() << "Database is not open:" << db.lastError();
+            return false;
+        }
+
+        QSqlQuery query;
+        query.prepare("DELETE FROM services WHERE id  =:id");
+        query.bindValue(":id",serviceId);
+        if (!query.exec()) {
+            qDebug() << "Failed to execute query:" << query.lastError();
+            return false;
+        }
+        qDebug()<<"Service removed successfully";
+        return true; // REPAIR TABLEVIEW NOT RESTARTING
+    }
 }
 
 void DatabaseController::registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password)

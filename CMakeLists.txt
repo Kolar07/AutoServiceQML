@@ -49,6 +49,8 @@ qt_add_qml_module(appAutoServiceQML
     QML_FILES AddVehicleDialog.qml
     QML_FILES EditVehicleDialog.qml
     QML_FILES EditServiceDialog.qml
+    QML_FILES RemoveServiceDialog.qml
+    QML_FILES ServiceView.qml
 )
 
 # Ustawienia właściwości celu

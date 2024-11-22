@@ -66,3 +66,8 @@ void Service::setServiceDate(const QDate &newServiceDate)
 {
     serviceDate = newServiceDate;
 }
+
+QString Service::getServiceDateAsString() const
+{
+    return serviceDate.toString("dd-MM-yyyy") + " (" + serviceDate.toString("dddd") + ")";
+}

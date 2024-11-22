@@ -137,3 +137,10 @@ bool ValidationController::customPartsIsValid(QString customParts) const
         return true;
     else return false;
 }
+
+bool ValidationController::noteIsValid(QString note) const
+{
+    if(note.length()<=255)
+        return true;
+    return false;
+}

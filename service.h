@@ -26,6 +26,8 @@ public:
     Q_INVOKABLE QDate getServiceDate() const;
     void setServiceDate(const QDate &newServiceDate);
 
+    Q_INVOKABLE QString getServiceDateAsString() const;
+
 private:
     int id;
     int mileage;
