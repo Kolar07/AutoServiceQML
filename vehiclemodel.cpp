@@ -124,6 +124,18 @@ QVector<Vehicle*> VehicleModel::getSelectedVehicles() const {
     return selectedVehicles;
 }
 
+QVector<int> VehicleModel::getVehiclesIds() const
+{
+    QVector<int> vehiclesIds;
+    for (int i = 0; i < selected.size(); ++i) {
+        if (selected[i]) {
+            vehiclesIds.append(vehicles[i]->getId());
+        }
+    }
+    qDebug()<<"Size of selected vehicles vector: "<< vehiclesIds.size();
+    return vehiclesIds;
+}
+
 QVector<Vehicle *> VehicleModel::getVehicles() const
 {
     return vehicles;

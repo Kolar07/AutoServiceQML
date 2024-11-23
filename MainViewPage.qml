@@ -65,19 +65,6 @@ Item {
 
 	    model: customer.getVehicles()
 
-	    ScrollBar {
-		orientation: Qt.Horizontal
-		policy: ScrollBar.AlwaysOn
-		anchors.bottom: parent.bottom
-	    }
-
-	    // Vertical ScrollBar for rows
-	    ScrollBar {
-		orientation: Qt.Vertical
-		policy: ScrollBar.AlwaysOn
-		anchors.right: parent.right
-	    }
-
 	    columnWidthProvider: function (column) {
 		let width = explicitColumnWidth(column);
 		switch (column) {
@@ -407,13 +394,25 @@ Item {
 				    }
 				    onClicked: {
 					setSelectedVehicle(customer.getVehicles().getVehicleByRow(row).getId());
-					removeVehicleDialog.open();
+					removeVehicleDialog.openDialog(false);
 				    }
 				}
 			    }
 			}
 		    }
 		}
+	    }
+
+	    ScrollBar.horizontal: ScrollBar {
+		policy: ScrollBar.AlwaysOn
+		anchors.bottom: parent.bottom
+		clip: true
+	    }
+
+	    ScrollBar.vertical: ScrollBar {
+		policy: ScrollBar.AsNeeded
+		//anchors.left: parent.right
+		clip: true
 	    }
 	}
     }
@@ -426,65 +425,53 @@ Item {
 	id: editVehicleDialog
     }
 
-    Dialog {
+    RemoveVehicleDialog {
 	id: removeVehicleDialog
-	anchors.centerIn: parent
-	width: 300
-	height: 150
-	parent: Overlay.overlay
-	focus: true
-	modal: true
-	title: ""
-	Column {
-	    spacing: 5
-	    anchors.horizontalCenter: parent.horizontalCenter
-	    Label {
-		text: "This CAN NOT be undone!"
-		font.pixelSize: 20
-		color: "black"
-		font.bold: true
-	    }
-	    Row {
-		spacing: 5
-		anchors.horizontalCenter: parent.horizontalCenter
-		Button {
-		    text: "Remove"
-		    onClicked: {
-			if (dbController.removeVehicle(selectedVehicleId)) {
-			    customer.fetchVehicles(customer.getId());
-			    removeVehicleDialog.close();
-			}
-		    }
-		}
-		Button {
-		    text: "Cancel"
-		    onClicked: {
-			removeVehicleDialog.close();
-		    }
-		}
-	    }
-	}
     }
 
-    Rectangle {
-	width: 200
-	height: 40
-	color: "black"
+    Row {
+	spacing: 5
 	anchors.top: tableViewContainer.bottom
 	anchors.topMargin: 10
 	anchors.horizontalCenter: tableViewContainer.horizontalCenter
-	radius: 30
-	Text {
-	    anchors.centerIn: parent
-	    color: "white"
-	    font.pixelSize: 20
-	    text: "Add Vehicle"
+	Rectangle {
+	    width: 200
+	    height: 40
+	    color: "black"
+
+	    radius: 30
+	    Text {
+		anchors.centerIn: parent
+		color: "white"
+		font.pixelSize: 20
+		text: "Add Vehicle"
+	    }
+
+	    MouseArea {
+		anchors.fill: parent
+		onClicked: {
+		    addVehicleDialog.openDialog();
+		}
+	    }
 	}
 
-	MouseArea {
-	    anchors.fill: parent
-	    onClicked: {
-		addVehicleDialog.openDialog();
+	Rectangle {
+	    width: 200
+	    height: 40
+	    color: "black"
+	    radius: 30
+	    Text {
+		anchors.centerIn: parent
+		color: "white"
+		font.pixelSize: 20
+		text: "Remove checked"
+	    }
+
+	    MouseArea {
+		anchors.fill: parent
+		onClicked: {
+		    removeVehicleDialog.openDialog(true);
+		}
 	    }
 	}
     }

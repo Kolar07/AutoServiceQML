@@ -37,6 +37,7 @@ public:
     void setData(QVector<Vehicle*> &_vehicles);
     Q_INVOKABLE void toggleSelection(int index);
     Q_INVOKABLE QVector<Vehicle*> getSelectedVehicles() const;
+    Q_INVOKABLE QVector<int> getVehiclesIds() const;
 
 
     QVector<Vehicle *> getVehicles() const;

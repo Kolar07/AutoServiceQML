@@ -44,6 +44,7 @@ public:
     Q_INVOKABLE bool checkVin(QString vin);
     Q_INVOKABLE bool checkRegistration(QString registration);
     Q_INVOKABLE bool removeVehicle(int id);
+    Q_INVOKABLE bool removeMultipleVehicles(QVector<int> vehiclesIds);
     Q_INVOKABLE bool updateVehicle(int vehicleId, QString brand, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
     //Q_INVOKABLE bool fetchVehicles(int customer_id);
 
@@ -51,6 +52,7 @@ public:
     Q_INVOKABLE bool addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date,QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note);
     Q_INVOKABLE bool updateService(int serviceId, QString mileage, QString interval_km,QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note);
     Q_INVOKABLE bool removeService(int serviceId);
+    Q_INVOKABLE bool removeMultipleServices(QVector<int> serviceIds);
 
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);

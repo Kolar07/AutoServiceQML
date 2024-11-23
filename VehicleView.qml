@@ -80,8 +80,8 @@ Item {
 	    anchors.bottom: parent.bottom
 	    radius: 30
 	    anchors.leftMargin: 30
-	    anchors.topMargin: 45
-	    anchors.bottomMargin: 30
+	    anchors.topMargin: 30
+	    anchors.bottomMargin: 60
 	    anchors.rightMargin: 20
 
 	    gradient: Gradient {
@@ -303,10 +303,10 @@ Item {
 	    anchors.top: pageTitleRect.bottom
 	    anchors.left: vehicleInfoRect.right
 	    anchors.bottom: parent.bottom
-	    anchors.topMargin: 45
+	    anchors.topMargin: 30
 	    anchors.leftMargin: 30
 	    anchors.rightMargin: 20
-	    anchors.bottomMargin: 30
+	    anchors.bottomMargin: 60
 	    radius: 30
 	    layer.enabled: true
 	    clip: true
@@ -500,8 +500,8 @@ Item {
 				checked: selectedService
 
 				onCheckedChanged: {
-				    customer.getVehicles().getVehicleByRow(selectedVehicleId).getServices().toggleSelection(index);
-				    customer.getVehicles().getVehicleByRow(selectedVehicleId).getServices().getSelectedServices();
+				    customer.getVehicles().getVehicleById(selectedVehicleId).getServices().toggleSelection(index);
+				    //customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getSelectedServices();
 				}
 			    }
 			}
@@ -625,7 +625,7 @@ Item {
 					}
 					onClicked: {
 					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
-					    removeServiceDialog.openDialog();
+					    removeServiceDialog.openDialog(false);
 					}
 				    }
 				}
@@ -638,8 +638,38 @@ Item {
 		    anchors.bottom: parent.bottom
 		    clip: true
 		}
+
+		ScrollBar.vertical: ScrollBar {
+		    policy: ScrollBar.AsNeeded
+		    //anchors.left: parent.right
+		    clip: true
+		}
 	    }
 	}
+
+	Rectangle {
+	    width: 220
+	    height: 35
+	    color: "black"
+	    anchors.top: tableViewRect.bottom
+	    anchors.topMargin: 12
+	    anchors.horizontalCenter: tableViewRect.horizontalCenter
+	    radius: 30
+	    Text {
+		anchors.centerIn: parent
+		color: "white"
+		font.pixelSize: 20
+		text: "Remove checked"
+	    }
+
+	    MouseArea {
+		anchors.fill: parent
+		onClicked: {
+		    removeServiceDialog.openDialog(true);
+		}
+	    }
+	}
+
 	MultiEffect {
 	    source: tableViewRect
 	    anchors.fill: tableViewRect

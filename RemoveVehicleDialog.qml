@@ -2,17 +2,18 @@ import QtQuick
 import QtQuick.Controls
 
 Item {
+
     property bool removeMultiple: false
     function openDialog(choice) {
-	removeServiceDialog.open();
+	removeVehicleDialog.open();
 	removeMultiple = choice;
     }
 
     Dialog {
-	id: removeServiceDialog
+	id: removeVehicleDialog
 	anchors.centerIn: parent
 	width: 300
-	height: 120
+	height: 150
 	parent: Overlay.overlay
 	focus: true
 	modal: true
@@ -32,25 +33,24 @@ Item {
 		Button {
 		    text: "Remove"
 		    onClicked: {
-			if (!removeMultiple) {
-			    if (dbController.removeService(selectedServiceId)) {
-				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
-				removeServiceDialog.close();
-			    } else
-				removeServiceDialog.close();
+			if(!removeMultiple) {
+
+			if (dbController.removeVehicle(selectedVehicleId)) {
+			    customer.fetchVehicles(customer.getId());
+			    removeVehicleDialog.close();
+			} else removeVehicleDialog.close();
 			} else {
-			    if (dbController.removeMultipleServices(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getSelectedServicesIds())) {
-				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
-				removeServiceDialog.close();
-			    } else
-				removeServiceDialog.close();
+			    if (dbController.removeMultipleVehicles(customer.getVehicles().getVehiclesIds())) {
+				customer.fetchVehicles(customer.getId());
+				removeVehicleDialog.close();
+			    } else removeVehicleDialog.close();
 			}
 		    }
 		}
 		Button {
 		    text: "Cancel"
 		    onClicked: {
-			removeServiceDialog.close();
+			removeVehicleDialog.close();
 		    }
 		}
 	    }

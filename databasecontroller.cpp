@@ -236,6 +236,42 @@ bool DatabaseController::removeVehicle(int id)
     return true;
 }
 
+bool DatabaseController::removeMultipleVehicles(QVector<int> vehiclesIds)
+{
+
+        if (!db.open()) {
+            qDebug() << "Database is not open:" << db.lastError();
+            return false;
+        }
+
+        if (vehiclesIds.isEmpty()) {
+            qDebug() << "No vehicle IDs provided to remove.";
+            return false;
+        }
+
+        QSqlQuery query;
+        QString placeholders;
+        for (int i = 0; i < vehiclesIds.size(); ++i) {
+            placeholders += (i > 0 ? "," : "") + QString(":id%1").arg(i);
+        }
+
+        QString queryString = QString("DELETE FROM vehicles WHERE id IN (%1)").arg(placeholders);
+        query.prepare(queryString);
+
+        for (int i = 0; i < vehiclesIds.size(); i++) {
+            query.bindValue(QString(":id%1").arg(i), vehiclesIds[i]);
+        }
+
+        if (!query.exec()) {
+            qDebug() << "Failed to execute query:" << query.lastError();
+            return false;
+        }
+
+        qDebug() << "Vehicles removed successfully.";
+        return true;
+
+}
+
 bool DatabaseController::updateVehicle(int vehicleId, QString brand, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber)
 {
     QString updateQuery = "UPDATE vehicles SET ";
@@ -576,7 +612,7 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
 
 bool DatabaseController::removeService(int serviceId)
 {
-    {
+
         if (!db.open()) {
             qDebug() << "Database is not open:" << db.lastError();
             return false;
@@ -590,8 +626,41 @@ bool DatabaseController::removeService(int serviceId)
             return false;
         }
         qDebug()<<"Service removed successfully";
-        return true; // REPAIR TABLEVIEW NOT RESTARTING
+        return true;
+}
+
+bool DatabaseController::removeMultipleServices(QVector<int> serviceIds)
+{
+    if (!db.open()) {
+        qDebug() << "Database is not open:" << db.lastError();
+        return false;
     }
+
+    if (serviceIds.isEmpty()) {
+        qDebug() << "No service IDs provided to remove.";
+        return false;
+    }
+
+    QSqlQuery query;
+    QString placeholders;
+    for (int i = 0; i < serviceIds.size(); ++i) {
+        placeholders += (i > 0 ? "," : "") + QString(":id%1").arg(i);
+    }
+
+    QString queryString = QString("DELETE FROM services WHERE id IN (%1)").arg(placeholders);
+    query.prepare(queryString);
+
+    for (int i = 0; i < serviceIds.size(); i++) {
+        query.bindValue(QString(":id%1").arg(i), serviceIds[i]);
+    }
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError();
+        return false;
+    }
+
+    qDebug() << "Services removed successfully.";
+    return true;
 }
 
 void DatabaseController::registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password)

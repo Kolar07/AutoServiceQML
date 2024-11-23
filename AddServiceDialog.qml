@@ -6,6 +6,7 @@ Item {
     id: addServiceDialogContainer
     property string type: "MaintenanceService"
     property string date: ""
+
     function openDialog() {
 	addServiceDialog.open();
     }
@@ -298,6 +299,9 @@ Item {
 			wrapMode: "Wrap"
 			font.pixelSize: 15
 			placeholderText: "Interval kilometers...                      "
+			validator: RegularExpressionValidator {
+			    regularExpression: /^\d+$/
+			}
 		    }
 
 		    Label {

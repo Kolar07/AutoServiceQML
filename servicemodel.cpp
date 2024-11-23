@@ -155,13 +155,24 @@ void ServiceModel::toggleSelection(int index)
 
 QVector<std::shared_ptr<Service> > ServiceModel::getSelectedServices() const
 {
-    QVector<std::shared_ptr<Service>> selectedServices;
+    QVector<std::shared_ptr<Service>> selected;
     for(int i = 0; i < selectedServices.size(); i++) {
         if(selectedServices[i]){
-            selectedServices.append(services[i]);
+            selected.append(services[i]);
         }
     }
-    return selectedServices;
+    return selected;
+}
+
+QVector<int> ServiceModel::getSelectedServicesIds() const
+{
+    QVector<int> servicesIds;
+    for(int i = 0;i<selectedServices.size();i++) {
+        if(selectedServices[i]){
+            servicesIds.append(services[i]->getId());
+        }
+    }
+    return servicesIds;
 }
 
 QVector<std::shared_ptr<Service> > ServiceModel::getServices() const

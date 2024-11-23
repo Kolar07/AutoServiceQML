@@ -3,7 +3,39 @@ import QtQuick.Controls
 import QtQuick.Effects
 
 Item {
-    property string servicetype: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getType()
+    property string serviceType: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getType()
+    property int fontSize: 21
+    Component.onCompleted: {
+	setInfoRowsVisible();
+    }
+
+    function setInfoRowsVisible() {
+	if (serviceType === "MaintenanceService") {
+	    oilRow.visible = false;
+	    oilFilterRow.visible = false;
+	    airFilterRow.visible = false;
+	    cabinFilterRow.visible = false;
+	    timingRow.visible = false;
+	    customPartsRow.visible = false;
+	} else if (serviceType === "RepairService") {
+	    oilRow.visible = false;
+	    oilFilterRow.visible = false;
+	    airFilterRow.visible = false;
+	    cabinFilterRow.visible = false;
+	    timingRow.visible = false;
+
+	    //customPartsRow.visible = true;
+	} else if (serviceType === "ServiceOil") {
+	    timingRow.visible = false;
+	    customPartsRow.visible = false;
+	} else if (serviceType === "ServiceTiming") {
+	    oilRow.visible = false;
+	    oilFilterRow.visible = false;
+	    airFilterRow.visible = false;
+	    cabinFilterRow.visible = false;
+	    customPartsRow.visible = false;
+	}
+    }
 
     Rectangle {
 	width: parent.width
@@ -42,7 +74,7 @@ Item {
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    width: vehicleInfoLabel.width + imageRect.width + 30
 	    height: 100
-	    color: "#ccf7fc"
+	    color: "#FFD9B3"
 	    //border.color: "black"
 	    radius: 15
 	    Rectangle {
@@ -81,14 +113,14 @@ Item {
 	    anchors.bottom: parent.bottom
 	    radius: 30
 	    anchors.leftMargin: 30
-	    anchors.topMargin: 45
+	    anchors.topMargin: 30
 	    anchors.bottomMargin: 30
 	    anchors.rightMargin: 20
 
 	    gradient: Gradient {
 		GradientStop {
 		    position: 0.0
-		    color: "#C8E6C9"
+		    color: "#FFE6A3"
 		}
 		// GradientStop {
 		//     position: 0.5
@@ -96,7 +128,7 @@ Item {
 		// }
 		GradientStop {
 		    position: 1.0
-		    color: "#A5D6A7"
+		    color: "#FFCE83"
 		}
 	    }
 
@@ -304,7 +336,7 @@ Item {
 	    anchors.top: pageTitleRect.bottom
 	    anchors.left: vehicleInfoRect.right
 	    anchors.bottom: parent.bottom
-	    anchors.topMargin: 45
+	    anchors.topMargin: 30
 	    anchors.leftMargin: 30
 	    anchors.rightMargin: 20
 	    anchors.bottomMargin: 30
@@ -315,7 +347,7 @@ Item {
 	    gradient: Gradient {
 		GradientStop {
 		    position: 0.0
-		    color: "#F5F7FA"
+		    color: "#FFC48C"
 		}
 		// GradientStop {
 		//     position: 0.5
@@ -323,7 +355,7 @@ Item {
 		// }
 		GradientStop {
 		    position: 1.0
-		    color: "#66BB6A"
+		    color: "#FFD6A5"
 		}
 	    }
 
@@ -356,13 +388,13 @@ Item {
 		    Label {
 			id: mileageLabel
 			text: "Mileage:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getMileage()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			wrapMode: "Wrap"
 			width: parent.width - modelLabel.width
@@ -376,13 +408,13 @@ Item {
 		    Label {
 			id: typeServiceLabel
 			text: "Type:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getType()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - typeServiceLabel.width
 			wrapMode: "Wrap"
@@ -396,13 +428,13 @@ Item {
 		    Label {
 			id: intervalKmLabel
 			text: "Interval Kilometers:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_km()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - intervalKmLabel.width
 			wrapMode: "Wrap"
@@ -415,13 +447,13 @@ Item {
 		    Label {
 			id: serviceDateLabel
 			text: "Service date:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getServiceDateAsString().toString()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - serviceDateLabel.width
 			wrapMode: "Wrap"
@@ -434,13 +466,13 @@ Item {
 		    Label {
 			id: intervalTimeLabel
 			text: "Interval months:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_time()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - intervalTimeLabel.width
 			wrapMode: "Wrap"
@@ -453,13 +485,13 @@ Item {
 		    Label {
 			id: serviceLabel
 			text: "Service:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getService()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - serviceLabel.width
 			wrapMode: "Wrap"
@@ -472,13 +504,13 @@ Item {
 		    Label {
 			id: oilLabel
 			text: "Oil:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getOil()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - oilLabel.width
 			wrapMode: "Wrap"
@@ -491,13 +523,13 @@ Item {
 		    Label {
 			id: oilFilterLabel
 			text: "Oil filter:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getOilFilter()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - oilFilterLabel.width
 			wrapMode: "Wrap"
@@ -511,13 +543,13 @@ Item {
 		    Label {
 			id: airFilterLabel
 			text: "Air filter:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getAirFilter()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - airFilterLabel.width
 			wrapMode: "Wrap"
@@ -531,13 +563,13 @@ Item {
 		    Label {
 			id: cabinFilterLabel
 			text: "Cabin filter:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getCabinFilter()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - cabinFilterLabel.width
 			wrapMode: "Wrap"
@@ -551,13 +583,13 @@ Item {
 		    Label {
 			id: timingLabel
 			text: "Timing:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getTiming()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - timingLabel.width
 			wrapMode: "Wrap"
@@ -571,13 +603,13 @@ Item {
 		    Label {
 			id: customPartsLabel
 			text: "Custom parts:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getCustomParts()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - customPartsLabel.width
 			wrapMode: "Wrap"
@@ -591,13 +623,13 @@ Item {
 		    Label {
 			id: noteLabel
 			text: "Note:"
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#555555"
 			font.bold: true
 		    }
 		    Label {
 			text: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getNote()
-			font.pixelSize: 18
+			font.pixelSize: fontSize
 			color: "#333333"
 			width: parent.width - noteLabel.width
 			wrapMode: "Wrap"

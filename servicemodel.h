@@ -45,6 +45,7 @@ public:
     void setData(QVector<std::shared_ptr<Service>> &_services);
     Q_INVOKABLE void toggleSelection(int index);
     Q_INVOKABLE QVector<std::shared_ptr<Service>> getSelectedServices() const;
+    Q_INVOKABLE QVector<int> getSelectedServicesIds() const;
 
 
     Q_INVOKABLE QVector<std::shared_ptr<Service> > getServices() const;
