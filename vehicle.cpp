@@ -31,7 +31,6 @@ Vehicle::~Vehicle()
     services->deleteLater();
 }
 
-//Vehicle::Vehicle(){}
 
 
 int Vehicle::getId() const

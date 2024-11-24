@@ -110,7 +110,7 @@ void VehicleModel::toggleSelection(int index) {
 
     selected[index] = !selected[index];
     qDebug()<<"Method working, selected: "<<selected;
-    emit dataChanged(createIndex(index, 0), createIndex(index,0), {SelectedRole});
+    emit dataChanged(createIndex(index, 0), createIndex(index, columnCount() - 1), {SelectedRole});//(createIndex(index, 0), createIndex(index,0), {SelectedRole});
 }
 
 QVector<Vehicle*> VehicleModel::getSelectedVehicles() const {

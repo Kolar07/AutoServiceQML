@@ -321,17 +321,35 @@ Item {
 		resizableColumns: true
 
 		delegate: Rectangle {
-		    color: "black"
+		    //color: "#FFB84D"
 		    implicitHeight: 50
 		    //height: 30
 		    //width: tableView.width / 5
 		    //border.color: "black"
 		    Text {
 			text: display
-			anchors.centerIn: parent
-			color: "white"
+			//anchors.centerIn: parent
+			anchors.fill: parent
+			horizontalAlignment: Text.AlignHCenter
+			verticalAlignment: Text.AlignVCenter
+			color: "#FFFFFF"
 			font.bold: true
+			font.pixelSize: 15
 			wrapMode: "Wrap"
+		    }
+		    gradient: Gradient {
+			GradientStop {
+			    position: 0.0
+			    color: "#FFB84D"
+			}
+			// GradientStop {
+			//     position: 0.5
+			//     color: "#fceac5"
+			// }
+			GradientStop {
+			    position: 1.0
+			    color: "#ed9a1c"
+			}
 		    }
 		    clip: true
 		}
@@ -419,8 +437,8 @@ Item {
 		delegate: Rectangle {
 		    width: tableView.columnWidthProvider(column)
 		    height: 50
-		    color: "white"
-		    border.color: "#cccccc"
+		    color: row % 2 === 0 ? "#FFF8E7" : "#FFE6CC"
+		    border.color: "#FAF2D0"
 		    clip: true
 
 		    Loader {
@@ -441,13 +459,16 @@ Item {
 			Rectangle {
 			    width: parent.width
 			    height: parent.height
-			    color: "lightgray"
+			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    clip: true
+			    border.color: "#C99A6B"
 
 			    Text {
 				anchors.fill: parent
 				font.pixelSize: 14
 				wrapMode: "Wrap"
+				color: "#4A4A4A"
+				font.bold: true
 				verticalAlignment: Text.AlignVCenter
 				horizontalAlignment: Text.AlignHCenter
 				text: {
@@ -492,8 +513,9 @@ Item {
 			    id: checkBoxRect
 			    width: parent.width
 			    height: parent.height
-			    color: "lightgray"
+			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    clip: true
+			    border.color: "#C99A6B"
 
 			    CheckBox {
 				anchors.centerIn: parent
@@ -512,7 +534,8 @@ Item {
 			Rectangle {
 			    width: parent.width
 			    height: parent.height
-			    color: "lightgray"
+			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
+			    border.color: "#C99A6B"
 			    clip: true
 
 			    Row {
@@ -536,6 +559,7 @@ Item {
 					fillMode: Image.PreserveAspectFit
 				    }
 				    MouseArea {
+					id: showServiceMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
 					onEntered: {
@@ -553,6 +577,14 @@ Item {
 					onClicked: {
 					    showService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
 					}
+				    }
+
+				    ToolTip {
+					visible: showServiceMouseArea.containsMouse
+					delay: 500
+					text: "show"
+					x: showServiceMouseArea.x
+					y: showServiceMouseArea.y + 30
 				    }
 				}
 
@@ -572,6 +604,7 @@ Item {
 					fillMode: Image.PreserveAspectFit
 				    }
 				    MouseArea {
+					id: editServiceMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
 					onEntered: {
@@ -591,6 +624,14 @@ Item {
 					    editServiceDialog.openDialog();
 					}
 				    }
+
+				    ToolTip {
+					visible: editServiceMouseArea.containsMouse
+					delay: 500
+					text: "edit"
+					x: editServiceMouseArea.x
+					y: editServiceMouseArea.y + 30
+				    }
 				}
 
 				Rectangle {
@@ -609,6 +650,7 @@ Item {
 					fillMode: Image.PreserveAspectFit
 				    }
 				    MouseArea {
+					id: removeServiceMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
 					onEntered: {
@@ -627,6 +669,13 @@ Item {
 					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
 					    removeServiceDialog.openDialog(false);
 					}
+				    }
+				    ToolTip {
+					visible: removeServiceMouseArea.containsMouse
+					delay: 500
+					text: "remove"
+					x: removeServiceMouseArea.x
+					y: removeServiceMouseArea.y + 30
 				    }
 				}
 			    }

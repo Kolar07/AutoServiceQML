@@ -150,7 +150,7 @@ void ServiceModel::toggleSelection(int index)
     }
     selectedServices[index] = !selectedServices[index];
     qDebug()<<"Method working, selected: "<<selectedServices;
-    emit dataChanged(createIndex(index, 0), createIndex(index,0), {SelectedRole});
+    emit dataChanged(createIndex(index, 0), createIndex(index,columnCount()-1), {SelectedRole});
 }
 
 QVector<std::shared_ptr<Service> > ServiceModel::getSelectedServices() const

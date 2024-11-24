@@ -36,14 +36,14 @@ Item {
 	    resizableColumns: true
 
 	    delegate: Rectangle {
-		color: "black"
+		color: "#2B2B2B"
 		//height: 30
 		//width: tableView.width / 5
-		//border.color: "black"
+		border.color: "black"
 		Text {
 		    text: display
 		    anchors.centerIn: parent
-		    color: "white"
+		    color: "#FFFFFF"
 		    font.bold: true
 		}
 	    }
@@ -88,8 +88,8 @@ Item {
 		    } else
 			return explicitColumnWidth(column);
 		case 4:
-		    if (width <= 80) {
-			return 80;
+		    if (width <= 70) {
+			return 70;
 		    } else
 			return explicitColumnWidth(column);
 		case 5:
@@ -108,8 +108,8 @@ Item {
 		    } else
 			return explicitColumnWidth(column);
 		case 8:
-		    if (width <= 145) {
-			return 145;
+		    if (width <= 155) {
+			return 155;
 		    } else
 			return explicitColumnWidth(column);
 		case 9:
@@ -127,7 +127,7 @@ Item {
 	    delegate: Rectangle {
 		width: tableView.columnWidthProvider(column)
 		height: 50
-		color: "white"
+		color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"white"
 		border.color: "#cccccc"
 
 		Loader {
@@ -148,8 +148,8 @@ Item {
 		    Rectangle {
 			width: parent.width
 			height: parent.height
-			color: "lightgray"
-
+			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
+			border.color: "#CCCCCC"
 			Text {
 			    anchors.fill: parent
 			    font.pixelSize: 14
@@ -190,42 +190,8 @@ Item {
 			id: checkBoxRect
 			width: parent.width
 			height: parent.height
-			color: "lightgray"
-
-			// CheckBox {
-			//     id: control
-			//     checked: false
-
-			//     anchors.centerIn: parent
-
-			//     indicator: Rectangle {
-			// 	implicitWidth: 26
-			// 	implicitHeight: 26
-			// 	radius: 3
-			// 	border.color: control.down ? "black" : "black"
-			// 	anchors.centerIn: parent
-
-			// 	Rectangle {
-			// 	    width: 14
-			// 	    height: 14
-			// 	    x: 6
-			// 	    y: 6
-			// 	    radius: 2
-			// 	    color: control.down ? "black" : "black"
-			// 	    visible: control.checked
-			// 	}
-			// 	onCheckedChanged: {}
-			//     }
-
-			//    contentItem: Text {
-			// //text: control.text
-			// font: control.font
-			// opacity: enabled ? 1.0 : 0.3
-			// color: control.down ? "#17a81a" : "#21be2b"
-			// verticalAlignment: Text.AlignVCenter
-			// leftPadding: control.indicator.width + control.spacing
-			//    }
-			//}
+			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
+			border.color: "#CCCCCC"
 
 			CheckBox {
 			    anchors.centerIn: parent
@@ -244,8 +210,8 @@ Item {
 		    Rectangle {
 			width: parent.width
 			height: parent.height
-			color: "lightgray"
-
+			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
+			border.color: "#CCCCCC"
 			Row {
 			    anchors.horizontalCenter: parent.horizontalCenter
 			    anchors.verticalCenter: parent.verticalCenter
@@ -267,6 +233,7 @@ Item {
 				    fillMode: Image.PreserveAspectFit
 				}
 				MouseArea {
+				    id: showVehicleMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
 				    onEntered: {
@@ -284,6 +251,13 @@ Item {
 				    onClicked: {
 					showVehicle(customer.getVehicles().getVehicleByRow(row).getId());
 				    }
+				}
+				ToolTip {
+				    visible: showVehicleMouseArea.containsMouse
+				    delay: 500
+				    text: "show"
+				    x: showVehicleMouseArea.x
+				    y: showVehicleMouseArea.y + 30
 				}
 			    }
 
@@ -303,6 +277,7 @@ Item {
 				    fillMode: Image.PreserveAspectFit
 				}
 				MouseArea {
+				    id: addServiceMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
 				    onEntered: {
@@ -322,6 +297,14 @@ Item {
 					addServiceDialog.openDialog();
 				    }
 				}
+
+				ToolTip {
+				    visible: addServiceMouseArea.containsMouse
+				    delay: 500
+				    text: "add service"
+				    x: addServiceMouseArea.x
+				    y: addServiceMouseArea.y + 30
+				}
 			    }
 
 			    Rectangle {
@@ -340,6 +323,7 @@ Item {
 				    fillMode: Image.PreserveAspectFit
 				}
 				MouseArea {
+				    id: editMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
 				    onEntered: {
@@ -359,6 +343,14 @@ Item {
 					editVehicleDialog.openDialog();
 				    }
 				}
+
+				ToolTip {
+				    visible: editMouseArea.containsMouse
+				    delay: 500
+				    text: "edit"
+				    x: editMouseArea.x
+				    y: editMouseArea.y + 30
+				}
 			    }
 			    Rectangle {
 				id: removeVehicleButton
@@ -377,6 +369,7 @@ Item {
 				}
 
 				MouseArea {
+				    id: removeMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
 				    onEntered: {
@@ -396,6 +389,13 @@ Item {
 					setSelectedVehicle(customer.getVehicles().getVehicleByRow(row).getId());
 					removeVehicleDialog.openDialog(false);
 				    }
+				}
+				ToolTip {
+				    visible: removeMouseArea.containsMouse
+				    delay: 500
+				    text: "remove"
+				    x: removeMouseArea.x
+				    y: removeMouseArea.y + 30
 				}
 			    }
 			}
