@@ -16,21 +16,52 @@ Item {
     }
 
     Rectangle {
+	width: 100
+	height: 20
+	color: "black"
+	radius: 30
+	anchors.top: parent.top
+	anchors.right: parent.right
+	anchors.topMargin: 5
+	anchors.rightMargin: 30
+	Row {
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    anchors.verticalCenter: parent.verticalCenter
+	    spacing: 5
+
+	    Text {
+		anchors.verticalCenter: parent.verticalCenter
+		// anchors.horizontalCenter: parent.horizontalCenter
+		color: "white"
+		font.pixelSize: 15
+		text: "Logout"
+	    }
+	}
+
+	MouseArea {
+	    anchors.fill: parent
+	    onClicked: {}
+	}
+    }
+
+    Rectangle {
 	id: tableViewContainer
 	anchors.bottom: logoId.top
 	anchors.left: parent.left
-	anchors.leftMargin: 30
+	anchors.leftMargin: 10
 	anchors.top: parent.top
 	anchors.topMargin: 30
 	anchors.right: parent.right
-	anchors.rightMargin: 30
+	anchors.rightMargin: 250
 	color: "white"
 	border.color: "black"
+	clip: true
 
 	HorizontalHeaderView {
 	    id: horizontalHeader
 	    anchors.left: tableView.left
 	    anchors.top: parent.top
+	    //anchors.topMargin: 1
 	    syncView: tableView
 	    clip: true
 	    resizableColumns: true
@@ -39,6 +70,7 @@ Item {
 		color: "#2B2B2B"
 		//height: 30
 		//width: tableView.width / 5
+		implicitHeight: 40
 		border.color: "black"
 		Text {
 		    text: display
@@ -52,17 +84,15 @@ Item {
 	TableView {
 	    id: tableView
 	    anchors.top: horizontalHeader.bottom
-	    //anchors.left: parent.left
-	    //anchors.right: parent.right
+	    anchors.left: parent.left
 	    anchors.bottom: parent.bottom
-	    //anchors.margins: 20
-	    anchors.horizontalCenter: parent.horizontalCenter
-	    width: 1180
-	    //width: 1250
+	    anchors.bottomMargin: 1
+	    //width: 1180
+	    anchors.right: parent.right
+	    anchors.margins: 1
 	    clip: true
 	    columnSpacing: 1
 	    rowSpacing: 1
-
 	    model: customer.getVehicles()
 
 	    columnWidthProvider: function (column) {
@@ -146,8 +176,8 @@ Item {
 		Component {
 		    id: textDelegate
 		    Rectangle {
-			width: parent.width
-			height: parent.height
+			//width: parent.width
+			//height: parent.height
 			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
 			border.color: "#CCCCCC"
 			Text {
@@ -188,8 +218,8 @@ Item {
 		    id: checkBoxDelegate
 		    Rectangle {
 			id: checkBoxRect
-			width: parent.width
-			height: parent.height
+			//width: parent.width
+			//height: parent.height
 			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
 			border.color: "#CCCCCC"
 
@@ -208,8 +238,8 @@ Item {
 		Component {
 		    id: actionFieldDelegate
 		    Rectangle {
-			width: parent.width
-			height: parent.height
+			//width: parent.width
+			//height: parent.height
 			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
 			border.color: "#CCCCCC"
 			Row {
@@ -404,15 +434,180 @@ Item {
 	    }
 
 	    ScrollBar.horizontal: ScrollBar {
-		policy: ScrollBar.AlwaysOn
+		policy: ScrollBar.AsNeeded
 		anchors.bottom: parent.bottom
-		clip: true
+		//clip: true
 	    }
 
 	    ScrollBar.vertical: ScrollBar {
 		policy: ScrollBar.AsNeeded
 		//anchors.left: parent.right
 		clip: true
+	    }
+	}
+    }
+    Rectangle {
+	id: listviewRect
+	anchors.left: tableViewContainer.right
+	anchors.leftMargin: 10
+	anchors.rightMargin: 10
+	anchors.top: tableViewContainer.top
+	anchors.right: parent.right
+	anchors.bottom: tableViewContainer.bottom
+	border.color: "black"
+	radius: 10
+	ListView {
+	    id: notificationsList
+	    model: notifModel
+	    width: parent.width
+	    height: parent.height
+	    anchors.top: parent.top
+	    anchors.left: parent.left
+
+	    delegate: Rectangle {
+		width: parent.width
+		height: contentColumn.implicitHeight + 10
+		color: model.backgroundColor
+		border.color: "black"
+		radius: 10
+		anchors.centerIn: parent
+
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: {
+			console.log("Color: " + model.backgroundColor);
+		    }
+		}
+
+		Column {
+		    id: contentColumn
+		    anchors.fill: parent
+		    anchors.margins: 5
+		    //anchors.fill: parent
+		    spacing: 2
+
+		    Text {
+			id: titleText
+			anchors.horizontalCenter: parent.horizontalCenter
+			color: "#2e2e2e"
+			width: parent.width
+			font.pixelSize: 17
+			font.bold: true
+			font.family: "Roboto Bold"
+			wrapMode: "Wrap"
+			horizontalAlignment: Text.AlignHCenter
+			text: model.serviceType + " REMINDER"
+		    }
+		    Row {
+			spacing: 5
+			width: parent.width
+			Label {
+			    id: notificationServiceLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Service:"
+			    anchors.leftMargin: 5
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationServiceLabel.width
+			    text: model.service
+			}
+		    }
+
+		    Row {
+			spacing: 5
+			width: parent.width
+			Label {
+			    id: notificationServiceDateLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Service date:"
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationServiceDateLabel.width
+			    text: model.serviceDate
+			}
+		    }
+		    Row {
+			spacing: 5
+			width: parent.width
+			Label {
+			    id: notificationNextServiceDateLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Next service date:"
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationNextServiceDateLabel.width
+			    text: model.nextServiceDate
+			}
+		    }
+
+		    Row {
+			spacing: 5
+			width: parent.width
+			Label {
+			    id: notificationVehicleRegistrationLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Vehicle:"
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationVehicleRegistrationLabel.width
+			    text: model.vehicleRegistration
+			}
+		    }
+
+		    Row {
+			spacing: 5
+			width: parent.width
+			Label {
+			    id: notificationDaysLeftLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Days left:"
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationDaysLeftLabel.width
+			    text: model.daysLeft
+			}
+		    }
+		}
 	    }
 	}
     }
@@ -429,52 +624,124 @@ Item {
 	id: removeVehicleDialog
     }
 
-    Row {
+    Column {
 	spacing: 5
 	anchors.top: tableViewContainer.bottom
 	anchors.topMargin: 10
-	anchors.horizontalCenter: tableViewContainer.horizontalCenter
-	Rectangle {
-	    width: 200
-	    height: 40
-	    color: "black"
+	anchors.horizontalCenter: parent.horizontalCenter
+	Row {
+	    id: buttonsFirstRow
+	    spacing: 5
+	    // anchors.top: tableViewContainer.bottom
+	    // anchors.topMargin: 10
+	    // anchors.horizontalCenter: tableViewContainer.horizontalCenter
+	    Rectangle {
+		width: 200
+		height: 40
+		color: "black"
 
-	    radius: 30
-	    Text {
-		anchors.centerIn: parent
-		color: "white"
-		font.pixelSize: 20
-		text: "Add Vehicle"
+		radius: 30
+		Row {
+		    anchors.horizontalCenter: parent.horizontalCenter
+		    anchors.verticalCenter: parent.verticalCenter
+		    spacing: 5
+		    Image {
+			width: 30
+			height: parent.height - 4
+			source: "qrc:/assets/plus.png"
+			fillMode: Image.PreserveAspectFit
+			anchors.verticalCenter: parent.verticalCenter
+			// anchors.horizontalCenter: parent.horizontalCenter
+		    }
+
+		    Text {
+			anchors.verticalCenter: parent.verticalCenter
+			// anchors.horizontalCenter: parent.horizontalCenter
+			color: "white"
+			font.pixelSize: 20
+			text: "Add Vehicle"
+		    }
+		}
+
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: {
+			addVehicleDialog.openDialog();
+		    }
+		}
 	    }
 
-	    MouseArea {
-		anchors.fill: parent
-		onClicked: {
-		    addVehicleDialog.openDialog();
+	    Rectangle {
+		width: 220
+		height: 40
+		color: "black"
+		radius: 30
+		Row {
+		    anchors.horizontalCenter: parent.horizontalCenter
+		    anchors.verticalCenter: parent.verticalCenter
+		    spacing: 5
+		    Image {
+			width: 30
+			height: parent.height - 4
+			source: "qrc:/assets/delete.png"
+			fillMode: Image.PreserveAspectFit
+			anchors.verticalCenter: parent.verticalCenter
+			// anchors.horizontalCenter: parent.horizontalCenter
+		    }
+
+		    Text {
+			anchors.verticalCenter: parent.verticalCenter
+			// anchors.horizontalCenter: parent.horizontalCenter
+			color: "white"
+			font.pixelSize: 20
+			text: "Remove checked"
+		    }
+		}
+
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: {
+			removeVehicleDialog.openDialog(true);
+		    }
 		}
 	    }
 	}
 
 	Rectangle {
-	    width: 200
+	    width: 220
 	    height: 40
 	    color: "black"
 	    radius: 30
-	    Text {
-		anchors.centerIn: parent
-		color: "white"
-		font.pixelSize: 20
-		text: "Remove checked"
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    Row {
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.verticalCenter: parent.verticalCenter
+		spacing: 5
+		Image {
+		    width: 30
+		    height: parent.height - 4
+		    source: "qrc:/assets/export.png"
+		    fillMode: Image.PreserveAspectFit
+		    anchors.verticalCenter: parent.verticalCenter
+		    // anchors.horizontalCenter: parent.horizontalCenter
+		}
+
+		Text {
+		    anchors.verticalCenter: parent.verticalCenter
+		    // anchors.horizontalCenter: parent.horizontalCenter
+		    color: "white"
+		    font.pixelSize: 20
+		    text: "Export data"
+		}
 	    }
 
 	    MouseArea {
 		anchors.fill: parent
-		onClicked: {
-		    removeVehicleDialog.openDialog(true);
-		}
+		onClicked: {}
 	    }
 	}
     }
+
     AddVehicleDialog {
 	id: addVehicleDialog
     }

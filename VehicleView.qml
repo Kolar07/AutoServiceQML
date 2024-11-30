@@ -358,13 +358,9 @@ Item {
 	    TableView {
 		id: tableView
 		anchors.top: horizontalHeader.bottom
-		//anchors.left: parent.left
-		//anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: 10
-		//anchors.margins: 20
 		anchors.horizontalCenter: parent.horizontalCenter
-		//width: 1180
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.rightMargin: 10
@@ -378,20 +374,20 @@ Item {
 		columnWidthProvider: function (column) {
 		    let width = explicitColumnWidth(column);
 		    switch (column) {
-		    // case 0:
-		    //     return 50;
-		    // case 1:
-		    //     if (width >= 80) {
-		    // 	return 80;
-		    //     } else if (width <= 50)
-		    // 	return 50;
-		    //     else
-		    // 	return explicitColumnWidth(column);
-		    // case 2:
-		    //     if (width <= 120) {
-		    // 	return 120;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
+		    case 0:
+			return 60;
+		    case 1:
+			if (width >= 80) {
+			    return 80;
+			} else if (width <= 60)
+			    return 60;
+			else
+			    return explicitColumnWidth(column);
+		    case 2:
+			if (width <= 140) {
+			    return 140;
+			} else
+			    return explicitColumnWidth(column);
 		    // case 3:
 		    //     if (width <= 120) {
 		    // 	return 120;
@@ -695,26 +691,106 @@ Item {
 		}
 	    }
 	}
-
-	Rectangle {
-	    width: 220
-	    height: 35
-	    color: "black"
+	Row {
 	    anchors.top: tableViewRect.bottom
 	    anchors.topMargin: 12
 	    anchors.horizontalCenter: tableViewRect.horizontalCenter
-	    radius: 30
-	    Text {
-		anchors.centerIn: parent
-		color: "white"
-		font.pixelSize: 20
-		text: "Remove checked"
+	    spacing: 5
+
+	    Rectangle {
+		width: 225
+		height: 35
+		color: "black"
+		radius: 30
+		Row {
+		    anchors.horizontalCenter: parent.horizontalCenter
+		    anchors.verticalCenter: parent.verticalCenter
+		    spacing: 3
+		    Image {
+			width: 30
+			height: parent.height - 4
+			source: "qrc:/assets/plus.png"
+			fillMode: Image.PreserveAspectFit
+			anchors.verticalCenter: parent.verticalCenter
+		    }
+
+		    Text {
+			color: "white"
+			font.pixelSize: 20
+			text: "Add service"
+			anchors.verticalCenter: parent.verticalCenter
+		    }
+		}
+
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: {
+			addServiceDialog.openDialog();
+		    }
+		}
 	    }
 
-	    MouseArea {
-		anchors.fill: parent
-		onClicked: {
-		    removeServiceDialog.openDialog(true);
+	    Rectangle {
+		width: 225
+		height: 35
+		color: "black"
+		radius: 30
+		Row {
+		    anchors.horizontalCenter: parent.horizontalCenter
+		    anchors.verticalCenter: parent.verticalCenter
+		    spacing: 3
+		    Image {
+			width: 30
+			height: parent.height - 4
+			source: "qrc:/assets/delete.png"
+			fillMode: Image.PreserveAspectFit
+			anchors.verticalCenter: parent.verticalCenter
+		    }
+
+		    Text {
+			color: "white"
+			font.pixelSize: 20
+			text: "Remove checked"
+			anchors.verticalCenter: parent.verticalCenter
+		    }
+		}
+
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: {
+			removeServiceDialog.openDialog(true);
+		    }
+		}
+	    }
+
+	    Rectangle {
+		width: 225
+		height: 35
+		color: "black"
+		radius: 30
+		Row {
+		    anchors.horizontalCenter: parent.horizontalCenter
+		    anchors.verticalCenter: parent.verticalCenter
+		    spacing: 3
+		    Image {
+			width: 30
+			height: parent.height - 4
+			source: "qrc:/assets/raport.png"
+			fillMode: Image.PreserveAspectFit
+			anchors.verticalCenter: parent.verticalCenter
+		    }
+
+		    Text {
+			color: "white"
+			font.pixelSize: 20
+			text: "Generate report"
+			anchors.verticalCenter: parent.verticalCenter
+		    }
+		}
+
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: {}
 		}
 	    }
 	}
@@ -735,6 +811,9 @@ Item {
     }
     RemoveServiceDialog {
 	id: removeServiceDialog
+    }
+    AddServiceDialog {
+	id: addServiceDialog
     }
 
     function setSelectedService(serviceId) {

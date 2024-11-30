@@ -4,7 +4,7 @@ ValidationController::ValidationController() {}
 
 bool ValidationController::markIsValid(QString mark) const
 {
-    static QRegularExpression markRegex("^[A-Za-z]+$");
+    static QRegularExpression markRegex("^[A-Za-z]+(?:[ -][A-Za-z]+)*$");
 
     if(mark == "" || !markRegex.match(mark).hasMatch())
         return false;

@@ -71,7 +71,7 @@ VehicleModel* Customer::getVehicles()
 
 void Customer::onVehiclesFetched(QVector<Vehicle *> vehiclesVector)
 {
-    if(!vehiclesVector.empty()) {
+    //if(!vehiclesVector.empty()) {
         qDebug()<<"From customer - setting vehicles, size: "<<vehiclesVector.size();
     vehicles->setData(vehiclesVector);
     qDebug()<<"From customer - after setting vehicles: "<<vehicles->getVehicles().size();
@@ -79,7 +79,7 @@ void Customer::onVehiclesFetched(QVector<Vehicle *> vehiclesVector)
     // for(int i = 0; i<vehicles->getVehicles().size(); i++) {
     //     qDebug()<<vehicles->getVehicleByRow(i)->getServices()->getServices().size();
     // }
-    } else return;
+    //}
 }
 
 void Customer::onServicesFetchedVersionSpecifiedVehicle(int vehicleId, QVector<std::shared_ptr<Service> > services)

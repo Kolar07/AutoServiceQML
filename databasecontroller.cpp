@@ -19,7 +19,7 @@ bool DatabaseController::open() {
         qDebug()<<"Database error: "<< db.lastError().text();
         return false;
     }
-    qDebug()<<"Works fine brutha";
+    qDebug()<<"Works fine";
     return true;
 }
 
@@ -29,6 +29,99 @@ void DatabaseController::close()
         db.close();
     }
 }
+
+void DatabaseController::init()
+{
+
+
+    if (!db.open()) {
+        qDebug()<<"Nie udało się połączyć z bazą danych: " + db.lastError().text();
+        return;
+    }
+
+
+    const QString createVehiclesTable = R"(
+        CREATE TABLE IF NOT EXISTS vehicles (
+          id INT NOT NULL AUTO_INCREMENT,
+          customer_id INT DEFAULT NULL,
+          brand VARCHAR(255) DEFAULT NULL,
+          model VARCHAR(255) DEFAULT NULL,
+          year INT NOT NULL,
+          version VARCHAR(255) DEFAULT NULL,
+          engine VARCHAR(255) DEFAULT NULL,
+          type_id INT DEFAULT NULL,
+          type VARCHAR(255) DEFAULT NULL,
+          vin VARCHAR(255) UNIQUE NOT NULL,
+          registration_number VARCHAR(255) UNIQUE NOT NULL,
+          PRIMARY KEY (id),
+          CONSTRAINT fk_type_id FOREIGN KEY (type_id) REFERENCES vehicle_types (id) ON DELETE CASCADE ON UPDATE CASCADE,
+          CONSTRAINT vehicles_ibfk_1 FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE ON UPDATE CASCADE
+        )
+    )";
+
+    const QString createServicesTable = R"(
+        CREATE TABLE IF NOT EXISTS services (
+          id INT NOT NULL AUTO_INCREMENT,
+          vehicle_id INT NOT NULL,
+          mileage INT NOT NULL,
+          type ENUM('ServiceOil','ServiceTiming','RepairService','MaintenanceService') NOT NULL,
+          interval_km INT DEFAULT NULL,
+          service_date DATE NOT NULL,
+          interval_time INT DEFAULT NULL,
+          service VARCHAR(255) NOT NULL,
+          oil VARCHAR(255) DEFAULT NULL,
+          oil_filter VARCHAR(255) DEFAULT NULL,
+          air_filter VARCHAR(255) DEFAULT NULL,
+          cabin_filter VARCHAR(255) DEFAULT NULL,
+          timing VARCHAR(255) DEFAULT NULL,
+          custom_parts VARCHAR(255) DEFAULT NULL,
+          note VARCHAR(255) DEFAULT NULL,
+          PRIMARY KEY (id),
+          CONSTRAINT services_ibfk_1 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id) ON DELETE CASCADE
+        )
+    )";
+
+    const QString createVehicleTypesTable = R"(
+        CREATE TABLE IF NOT EXISTS vehicle_types (
+          id INT NOT NULL AUTO_INCREMENT,
+          type_name VARCHAR(50) UNIQUE NOT NULL,
+          PRIMARY KEY (id)
+        )
+    )";
+
+    const QString createCustomersTable = R"(
+        CREATE TABLE IF NOT EXISTS customers (
+          id INT NOT NULL AUTO_INCREMENT,
+          name VARCHAR(255) DEFAULT NULL,
+          surname VARCHAR(255) DEFAULT NULL,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          password VARCHAR(255) NOT NULL,
+          PRIMARY KEY (id)
+        )
+    )";
+
+    if (!executeQuery(createVehiclesTable) ||
+        !executeQuery(createServicesTable) ||
+        !executeQuery(createVehicleTypesTable) ||
+        !executeQuery(createCustomersTable)) {
+        return;
+    }
+    qDebug()<<"Database created or existing";
+}
+
+bool DatabaseController::executeQuery(const QString &query)
+{
+    QSqlQuery q;
+    if (!q.exec(query)) {
+        qDebug()<< "Błąd podczas tworzenia tabeli: " + q.lastError().text() << " dla polecenia: " <<query;
+        return false;
+    }
+    else {
+        qDebug()<<"Query executed";
+        return true;
+
+    }
+    }
 
 bool DatabaseController::addCustomer(QString name, QString surname, QString email, QString password)
 {

@@ -25,6 +25,8 @@ public:
 
     bool open();
     void close();
+    void init();
+    bool executeQuery(const QString &query);
 
     //CUSTOMER
     bool addCustomer(QString name, QString surname, QString email, QString password);

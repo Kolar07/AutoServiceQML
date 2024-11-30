@@ -89,7 +89,7 @@ QVariant ServiceModel::headerData(int section, Qt::Orientation orientation, int 
         case 2: return "Type";
         case 3: return "Date";
         case 4: return "Interval";
-        case 5: return "Next Service";
+        case 5: return "Next Service (months)";
         case 6: return "Service";
         case 7: return "Mileage";
         case 8: return "Oil";
@@ -107,7 +107,7 @@ QVariant ServiceModel::headerData(int section, Qt::Orientation orientation, int 
 QHash<int, QByteArray> ServiceModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-        roles[Qt::DisplayRole] = "display";
+    roles[Qt::DisplayRole] = "display";
     roles[IdRole] = "id";
     roles[MileageRole] = "mileage";
     roles[TypeRole] = "type";

@@ -13,7 +13,7 @@ Item {
 	id: removeVehicleDialog
 	anchors.centerIn: parent
 	width: 300
-	height: 150
+	height: 120
 	parent: Overlay.overlay
 	focus: true
 	modal: true
@@ -33,17 +33,18 @@ Item {
 		Button {
 		    text: "Remove"
 		    onClicked: {
-			if(!removeMultiple) {
-
-			if (dbController.removeVehicle(selectedVehicleId)) {
-			    customer.fetchVehicles(customer.getId());
-			    removeVehicleDialog.close();
-			} else removeVehicleDialog.close();
+			if (!removeMultiple) {
+			    if (dbController.removeVehicle(selectedVehicleId)) {
+				customer.fetchVehicles(customer.getId());
+				removeVehicleDialog.close();
+			    } else
+				removeVehicleDialog.close();
 			} else {
 			    if (dbController.removeMultipleVehicles(customer.getVehicles().getVehiclesIds())) {
 				customer.fetchVehicles(customer.getId());
 				removeVehicleDialog.close();
-			    } else removeVehicleDialog.close();
+			    } else
+				removeVehicleDialog.close();
 			}
 		    }
 		}

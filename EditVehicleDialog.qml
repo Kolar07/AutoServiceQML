@@ -7,6 +7,16 @@ Item {
 	editVehicleDialog.open();
     }
 
+    function clearInputs() {
+	editBrandInput.text = "";
+	editModelInput.text = "";
+	editYearInput.text = "";
+	editVersionInput.text = "";
+	editEngineInput.text = "";
+	editVinInput.text = "";
+	editRegistrationInput.text = "";
+    }
+
     Dialog {
 	id: editVehicleDialog
 	anchors.centerIn: parent
@@ -301,6 +311,7 @@ Item {
 			    if (!dbController.checkRegistration(editRegistrationInput.text)) {
 				if (dbController.updateVehicle(selectedVehicleId, editBrandInput.text, editModelInput.text, editYearInput.text, editVersionInput.text, editEngineInput.text, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleEditTypeComboBox.currentIndex).typeName, editVinInput.text, editRegistrationInput.text)) {
 				    customer.fetchVehicles(customer.getId());
+				    clearInputs();
 				    editVehicleDialog.close();
 				}
 			    } else {

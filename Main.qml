@@ -16,7 +16,7 @@ ApplicationWindow {
 
     onShowService: {
 	selectedServiceId = serviceId;
-	viewLoader.source = "ServiceView.qml"
+	viewLoader.source = "ServiceView.qml";
     }
 
     Loader { //change to stackview so mainview will not be destroyed

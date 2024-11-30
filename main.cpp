@@ -13,6 +13,8 @@
 #include "vehicletypecontainer.h"
 #include "vehicletype.h"
 #include "validationcontroller.h"
+#include "notificationmodel.h"
+#include "notification.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,8 +26,10 @@ int main(int argc, char *argv[])
     RegisterController registerController;
 
 
-    DatabaseController dbController("localhost","root","root", "db_autoservice");
+    DatabaseController dbController("localhost","autoservice_user","autoservice_psw", "db_autoservice");
+    //dbController.init();
     dbController.open();
+    dbController.init();
     bool isConnected = QObject::connect(&registerController,&RegisterController::registrationSuccess,
                                         &dbController,&DatabaseController::registrationSuccess);
 
@@ -51,6 +55,14 @@ int main(int argc, char *argv[])
 
     QObject::connect(&dbController, &DatabaseController::servicesFetchedVersionSpecifiedVehicle,
                      &customer, &Customer::onServicesFetchedVersionSpecifiedVehicle);
+
+    QDate date(2023, 12, 5);
+    Notification notif1(date,150050,12,15000,"Oil and filters change", "MaintenanceService", "SMI5JU9");
+    QVector<Notification*> vector;
+    vector.append(&notif1);
+    NotificationModel notifModel;
+    notifModel.setData(vector);
+    qDebug()<<"MODEL OIASHJDIUASH: "<<notifModel.rowCount();
 
     dbController.fetchVehicleTypes();
     emit customer.fetchVehicles(customer.getId());
@@ -84,6 +96,7 @@ int main(int argc, char *argv[])
     ValidationController valid;
 
 
+
     // QDate date;
     // date.setDate(2024,10,22);
     // std::shared_ptr<Service> service = std::make_shared<RepairService>(100500,15000,"2024-10-10","36","Xyz change", "RepairService");
@@ -105,6 +118,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("customer", &customer);
     engine.rootContext()->setContextProperty("valid", &valid);
     engine.rootContext()->setContextProperty("dbController", &dbController);
+    engine.rootContext()->setContextProperty("notifModel", &notifModel);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

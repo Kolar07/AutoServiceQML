@@ -6,6 +6,17 @@ Item {
     function openDialog() {
 	addVehicleDialog.open();
     }
+
+    function clearInputs() {
+	brandInput.text = "";
+	modelInput.text = "";
+	yearInput.text = "";
+	versionInput.text = "";
+	engineInput.text = "";
+	vinInput.text = "";
+	registrationInput.text = "";
+    }
+
     Dialog {
 	id: addVehicleDialog
 	anchors.centerIn: parent
@@ -92,7 +103,7 @@ Item {
 		visible: false
 		font.pixelSize: 10
 		color: "red"
-		text: "VIN should contain 17 characters! (Digits and capital letters without O,I,Q)"
+		text: "The year must be between 1900 and 2025"
 	    }
 
 	    TextField {
@@ -286,6 +297,7 @@ Item {
 			    if (!dbController.checkRegistration(registrationInput.text)) {
 				if (dbController.addVehicle(customer.getId(), brandInput.text, modelInput.text, yearInput.text, versionInput.text, engineInput.text, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).id, vehicleTypeModel.get(vehicleTypeComboBox.currentIndex).typeName, vinInput.text, registrationInput.text)) {
 				    customer.fetchVehicles(customer.getId());
+				    clearInputs();
 				    addVehicleDialog.close();
 				}
 			    } else {

@@ -19,7 +19,7 @@ Item {
 	text: "Create an account"
 	font.pixelSize: 35
 	font.bold: true
-	font.family: "Comic Sans MS"
+	font.family: "Open Sans"
     }
 
     Column {

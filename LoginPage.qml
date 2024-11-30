@@ -16,10 +16,10 @@ Item {
 	anchors.horizontalCenter: parent.horizontalCenter
 	anchors.bottom: loginColumnId.top
 	anchors.bottomMargin: 10
-	text: "Welcome! Please login to your account"
+	text: "Login to your account"
 	font.pixelSize: 35
 	font.bold: true
-	font.family: "Comic Sans MS"
+	font.family: "Open Sans"
     }
 
     Column {
