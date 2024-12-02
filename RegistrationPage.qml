@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls 2
 
 Item {
-
     Image {
 	id: logoId
 	anchors.left: parent.left

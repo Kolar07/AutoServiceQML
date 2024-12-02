@@ -380,6 +380,7 @@ bool DatabaseController::updateVehicle(int vehicleId, QString brand, QString mod
     QStringList setClauses;
 
     if (!brand.isEmpty()) {
+        qDebug()<<"UPDATING BRAND: " << brand;
         setClauses.append("brand = ?");
     }
     if (!model.isEmpty()) {
@@ -418,10 +419,10 @@ bool DatabaseController::updateVehicle(int vehicleId, QString brand, QString mod
     query.prepare(updateQuery);
 
     for (const QString &clause : setClauses) {
-        if (clause.startsWith("mark")) {
+        if (clause.startsWith("brand")) {
             query.addBindValue(brand);
             qDebug() << "Updating brand to:" << brand;
-        } else if (clause.startsWith("brand")) {
+        } else if (clause.startsWith("model")) {
             query.addBindValue(model);
             qDebug() << "Updating model to:" << model;
         } else if (clause.startsWith("year")) {

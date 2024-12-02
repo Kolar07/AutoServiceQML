@@ -6,6 +6,7 @@ Item {
     //visible: viewLoader.source === "MainViewPage.qml" ? true : false
     property int selectedVehicleId: -1
     property int selectedServiceId: -1
+
     Image {
 	id: logoId
 	anchors.left: parent.left
@@ -108,47 +109,47 @@ Item {
 		    else
 			return explicitColumnWidth(column);
 		case 2:
-		    if (width <= 120) {
-			return 120;
+		    if (width <= 100) {
+			return 100;
 		    } else
 			return explicitColumnWidth(column);
 		case 3:
-		    if (width <= 120) {
-			return 120;
+		    if (width <= 100) {
+			return 100;
 		    } else
 			return explicitColumnWidth(column);
 		case 4:
-		    if (width <= 70) {
-			return 70;
+		    if (width <= 50) {
+			return 50;
 		    } else
 			return explicitColumnWidth(column);
 		case 5:
-		    if (width <= 120) {
-			return 120;
+		    if (width <= 100) {
+			return 100;
 		    } else
 			return explicitColumnWidth(column);
 		case 6:
-		    if (width <= 120) {
-			return 120;
+		    if (width <= 100) {
+			return 100;
 		    } else
 			return explicitColumnWidth(column);
 		case 7:
-		    if (width <= 120) {
-			return 120;
+		    if (width <= 100) {
+			return 100;
 		    } else
 			return explicitColumnWidth(column);
 		case 8:
-		    if (width <= 155) {
-			return 155;
+		    if (width <= 160) {
+			return 160;
 		    } else
 			return explicitColumnWidth(column);
 		case 9:
-		    if (width <= 95) {
-			return 95;
+		    if (width <= 85) {
+			return 85;
 		    } else
 			return explicitColumnWidth(column);
 		case 10:
-		    return 150;
+		    return 180;
 		default:
 		    return 120;
 		}
@@ -176,38 +177,58 @@ Item {
 		Component {
 		    id: textDelegate
 		    Rectangle {
-			//width: parent.width
-			//height: parent.height
+			id: textRect
+			height: 40
 			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
 			border.color: "#CCCCCC"
-			Text {
+			Flickable {
+			    id: flickable
 			    anchors.fill: parent
-			    font.pixelSize: 14
-			    wrapMode: "Wrap"
-			    verticalAlignment: Text.AlignVCenter
-			    horizontalAlignment: Text.AlignHCenter
-			    text: {
-				switch (column) {
-				case 1:
-				    return id;
-				case 7:
-				    return type;
-				case 2:
-				    return brand;
-				case 3:
-				    return model;
-				case 4:
-				    return year;
-				case 5:
-				    return version;
-				case 6:
-				    return engine;
-				case 8:
-				    return vin;
-				case 9:
-				    return regNumber;
-				default:
-				    return "";
+			    contentWidth: parent.width
+			    contentHeight: text.implicitHeight > parent.height ? text.implicitHeight : parent.height
+			    //flickableDirection: Flickable.VerticalFlick
+			    clip: true
+			    interactive: false
+			    ScrollBar.vertical: ScrollBar {
+				policy: ScrollBar.AsNeeded
+				//anchors.left: parent.right
+				clip: true
+			    }
+
+			    Text {
+				id: text
+				width: parent.width - 4
+				height: implicitHeight
+				//anchors.horizontalCenter: parent.horizontalCenter
+				anchors.centerIn: parent
+				//anchors.verticalCenter: parent.verticalCenter
+				font.pixelSize: 14
+				wrapMode: "Wrap"
+				verticalAlignment: Text.AlignVCenter
+				horizontalAlignment: Text.AlignHCenter
+				text: {
+				    switch (column) {
+				    case 1:
+					return id;
+				    case 7:
+					return type;
+				    case 2:
+					return brand;
+				    case 3:
+					return model;
+				    case 4:
+					return year;
+				    case 5:
+					return version;
+				    case 6:
+					return engine;
+				    case 8:
+					return vin;
+				    case 9:
+					return regNumber;
+				    default:
+					return "";
+				    }
 				}
 			    }
 			}

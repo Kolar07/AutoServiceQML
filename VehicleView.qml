@@ -431,7 +431,7 @@ Item {
 		    //     } else
 		    // 	return explicitColumnWidth(column);
 		    case 14:
-			return 150;
+			return 180;
 		    default:
 			return 130;
 		    }
@@ -460,50 +460,66 @@ Item {
 		    Component {
 			id: textDelegate
 			Rectangle {
-			    width: parent.width
-			    height: parent.height
+			    //width: parent.width
+			    //height: parent.height
 			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    clip: true
 			    border.color: "#C99A6B"
 
-			    Text {
+			    Flickable {
+				id: flickable
 				anchors.fill: parent
-				font.pixelSize: 14
-				wrapMode: "Wrap"
-				color: "#4A4A4A"
-				font.bold: true
-				verticalAlignment: Text.AlignVCenter
-				horizontalAlignment: Text.AlignHCenter
-				text: {
-				    switch (column) {
-				    case 1:
-					return id;
-				    case 7:
-					return mileage;
-				    case 2:
-					return type;
-				    case 3:
-					return serviceDate;
-				    case 4:
-					return intervalKm;
-				    case 5:
-					return intervalTime;
-				    case 6:
-					return service;
-				    case 8:
-					return oil;
-				    case 9:
-					return oilFilter;
-				    case 10:
-					return airFilter;
-				    case 11:
-					return cabinFilter;
-				    case 12:
-					return timing;
-				    case 13:
-					return customParts;
-				    default:
-					return "";
+				contentWidth: parent.width
+				contentHeight: text.implicitHeight > parent.height ? text.implicitHeight : parent.height
+				//flickableDirection: Flickable.VerticalFlick
+				clip: true
+				interactive: false
+				ScrollBar.vertical: ScrollBar {
+				    policy: ScrollBar.AsNeeded
+				    //anchors.left: parent.right
+				    clip: true
+				}
+
+				Text {
+				    id: text
+				    width: parent.width - 4
+				    height: implicitHeight
+				    anchors.centerIn: parent
+				    font.pixelSize: 14
+				    wrapMode: "Wrap"
+				    verticalAlignment: Text.AlignVCenter
+				    horizontalAlignment: Text.AlignHCenter
+				    text: {
+					switch (column) {
+					case 1:
+					    return id;
+					case 7:
+					    return mileage;
+					case 2:
+					    return type;
+					case 3:
+					    return serviceDate;
+					case 4:
+					    return intervalKm;
+					case 5:
+					    return intervalTime;
+					case 6:
+					    return service;
+					case 8:
+					    return oil;
+					case 9:
+					    return oilFilter;
+					case 10:
+					    return airFilter;
+					case 11:
+					    return cabinFilter;
+					case 12:
+					    return timing;
+					case 13:
+					    return customParts;
+					default:
+					    return "";
+					}
 				    }
 				}
 			    }
