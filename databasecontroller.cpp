@@ -839,9 +839,16 @@ bool DatabaseController::addNotification(QDate _serviceDate, QString _mileage, Q
         return false;
     }
 
-    int calculated = _mileage.toInt() + _intervalKm.toInt();
-    QDate nextServiceDate = _serviceDate.addMonths(_intervalMonths.toInt());
-
+    QSqlQuery findNotif;
+    findNotif.prepare("SELECT * FROM notifications WHERE service_id = ?");
+    findNotif.addBindValue(_serviceId);
+    if(!findNotif.exec()) {
+        qDebug()<<"Failed to execute query for finding notification";
+        return false;
+    }
+    if(!findNotif.next() && (_intervalKm.toInt() > 0 || _intervalMonths.toInt() > 0)) {
+        int calculated = _mileage.toInt() + _intervalKm.toInt();
+        QDate nextServiceDate = _serviceDate.addMonths(_intervalMonths.toInt());
 
     QSqlQuery query;
     query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
@@ -861,8 +868,53 @@ bool DatabaseController::addNotification(QDate _serviceDate, QString _mileage, Q
         qDebug()<<"Nope not working"<<query.lastError();
         return false;
     } return true;
-
+    } else {
+        qDebug()<<"Notification for this service already exists!";
+        return false;
+    }
 }
+
+// bool DatabaseController::addNotificationWithInts(QDate _serviceDate, int _mileage, int _intervalMonths, int _intervalKm, int _serviceId, QString _service, QString _serviceType, QString _vehicleRegistration)
+// {
+//     if (!db.open()) {
+//         qDebug() << "Database is not open:" << db.lastError();
+//         return false;
+//     }
+
+//     QSqlQuery findNotif;
+//     findNotif.prepare("SELECT * FROM notifications WHERE service_id = ?");
+//     findNotif.addBindValue(_serviceId);
+//     if(!findNotif.exec()) {
+//         qDebug()<<"Failed to execute query for finding notification";
+//         return false;
+//     }
+//     if(!findNotif.next() && (_intervalKm > 0 || _intervalMonths > 0)) {
+//         int calculated = _mileage + _intervalKm;
+//         QDate nextServiceDate = _serviceDate.addMonths(_intervalMonths);
+
+//         QSqlQuery query;
+//         query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
+//         query.addBindValue(_serviceId);
+//         query.addBindValue(_serviceDate);
+//         if(_intervalMonths == 0) {
+//             query.addBindValue(QVariant());
+//         } else query.addBindValue(nextServiceDate);
+//         if(calculated == _mileage){
+//             query.addBindValue(QVariant());
+//         } else query.addBindValue(calculated);
+//         query.addBindValue(_service);
+//         query.addBindValue(_serviceType);
+//         query.addBindValue(_vehicleRegistration);
+
+//         if(!query.exec()) {
+//             qDebug()<<"Nope not working"<<query.lastError();
+//             return false;
+//         } return true;
+//     } else {
+//         qDebug()<<"Notification for this service already exists or no interval given!";
+//         return false;
+//     }
+// }
 
 bool DatabaseController::removeNotification(int notificationId)
 {

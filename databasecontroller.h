@@ -57,7 +57,9 @@ public:
     Q_INVOKABLE bool removeMultipleServices(QVector<int> serviceIds);
 
     //NOTIFICATIONS
-    Q_INVOKABLE bool addNotification(QDate _serviceDate,QString _mileage, QString _intervalMonths,QString _intervalKm, int serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
+    Q_INVOKABLE bool addNotification(QDate _serviceDate,QString _mileage, QString _intervalMonths,QString _intervalKm, int _serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
+    //Q_INVOKABLE bool addNotificationWithInts(QDate _serviceDate,int _mileage, int _intervalMonths,int _intervalKm, int _serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
+
     Q_INVOKABLE bool removeNotification(int notificationId);
     Q_INVOKABLE bool updateNotificationWithService(int serviceId);
 

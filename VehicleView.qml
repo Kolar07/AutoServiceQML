@@ -3,7 +3,9 @@ import QtQuick.Controls 2
 import QtQuick.Effects
 
 Item {
-
+    property int selectedVehicleId: -1
+    property int selectedServiceId: -1
+    signal showService(int vehicleId, int serviceId)
     Rectangle {
 	width: parent.width
 	height: parent.height
@@ -307,15 +309,16 @@ Item {
 	    anchors.leftMargin: 30
 	    anchors.rightMargin: 20
 	    anchors.bottomMargin: 60
-	    radius: 30
 	    layer.enabled: true
 	    clip: true
+	    border.color: "black"
 
 	    HorizontalHeaderView {
 		id: horizontalHeader
 		anchors.left: tableView.left
 		anchors.top: parent.top
-		anchors.topMargin: 10
+		anchors.topMargin: 1
+		//anchors.topMargin: 10
 		syncView: tableView
 		clip: true
 		resizableColumns: true
@@ -359,12 +362,16 @@ Item {
 		id: tableView
 		anchors.top: horizontalHeader.bottom
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 10
-		anchors.horizontalCenter: parent.horizontalCenter
+		//anchors.bottomMargin: 10
+		//anchors.horizontalCenter: parent.horizontalCenter
+		//anchors.verticalCenter: parent.verticalCenter
 		anchors.left: parent.left
 		anchors.right: parent.right
-		anchors.rightMargin: 10
-		anchors.leftMargin: 10
+		anchors.bottomMargin: 1
+		anchors.leftMargin: 1
+		anchors.rightMargin: 1
+		//anchors.rightMargin: 10
+		//anchors.leftMargin: 10
 		clip: true
 		columnSpacing: 1
 		rowSpacing: 1
@@ -423,8 +430,8 @@ Item {
 		    // 	return 95;
 		    //     } else
 		    // 	return explicitColumnWidth(column);
-		    // case 13:
-		    //     return 80;
+		    case 14:
+			return 150;
 		    default:
 			return 130;
 		    }
@@ -571,7 +578,8 @@ Item {
 					    parent.scale = 1.07;
 					}
 					onClicked: {
-					    showService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					    showService(selectedVehicleId, selectedServiceId);
 					}
 				    }
 
@@ -581,6 +589,57 @@ Item {
 					text: "show"
 					x: showServiceMouseArea.x
 					y: showServiceMouseArea.y + 30
+				    }
+				}
+
+				Rectangle {
+				    id: addNotificationButton
+				    width: 30
+				    height: 30
+				    color: "white"
+				    radius: 5
+				    border.color: "black"
+				    scale: 1.0
+				    Image {
+					anchors.centerIn: parent
+					width: parent.width - 4
+					height: parent.height - 4
+					source: "qrc:/assets/add.png"
+					fillMode: Image.PreserveAspectFit
+				    }
+				    MouseArea {
+					id: addNotificationMouseArea
+					anchors.fill: parent
+					hoverEnabled: true
+					onEntered: {
+					    parent.scale = 1.07;
+					}
+					onExited: {
+					    parent.scale = 1.0;
+					}
+					onPressed: {
+					    parent.scale = 1.0;
+					}
+					onReleased: {
+					    parent.scale = 1.07;
+					}
+					onClicked: {
+					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
+					    //showService(selectedVehicleId, selectedServiceId);
+					    if (dbController.addNotification(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getServiceDate(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getMileage(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getInterval_time(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getInterval_km(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getService(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getType(), customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber())) {
+						notifModel.fetchNotifications();
+					    } else {
+						warningNotificationDialog.openDialog();
+					    }
+					}
+				    }
+
+				    ToolTip {
+					visible: addNotificationMouseArea.containsMouse
+					delay: 500
+					text: "add notification"
+					x: addNotificationMouseArea.x
+					y: addNotificationMouseArea.y + 30
 				    }
 				}
 
@@ -664,6 +723,7 @@ Item {
 					onClicked: {
 					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
 					    removeServiceDialog.openDialog(false);
+					    console.log("Clicked remove service");
 					}
 				    }
 				    ToolTip {
@@ -691,6 +751,7 @@ Item {
 		}
 	    }
 	}
+
 	Row {
 	    anchors.top: tableViewRect.bottom
 	    anchors.topMargin: 12
@@ -759,6 +820,7 @@ Item {
 		    anchors.fill: parent
 		    onClicked: {
 			removeServiceDialog.openDialog(true);
+			console.log("Clicked remove checked");
 		    }
 		}
 	    }
@@ -801,9 +863,13 @@ Item {
 	    shadowBlur: 1.0
 	    shadowEnabled: true
 	    shadowColor: "black"
-	    shadowVerticalOffset: 0
-	    shadowHorizontalOffset: 0
+	    shadowVerticalOffset: 1
+	    shadowHorizontalOffset: 1
 	}
+    }
+
+    WarningNotificationDialog {
+	id: warningNotificationDialog
     }
 
     EditServiceDialog {
@@ -820,8 +886,8 @@ Item {
 	selectedServiceId = serviceId;
     }
 
-    function showService(serviceId) {
-	selectedServiceId = serviceId;
-	viewLoader.source = "ServiceView.qml";
-    }
+    //    function showService(serviceId) {
+    // selectedServiceId = serviceId;
+    // viewLoader.source = "ServiceView.qml";
+    //    }
 }

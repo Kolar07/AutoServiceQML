@@ -33,6 +33,7 @@ Item {
 	    font.pixelSize: 14
 	    //PlaceholderText: "email"
 	    color: "black"
+	    text: "blablabla@gmail.com"
 	    background: Rectangle {
 		id: emailBackground
 		width: 300
@@ -52,6 +53,7 @@ Item {
 	    //PlaceholderText: "password"
 	    echoMode: "Password"
 	    color: "black"
+	    text: "testtest123"
 	    background: Rectangle {
 		id: passwordBackground
 		width: 300
@@ -106,7 +108,8 @@ Item {
 		    anchors.fill: parent
 		    cursorShape: Qt.PointingHandCursor
 		    onClicked: {
-			viewLoader.source = "RegistrationPage.qml";
+			main.showRegister();
+			//viewLoader.source = "RegistrationPage.qml";
 		    }
 		}
 	    }
@@ -116,7 +119,8 @@ Item {
     Connections {
 	target: loginController
 	function onSuccessfullyLogged() {
-	    viewLoader.source = "MainViewPage.qml";
+	    main.showMainView();
+	//viewLoader.source = "MainViewPage.qml";
 	}
 	function onFailedLogin() {
 	    //viewLoader.source = "LoginPage.qml";

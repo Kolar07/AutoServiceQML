@@ -53,6 +53,7 @@ qt_add_qml_module(appAutoServiceQML
     QML_FILES ServiceView.qml
     QML_FILES RemoveVehicleDialog.qml
     SOURCES notificationmodel.h notificationmodel.cpp
+    QML_FILES WarningNotificationDialog.qml
 )
 
 # Ustawienia właściwości celu

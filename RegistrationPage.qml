@@ -190,7 +190,8 @@ Item {
 		    anchors.fill: parent
 		    cursorShape: Qt.PointingHandCursor
 		    onClicked: {
-			viewLoader.source = "LoginPage.qml";
+			main.showLogin();
+			//viewLoader.source = "LoginPage.qml";
 		    }
 		}
 	    }
@@ -200,7 +201,7 @@ Item {
     Connections {
 	target: registerController
 	function onRegistrationSuccess() {
-	    viewLoader.source = "Main.qml";
+	    main.showLogin();
 	}
 	function onRegistrationFailedName() {
 	    wrongNameLabelId.visible = true;

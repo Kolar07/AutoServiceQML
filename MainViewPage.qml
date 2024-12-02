@@ -3,7 +3,7 @@ import QtQuick.Controls 2
 
 Item {
     id: mainViewPage
-
+    //visible: viewLoader.source === "MainViewPage.qml" ? true : false
     property int selectedVehicleId: -1
     property int selectedServiceId: -1
     Image {
@@ -466,6 +466,12 @@ Item {
 	    anchors.top: parent.top
 	    anchors.left: parent.left
 
+	    ScrollBar.vertical: ScrollBar {
+		policy: ScrollBar.AsNeeded
+		//anchors.left: parent.right
+		clip: true
+	    }
+
 	    delegate: Rectangle {
 		width: parent.width
 		height: contentColumn.implicitHeight + 10  // Zmieniamy wysokość na wysokość contentColumn
@@ -592,12 +598,19 @@ Item {
 			}
 
 			Text {
+			    id: nextServiceDateText
 			    color: "black"
 			    font.pixelSize: 15
 			    font.family: "Roboto Regular"
 			    wrapMode: "Wrap"
 			    width: parent.width - notificationNextServiceDateLabel.width
 			    text: model.nextServiceDate
+			}
+
+			Component.onCompleted: {
+			    if (nextServiceDateText.text.trim() === "") {
+				rowNotificationNextServiceDateLabel.visible = false;
+			    }
 			}
 		    }
 
@@ -616,12 +629,19 @@ Item {
 			}
 
 			Text {
+			    id: nextServiceMileageText
 			    color: "black"
 			    font.pixelSize: 15
 			    font.family: "Roboto Regular"
 			    wrapMode: "Wrap"
 			    width: parent.width - notificationMileageLabel.width
 			    text: model.nextServiceKm + "km"
+			}
+
+			Component.onCompleted: {
+			    if (nextServiceMileageText.text.trim() === "0km") {
+				rowNotificationMileageLabel.visible = false;
+			    }
 			}
 		    }
 
@@ -647,6 +667,12 @@ Item {
 			    width: parent.width - notificationDaysLeftLabel.width
 			    text: model.daysLeft
 			}
+
+			Component.onCompleted: {
+			    if (nextServiceDateText.text.trim() === "") {
+				rowNotificationDaysLeftLabel.visible = false;
+			    }
+			}
 		    }
 
 		    Rectangle {
@@ -671,7 +697,9 @@ Item {
 			    hoverEnabled: true
 
 			    onClicked: {
-				console.log("Elements: " + notifModel.rowCount());
+				if (dbController.removeNotification(model.id)) {
+				    notifModel.fetchNotifications();
+				}
 			    }
 
 			    onEntered: {
@@ -883,14 +911,22 @@ Item {
     }
 
     Loader {
-	id: viewLoader
+	id: detailLoader
 	anchors.fill: parent
 	source: ""
     }
 
     function showVehicle(vehicleId) {
-	selectedVehicleId = vehicleId;
-	viewLoader.source = "VehicleView.qml";
+	//selectedVehicleId = vehicleId;
+	detailLoader.source = "VehicleView.qml";
+	detailLoader.item.selectedVehicleId = vehicleId;
+    }
+
+    function showService(vehicleId, serviceId) {
+	//selectedVehicleId = vehicleId;
+	detailLoader.source = "ServiceView.qml";
+	detailLoader.item.selectedVehicleId = vehicleId;
+	detailLoader.item.selectedServiceId = serviceId;
     }
 
     function setSelectedVehicle(vehicleId) {
@@ -898,6 +934,23 @@ Item {
     }
 
     function goBack() {
-	viewLoader.source = "";
+	detailLoader.source = "";
+    }
+
+    function backToVehicle(vehicleId, serviceId) {
+	detailLoader.source = "";
+	detailLoader.source = "VehicleView.qml";
+	detailLoader.item.selectedVehicleId = vehicleId;
+	detailLoader.item.selectedServiceId = serviceId;
+    }
+
+    Connections {
+	target: detailLoader.item
+	function onShowService(vehicleId, serviceId) {
+	    showService(vehicleId, serviceId);
+	}
+	function onBackToVehicle(vehicleId, serviceId) {
+	    backToVehicle(vehicleId, serviceId);
+	}
     }
 }

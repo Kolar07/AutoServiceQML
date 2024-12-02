@@ -5,6 +5,12 @@ import QtQuick.Effects
 Item {
     property string serviceType: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getType()
     property int fontSize: 21
+
+    property int selectedServiceId: -1
+    property int selectedVehicleId: -1
+
+    signal backToVehicle(int vehicleId, int serviceId)
+
     Component.onCompleted: {
 	setInfoRowsVisible();
     }
@@ -59,7 +65,7 @@ Item {
 	    MouseArea {
 		anchors.fill: parent
 		onClicked: {
-		    goBackToVehicle();
+		    backToVehicle(selectedVehicleId, selectedServiceId);
 		}
 		cursorShape: "PointingHandCursor"
 	    }

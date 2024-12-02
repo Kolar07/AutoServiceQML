@@ -9,11 +9,15 @@ Notification::Notification(QDate _serviceDate,int _mileage, int _intervalMonths,
 {
     nextServiceDate = _serviceDate.addMonths(_intervalMonths);
     nextServiceKm = _mileage + _intervalKm;
+    qDebug()<<"Next service date: "<<nextServiceDate.toString();
 }
 
 Notification::Notification(int _id,QDate _serviceDate,QDate _nextServiceDate, int _nextServiceKm, QString _service,QString _serviceType, QString _vehicleRegistration):id(_id),serviceDate(_serviceDate),
     nextServiceDate(_nextServiceDate), nextServiceKm(_nextServiceKm),service(_service), serviceType(_serviceType),vehicleRegistration(_vehicleRegistration)
-{}
+{
+
+    qDebug()<<"Next service date: "<<nextServiceDate;
+}
 
 int Notification::getId() const
 {
@@ -87,12 +91,14 @@ QString Notification::getDaysLeft() const
 
 QString Notification::getColor() const
 {
+    if(nextServiceDate.isValid()) {
     int temp = getDaysLeft().toInt();
     if(temp <=1)
         return "#FF6347";
     else if(temp <=14)
         return "#FFA500";
     else return "#90EE90";
+    } else return "#8fccf7";
 }
 
 QDate Notification::getNextServiceDate() const
