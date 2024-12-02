@@ -61,7 +61,7 @@ public:
     void fetchServices(int vehicleId);
 
  public slots:
-    void onFetchedServices(int vehicleId,QVector<std::shared_ptr<Service>> services);
+    void onFetchedServices(int vehicleId,QVector<std::shared_ptr<Service>> &services);
 
 private:
     int id;

@@ -174,7 +174,7 @@ void Vehicle::setServices(ServiceModel *newServices)
     services = newServices;
 }
 
-void Vehicle::onFetchedServices(int vehicleId,QVector<std::shared_ptr<Service> > servicesVector)
+void Vehicle::onFetchedServices(int vehicleId, QVector<std::shared_ptr<Service> > &servicesVector)
 {
     if(!servicesVector.empty() && vehicleId == id) {
         qDebug()<<"From vehicle "<< id <<" - setting services, size: "<<servicesVector.size();

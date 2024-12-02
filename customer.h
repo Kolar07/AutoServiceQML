@@ -38,8 +38,8 @@ public: signals:
     void fetchServicesVersionSpecifiedVehicle(int vehicleId);
 
 public slots:
-    void onVehiclesFetched(QVector<Vehicle*> vehiclesVector);
-    void onServicesFetchedVersionSpecifiedVehicle(int vehicleId,QVector<std::shared_ptr<Service>> services);
+    void onVehiclesFetched(QVector<Vehicle*> &vehiclesVector);
+    void onServicesFetchedVersionSpecifiedVehicle(int vehicleId,QVector<std::shared_ptr<Service>> &services);
 
 private:
     int id;

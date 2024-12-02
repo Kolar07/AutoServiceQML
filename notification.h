@@ -11,7 +11,7 @@ class Notification : public QObject
 public:
     explicit Notification(QObject *parent = nullptr);
     Notification(QDate _serviceDate,int _mileage, int _intervalMonths,int _intervalKm, QString _service,QString _serviceType, QString _vehicleRegistration);
-
+    Notification(int _id,QDate _serviceDate,QDate _nextServiceDate, int _nextServiceKm, QString _service,QString _serviceType, QString _vehicleRegistration);
 
     int getId() const;
     void setId(int newId);

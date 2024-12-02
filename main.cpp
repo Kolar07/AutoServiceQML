@@ -36,7 +36,9 @@ int main(int argc, char *argv[])
     Customer customer;
     LoginController logController(&customer,&dbController);
     SessionController session;
+
     logController.login("blablabla@gmail.com","testtest123");
+    NotificationModel notifModel;
     bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
     VehicleTypeContainer vehicleTypeContainer;
@@ -56,16 +58,23 @@ int main(int argc, char *argv[])
     QObject::connect(&dbController, &DatabaseController::servicesFetchedVersionSpecifiedVehicle,
                      &customer, &Customer::onServicesFetchedVersionSpecifiedVehicle);
 
-    QDate date(2023, 12, 5);
-    Notification notif1(date,150050,12,15000,"Oil and filters change", "MaintenanceService", "SMI5JU9");
-    QVector<Notification*> vector;
-    vector.append(&notif1);
-    NotificationModel notifModel;
-    notifModel.setData(vector);
-    qDebug()<<"MODEL OIASHJDIUASH: "<<notifModel.rowCount();
+    QObject::connect(&notifModel, &NotificationModel::fetchNotifications,
+                     &dbController, &DatabaseController::onFetchNotifications);
+
+    QObject::connect(&dbController, &DatabaseController::notificationsFetched,
+                     &notifModel, &NotificationModel::onNotificationsFetched);
+
+    // QDate date(2023, 12, 5);
+    // Notification notif1(date,150050,12,15000,"Oil and filters change", "MaintenanceService", "SMI5JU9");
+    // QVector<Notification*> vector;
+    // vector.append(&notif1);
+
+    //notifModel.setData(vector);
+    //dbController.addNotification(date,150050,12,15000,40,"Oil and filters change", "MaintenanceService", "WW1354");
 
     dbController.fetchVehicleTypes();
     emit customer.fetchVehicles(customer.getId());
+    emit notifModel.fetchNotifications();
     //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz",1,"Truck","sad464asd56sad","SMIK8I1");
     //VehicleType typeTest;
     //typeTest.setProperties(vehicleTypeContainer.get(0));

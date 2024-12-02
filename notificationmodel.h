@@ -34,6 +34,10 @@ private:
     QVector<Notification*> notifications;
 
 signals:
+    void fetchNotifications();
+
+public slots:
+    void onNotificationsFetched(QVector<Notification*> &_notifications);
 };
 
 #endif // NOTIFICATIONMODEL_H

@@ -11,6 +11,10 @@ Notification::Notification(QDate _serviceDate,int _mileage, int _intervalMonths,
     nextServiceKm = _mileage + _intervalKm;
 }
 
+Notification::Notification(int _id,QDate _serviceDate,QDate _nextServiceDate, int _nextServiceKm, QString _service,QString _serviceType, QString _vehicleRegistration):id(_id),serviceDate(_serviceDate),
+    nextServiceDate(_nextServiceDate), nextServiceKm(_nextServiceKm),service(_service), serviceType(_serviceType),vehicleRegistration(_vehicleRegistration)
+{}
+
 int Notification::getId() const
 {
     return id;

@@ -61,3 +61,8 @@ void NotificationModel::setData(QVector<Notification *> &_notifications)
     notifications = _notifications;
     endResetModel();
 }
+
+void NotificationModel::onNotificationsFetched(QVector<Notification *> &_notifications)
+{
+    setData(_notifications);
+}

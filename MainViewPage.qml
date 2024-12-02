@@ -456,6 +456,7 @@ Item {
 	anchors.bottom: tableViewContainer.bottom
 	border.color: "black"
 	radius: 10
+
 	ListView {
 	    id: notificationsList
 	    model: notifModel
@@ -466,7 +467,7 @@ Item {
 
 	    delegate: Rectangle {
 		width: parent.width
-		height: contentColumn.implicitHeight + 10
+		height: contentColumn.implicitHeight + 10  // Zmieniamy wysokość na wysokość contentColumn
 		color: model.backgroundColor
 		border.color: "black"
 		radius: 10
@@ -481,9 +482,10 @@ Item {
 
 		Column {
 		    id: contentColumn
-		    anchors.fill: parent
+		    anchors.top: parent.top
+		    anchors.right: parent.right
+		    anchors.left: parent.left
 		    anchors.margins: 5
-		    //anchors.fill: parent
 		    spacing: 2
 
 		    Text {
@@ -495,11 +497,15 @@ Item {
 			font.bold: true
 			font.family: "Roboto Bold"
 			wrapMode: "Wrap"
+			//height: 40
 			horizontalAlignment: Text.AlignHCenter
 			text: model.serviceType + " REMINDER"
 		    }
+
 		    Row {
+			id: rowNotificationServiceLabel
 			spacing: 5
+			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationServiceLabel
@@ -522,7 +528,9 @@ Item {
 		    }
 
 		    Row {
+			id: rowNotificationServiceDateLabel
 			spacing: 5
+			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationServiceDateLabel
@@ -542,30 +550,11 @@ Item {
 			    text: model.serviceDate
 			}
 		    }
-		    Row {
-			spacing: 5
-			width: parent.width
-			Label {
-			    id: notificationNextServiceDateLabel
-			    color: "black"
-			    font.bold: true
-			    font.pixelSize: 15
-			    font.family: "Roboto Medium"
-			    text: "Next service date:"
-			}
-
-			Text {
-			    color: "black"
-			    font.pixelSize: 15
-			    font.family: "Roboto Regular"
-			    wrapMode: "Wrap"
-			    width: parent.width - notificationNextServiceDateLabel.width
-			    text: model.nextServiceDate
-			}
-		    }
 
 		    Row {
+			id: rowNotificationVehicleRegistrationLabel
 			spacing: 5
+			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationVehicleRegistrationLabel
@@ -587,8 +576,58 @@ Item {
 		    }
 
 		    Row {
+			id: rowNotificationNextServiceDateLabel
+			spacing: 5
+			//height: 40
+			width: parent.width
+			Label {
+			    id: notificationNextServiceDateLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Next service date:"
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationNextServiceDateLabel.width
+			    text: model.nextServiceDate
+			}
+		    }
+
+		    Row {
+			id: rowNotificationMileageLabel
+			spacing: 5
+			//height: 40
+			width: parent.width
+			Label {
+			    id: notificationMileageLabel
+			    color: "black"
+			    font.bold: true
+			    font.pixelSize: 15
+			    font.family: "Roboto Medium"
+			    text: "Next service at:"
+			}
+
+			Text {
+			    color: "black"
+			    font.pixelSize: 15
+			    font.family: "Roboto Regular"
+			    wrapMode: "Wrap"
+			    width: parent.width - notificationMileageLabel.width
+			    text: model.nextServiceKm + "km"
+			}
+		    }
+
+		    Row {
+			id: rowNotificationDaysLeftLabel
 			spacing: 5
 			width: parent.width
+			//height: 40
 			Label {
 			    id: notificationDaysLeftLabel
 			    color: "black"
@@ -605,6 +644,40 @@ Item {
 			    wrapMode: "Wrap"
 			    width: parent.width - notificationDaysLeftLabel.width
 			    text: model.daysLeft
+			}
+		    }
+
+		    Rectangle {
+			id: notificationButtonRect
+			width: 80
+			height: 25
+			color: "white"
+			radius: 5
+			border.color: "black"
+			scale: 1.0
+			anchors.horizontalCenter: parent.horizontalCenter
+
+			Text {
+			    anchors.centerIn: parent
+			    text: "Service done"
+			    font.pixelSize: 12
+			    font.family: "Roboto Regular"
+			}
+
+			MouseArea {
+			    anchors.fill: parent
+			    hoverEnabled: true
+
+			    onClicked: {
+				console.log("Elements: " + notifModel.rowCount());
+			    }
+
+			    onEntered: {
+				notificationButtonRect.scale = 0.92;
+			    }
+			    onExited: {
+				notificationButtonRect.scale = 1.0;
+			    }
 			}
 		    }
 		}

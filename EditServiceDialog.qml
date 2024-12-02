@@ -528,9 +528,11 @@ Item {
 			    wrongNoteInput.visible = false;
 
 			    //date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
-			    if (dbController.updateService(selectedServiceId, mileageInput.text, intervalKmInput.text, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text))
-				;
-			    {
+			    if (dbController.updateService(selectedServiceId, mileageInput.text, intervalKmInput.text, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text)) {
+				if (dbController.updateNotificationWithService(selectedServiceId)) {
+				    console.log("Notification updated successfully");
+				    notifModel.fetchNotifications();
+				}
 				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
 				console.log("Service updated successfully");
 				editServiceDialog.close();
