@@ -471,12 +471,13 @@ Item {
 		color: model.backgroundColor
 		border.color: "black"
 		radius: 10
-		anchors.centerIn: parent
+
+		//anchors.centerIn: parent
 
 		MouseArea {
 		    anchors.fill: parent
 		    onClicked: {
-			console.log("Color: " + model.backgroundColor);
+			console.log("Color: " + model.backgroundColor, "Elements: " + notifModel.rowCount());
 		    }
 		}
 
