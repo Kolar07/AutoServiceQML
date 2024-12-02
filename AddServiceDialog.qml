@@ -634,7 +634,8 @@ Item {
 			if (isValid) {
 			    date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
 			    if (dbController.addService(customer.getVehicles().getVehicleById(selectedVehicleId).getId(), mileageInput.text, type, intervalKmInput.text, date, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text, customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber())) {
-				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId); //////
+				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
+				notifModel.fetchNotifications();
 				console.log("Service added successfully");
 				addServiceDialog.close();
 			    }

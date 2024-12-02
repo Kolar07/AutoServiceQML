@@ -456,6 +456,7 @@ Item {
 	anchors.bottom: tableViewContainer.bottom
 	border.color: "black"
 	radius: 10
+	clip: true
 
 	ListView {
 	    id: notificationsList
