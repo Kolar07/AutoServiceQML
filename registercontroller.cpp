@@ -42,7 +42,6 @@ void RegisterController::registerCustomer(QString name, QString surname, QString
     QString hashed = hashPassword(password, salt);
     qDebug()<<"Emitting signal with name: "<<name;
     emit registrationSuccess(name, surname, email, hashed);
-    //FETCH FROM DATABASE TO SET CUSTOMER ATTRIBUTES
 }
 
 QByteArray RegisterController::generateSalt()

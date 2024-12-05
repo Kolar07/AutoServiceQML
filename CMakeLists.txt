@@ -40,7 +40,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES serviceoil.h serviceoil.cpp
     SOURCES servicetiming.h servicetiming.cpp
     SOURCES vehicletypecontainer.h vehicletypecontainer.cpp
-    SOURCES notificationtemplate.h notificationtemplate.cpp
+    SOURCES
     SOURCES vehiclemodel.h vehiclemodel.cpp
     SOURCES servicemodel.h servicemodel.cpp
     QML_FILES VehicleView.qml

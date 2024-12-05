@@ -20,34 +20,29 @@ public:
     Q_INVOKABLE int getId() const;
     void setId(int newId);
 
-  Q_INVOKABLE  QString getBrand() const;
+    Q_INVOKABLE  QString getBrand() const;
     void setBrand(const QString &newMark);
 
-  Q_INVOKABLE  QString getModel() const;
+    Q_INVOKABLE  QString getModel() const;
     void setModel(const QString &newModel);
 
-   Q_INVOKABLE int getYear() const;
+    Q_INVOKABLE int getYear() const;
     void setYear(int newYear);
 
-   Q_INVOKABLE QString getVersion() const;
+    Q_INVOKABLE QString getVersion() const;
     void setVersion(const QString &newVersion);
 
-   Q_INVOKABLE QString getEngine() const;
+    Q_INVOKABLE QString getEngine() const;
     void setEngine(const QString &newEngine);
 
-   Q_INVOKABLE QString getVin() const;
+    Q_INVOKABLE QString getVin() const;
     void setVin(const QString &newVin);
 
-   Q_INVOKABLE QString getRegistrationNumber() const;
+    Q_INVOKABLE QString getRegistrationNumber() const;
     void setRegistrationNumber(const QString &newRegistrationNumber);
 
     void addService(std::shared_ptr<Service> &service);
     void removeService(int serviceId);
-
-
-    //QVector<std::shared_ptr<Service> > getServices() const;
-    //std::shared_ptr<Service> getServiceByNumber(int nb) const;
-    //void setServices(const QVector<std::shared_ptr<Service> > &newServices);
 
     VehicleType getType() const;
     Q_INVOKABLE QString getTypeString() const;
@@ -73,9 +68,7 @@ private:
     QString engine;
     QString vin;
     QString registrationNumber;
-    //QVector<std::shared_ptr<Service>> services;
     ServiceModel *services;
-    QVector<Notification> notifications;
 
 signals:
 };

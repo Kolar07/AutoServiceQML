@@ -756,7 +756,7 @@ Item {
 		}
 		ScrollBar.horizontal: ScrollBar {
 		    policy: ScrollBar.AlwaysOn
-		    anchors.bottom: parent.bottom
+		    //anchors.bottom: parent.bottom
 		    clip: true
 		}
 

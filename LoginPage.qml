@@ -82,6 +82,9 @@ Item {
 		onClicked: {
 		    wrongDataLabelId.visible = false;
 		    loginController.login(emailInput.text, passwordInput.text);
+		    dbController.fetchVehicleTypes();
+		    customer.fetchVehicles(customer.getId());
+		    notifModel.fetchNotifications();
 		}
 	    }
 

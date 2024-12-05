@@ -94,6 +94,7 @@ Item {
 	    clip: true
 	    columnSpacing: 1
 	    rowSpacing: 1
+	    //scrollBarPolicy: Qt.ScrollBarAlwaysOff
 	    model: customer.getVehicles()
 
 	    columnWidthProvider: function (column) {
@@ -456,8 +457,8 @@ Item {
 
 	    ScrollBar.horizontal: ScrollBar {
 		policy: ScrollBar.AsNeeded
-		anchors.bottom: parent.bottom
-		//clip: true
+		//anchors.bottom: parent.bottom
+		clip: true
 	    }
 
 	    ScrollBar.vertical: ScrollBar {
@@ -489,18 +490,15 @@ Item {
 
 	    ScrollBar.vertical: ScrollBar {
 		policy: ScrollBar.AsNeeded
-		//anchors.left: parent.right
 		clip: true
 	    }
 
 	    delegate: Rectangle {
 		width: parent.width
-		height: contentColumn.implicitHeight + 10  // Zmieniamy wysokość na wysokość contentColumn
+		height: contentColumn.implicitHeight + 10
 		color: model.backgroundColor
 		border.color: "black"
 		radius: 10
-
-		//anchors.centerIn: parent
 
 		MouseArea {
 		    anchors.fill: parent
@@ -526,7 +524,6 @@ Item {
 			font.bold: true
 			font.family: "Roboto Bold"
 			wrapMode: "Wrap"
-			//height: 40
 			horizontalAlignment: Text.AlignHCenter
 			text: model.serviceType + " REMINDER"
 		    }
@@ -534,7 +531,6 @@ Item {
 		    Row {
 			id: rowNotificationServiceLabel
 			spacing: 5
-			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationServiceLabel
@@ -559,7 +555,6 @@ Item {
 		    Row {
 			id: rowNotificationServiceDateLabel
 			spacing: 5
-			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationServiceDateLabel
@@ -583,7 +578,6 @@ Item {
 		    Row {
 			id: rowNotificationVehicleRegistrationLabel
 			spacing: 5
-			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationVehicleRegistrationLabel
@@ -607,7 +601,6 @@ Item {
 		    Row {
 			id: rowNotificationNextServiceDateLabel
 			spacing: 5
-			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationNextServiceDateLabel
@@ -638,7 +631,6 @@ Item {
 		    Row {
 			id: rowNotificationMileageLabel
 			spacing: 5
-			//height: 40
 			width: parent.width
 			Label {
 			    id: notificationMileageLabel
@@ -670,7 +662,6 @@ Item {
 			id: rowNotificationDaysLeftLabel
 			spacing: 5
 			width: parent.width
-			//height: 40
 			Label {
 			    id: notificationDaysLeftLabel
 			    color: "black"
@@ -756,9 +747,6 @@ Item {
 	Row {
 	    id: buttonsFirstRow
 	    spacing: 5
-	    // anchors.top: tableViewContainer.bottom
-	    // anchors.topMargin: 10
-	    // anchors.horizontalCenter: tableViewContainer.horizontalCenter
 	    Rectangle {
 		width: 200
 		height: 40
@@ -775,12 +763,10 @@ Item {
 			source: "qrc:/assets/plus.png"
 			fillMode: Image.PreserveAspectFit
 			anchors.verticalCenter: parent.verticalCenter
-			// anchors.horizontalCenter: parent.horizontalCenter
 		    }
 
 		    Text {
 			anchors.verticalCenter: parent.verticalCenter
-			// anchors.horizontalCenter: parent.horizontalCenter
 			color: "white"
 			font.pixelSize: 20
 			text: "Add Vehicle"
@@ -810,12 +796,10 @@ Item {
 			source: "qrc:/assets/delete.png"
 			fillMode: Image.PreserveAspectFit
 			anchors.verticalCenter: parent.verticalCenter
-			// anchors.horizontalCenter: parent.horizontalCenter
 		    }
 
 		    Text {
 			anchors.verticalCenter: parent.verticalCenter
-			// anchors.horizontalCenter: parent.horizontalCenter
 			color: "white"
 			font.pixelSize: 20
 			text: "Remove checked"
@@ -847,12 +831,10 @@ Item {
 		    source: "qrc:/assets/export.png"
 		    fillMode: Image.PreserveAspectFit
 		    anchors.verticalCenter: parent.verticalCenter
-		    // anchors.horizontalCenter: parent.horizontalCenter
 		}
 
 		Text {
 		    anchors.verticalCenter: parent.verticalCenter
-		    // anchors.horizontalCenter: parent.horizontalCenter
 		    color: "white"
 		    font.pixelSize: 20
 		    text: "Export data"
