@@ -28,57 +28,55 @@ public:
     void init();
     bool executeQuery(const QString &query);
 
-    //CUSTOMER
     bool addCustomer(QString name, QString surname, QString email, QString password);
     bool changeCustomerPassword(int &customerId, QString &newPassword);
     QMap<QString, QVariant> getCustomerByEmail(QString &email);
     bool fetchVehiclesForCustomer(Customer &currentCustomer);
 
-
-    //VEHICLE TYPE
     Q_INVOKABLE bool addVehicleType(QString type);
     Q_INVOKABLE bool fetchVehicleTypes();
 
-
-    //VEHICLE
-    Q_INVOKABLE bool addVehicle(int customerId, QString brand, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
+    Q_INVOKABLE bool addVehicle(int customerId, QString brand, QString model, QString year,
+                                QString version, QString engine, int typeId, QString type,
+                                QString vin, QString registrationNumber);
     bool addVehicle(int customerId, Vehicle vehicle);
     Q_INVOKABLE bool checkVin(QString vin);
     Q_INVOKABLE bool checkRegistration(QString registration);
     Q_INVOKABLE bool removeVehicle(int id);
     Q_INVOKABLE bool removeMultipleVehicles(QVector<int> vehiclesIds);
-    Q_INVOKABLE bool updateVehicle(int vehicleId, QString brand, QString model, QString year, QString version, QString engine, int typeId, QString type, QString vin, QString registrationNumber);
-    //Q_INVOKABLE bool fetchVehicles(int customer_id);
+    Q_INVOKABLE bool updateVehicle(int vehicleId, QString brand, QString model, QString year,
+                                   QString version, QString engine, int typeId, QString type,
+                                   QString vin, QString registrationNumber);
 
-    //SERVICE
-    Q_INVOKABLE bool addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts, QString note, QString _vehicleRegistration);
-    Q_INVOKABLE bool updateService(int serviceId, QString mileage, QString interval_km,QString interval_time, QString service, QString oil,QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note);
+    Q_INVOKABLE bool addService(int vehicle_id, QString mileage, QString type, QString interval_km,
+                                QString service_date, QString interval_time, QString service, QString oil,
+                                QString oilFilter, QString airFilter, QString cabinFilter, QString timing,
+                                QString customParts, QString note, QString _vehicleRegistration);
+    Q_INVOKABLE bool updateService(int serviceId, QString mileage, QString interval_km,QString interval_time,
+                                   QString service, QString oil,QString oilFilter, QString airFilter,
+                                   QString cabinFilter, QString timing, QString customParts,QString note);
     Q_INVOKABLE bool removeService(int serviceId);
     Q_INVOKABLE bool removeMultipleServices(QVector<int> serviceIds);
 
-    //NOTIFICATIONS
-    Q_INVOKABLE bool addNotification(QDate _serviceDate,QString _mileage, QString _intervalMonths,QString _intervalKm, int _serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
-    //Q_INVOKABLE bool addNotificationWithInts(QDate _serviceDate,int _mileage, int _intervalMonths,int _intervalKm, int _serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
-
+    Q_INVOKABLE bool addNotification(QDate _serviceDate,QString _mileage, QString _intervalMonths,QString _intervalKm,
+                                     int _serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
     Q_INVOKABLE bool removeNotification(int notificationId);
     Q_INVOKABLE bool updateNotificationWithService(int serviceId);
 
-
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);
-    void vehiclesFetched(QVector<Vehicle*> &vehiclesVector); //fetched vehicles for customer
-    void servicesFetched(int vehicleId, QVector<std::shared_ptr<Service>> &services); //fetches services for vehicle
+    void vehiclesFetched(QVector<Vehicle*> &vehiclesVector);
 
-    void servicesFetchedVersionSpecifiedVehicle(int vehicleId, QVector<std::shared_ptr<Service>> &services); //fetches services for specified vehicle
+    void servicesFetched(int vehicleId, QVector<std::shared_ptr<Service>> &services);
+    void servicesFetchedVersionSpecifiedVehicle(int vehicleId, QVector<std::shared_ptr<Service>> &services);
 
     void notificationsFetched(QVector<Notification*> &_notifications);
 
-
     public slots:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);
-    //void customerPasswordChanged(const int &id, const QString &newPassword);
-    void onFetchVehicles(int customerId); //from customer's signal fetchVehicles
-    void onFetchServices(int vehicleId); //from vehicle's signal fetchServices
+    //void customerPasswordChanged(const int &customerId, const QString &newPassword);
+    void onFetchVehicles(int customerId);
+    void onFetchServices(int vehicleId);
 
     void onServicesFetchVersionSpecifiedVehicle(int vehicleId);
 
@@ -86,8 +84,6 @@ public:
 
 private:
     QSqlDatabase db;
-
-signals:
 };
 
 #endif // DATABASECONTROLLER_H

@@ -14,7 +14,6 @@ Item {
 	parent: Overlay.overlay
 	focus: true
 	modal: true
-	title: ""
 	Column {
 	    spacing: 5
 	    anchors.fill: parent

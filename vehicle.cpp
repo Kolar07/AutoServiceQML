@@ -113,48 +113,15 @@ void Vehicle::setRegistrationNumber(const QString &newRegistrationNumber)
     registrationNumber = newRegistrationNumber;
 }
 
-// void Vehicle::addService(std::shared_ptr<Service> &service)
-// {
-//     if(service != nullptr)
-//         services->push_back(std::move(service));
-//     else qDebug()<<"Service is a nullptr";
-// }
-
-void Vehicle::removeService(int serviceId)
-{
-
-}
-
-// QVector<std::shared_ptr<Service> > Vehicle::getServices() const
-// {
-//     return services;
-// }
-
-// std::shared_ptr<Service> Vehicle::getServiceByNumber(int nb) const
-// {
-//     if(nb>=0 && nb < services.size()) {
-//         return services[nb];
-//     } else return nullptr;
-// }
-
-// void Vehicle::setServices(const QVector<std::shared_ptr<Service> > &newServices)
-// {
-//     services = newServices;
-// }
-
-VehicleType Vehicle::getType() const
-{
-    return type;
-}
 
 QString Vehicle::getTypeString() const
 {
-    return getType().getTypeName();
+    return type.getTypeName();
 }
 
 int Vehicle::getTypeInt() const
 {
-    return getType().getId();
+    return type.getId();
 }
 
 ServiceModel *Vehicle::getServices()
@@ -183,21 +150,5 @@ void Vehicle::onFetchedServices(int vehicleId, QVector<std::shared_ptr<Service> 
     } else return;
 }
 
-
-
-// void Vehicle::setType(const VehicleType &newType)
-// {
-//     type = newType;
-// }
-
-// QVector<Service *> Vehicle::getServices() const
-// {
-//     return services;
-// }
-
-// void Vehicle::setServices(const QVector<Service *> &newServices)
-// {
-//     services = newServices;
-// }
 
 

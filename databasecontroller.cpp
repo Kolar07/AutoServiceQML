@@ -35,7 +35,7 @@ void DatabaseController::init()
 
 
     if (!db.open()) {
-        qDebug()<<"Nie udało się połączyć z bazą danych: " + db.lastError().text();
+        qDebug()<<"Failed connecting with database: " + db.lastError().text();
         return;
     }
 
@@ -51,12 +51,13 @@ void DatabaseController::init()
           engine VARCHAR(255) DEFAULT NULL,
           type_id INT DEFAULT NULL,
           type VARCHAR(255) DEFAULT NULL,
-          vin VARCHAR(255) UNIQUE NOT NULL,
-          registration_number VARCHAR(255) UNIQUE NOT NULL,
+          vin VARCHAR(255) NOT NULL,
+          registration_number VARCHAR(255) NOT NULL,
           PRIMARY KEY (id),
+          UNIQUE (customer_id, registration_number),
+          UNIQUE (customer_id, vin),
           CONSTRAINT fk_type_id FOREIGN KEY (type_id) REFERENCES vehicle_types (id) ON DELETE CASCADE ON UPDATE CASCADE,
-          CONSTRAINT vehicles_ibfk_1 FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE ON UPDATE CASCADE
-        )
+          CONSTRAINT vehicles_ibfk_1 FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE ON UPDATE CASCADE)
     )";
 
     const QString createServicesTable = R"(
@@ -77,16 +78,14 @@ void DatabaseController::init()
           custom_parts VARCHAR(255) DEFAULT NULL,
           note VARCHAR(255) DEFAULT NULL,
           PRIMARY KEY (id),
-          CONSTRAINT services_ibfk_1 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id) ON DELETE CASCADE
-        )
+          CONSTRAINT services_ibfk_1 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id) ON DELETE CASCADE)
     )";
 
     const QString createVehicleTypesTable = R"(
         CREATE TABLE IF NOT EXISTS vehicle_types (
           id INT NOT NULL AUTO_INCREMENT,
           type_name VARCHAR(50) UNIQUE NOT NULL,
-          PRIMARY KEY (id)
-        )
+          PRIMARY KEY (id))
     )";
 
     const QString createCustomersTable = R"(
@@ -96,16 +95,24 @@ void DatabaseController::init()
           surname VARCHAR(255) DEFAULT NULL,
           email VARCHAR(255) UNIQUE NOT NULL,
           password VARCHAR(255) NOT NULL,
-          PRIMARY KEY (id)
-        )
+          PRIMARY KEY (id))
     )";
 
     const QString createNotificationsTable = R"(
-        CREATE TABLE IF NOT EXISTS notifications (id int NOT NULL auto_increment, service_id int NOT NULL,
-        service_date date NOT NULL, next_service_date date, next_service_km int, service varchar(255) NOT NULL,
-        service_type varchar(255) NOT NULL, vehicle_registration varchar(255) NOT NULL, PRIMARY KEY (id),
-        CONSTRAINT fk_service_id FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE ON UPDATE CASCADE );
-        CONSTRAINT fk_vehicle_registration FOREIGN KEY (vehicle_registration) REFERENCES vehicles(registration_number) ON UPDATE CASCADE
+        CREATE TABLE IF NOT EXISTS notifications (
+          id int NOT NULL auto_increment,
+          service_id int NOT NULL,
+          service_date date NOT NULL,
+          next_service_date date,
+          next_service_km int,
+          service varchar(255) NOT NULL,
+          service_type varchar(255) NOT NULL,
+          vehicle_registration varchar(255) NOT NULL,
+          PRIMARY KEY (id),
+          CONSTRAINT fk_service_id FOREIGN KEY (service_id) REFERENCES services(id)
+            ON DELETE CASCADE ON UPDATE CASCADE);
+          CONSTRAINT fk_vehicle_registration FOREIGN KEY (vehicle_registration) REFERENCES vehicles(registration_number)
+            ON UPDATE CASCADE
     )";
 
     if (!executeQuery(createVehiclesTable) ||
@@ -130,7 +137,7 @@ bool DatabaseController::executeQuery(const QString &query)
         return true;
 
     }
-    }
+}
 
 bool DatabaseController::addCustomer(QString name, QString surname, QString email, QString password)
 {
@@ -207,7 +214,7 @@ bool DatabaseController::addVehicleType(QString type)
         qDebug()<<"Database is not open!";
         return false;
     }
-     QSqlQuery query;
+    QSqlQuery query;
     query.prepare("INSERT INTO vehicle_types (type_name) VALUES (?)");
     query.addBindValue(type);
     if(!query.exec()) {
@@ -341,36 +348,36 @@ bool DatabaseController::removeVehicle(int id)
 bool DatabaseController::removeMultipleVehicles(QVector<int> vehiclesIds)
 {
 
-        if (!db.open()) {
-            qDebug() << "Database is not open:" << db.lastError();
-            return false;
-        }
+    if (!db.open()) {
+        qDebug() << "Database is not open:" << db.lastError();
+        return false;
+    }
 
-        if (vehiclesIds.isEmpty()) {
-            qDebug() << "No vehicle IDs provided to remove.";
-            return false;
-        }
+    if (vehiclesIds.isEmpty()) {
+        qDebug() << "No vehicle IDs provided to remove.";
+        return false;
+    }
 
-        QSqlQuery query;
-        QString placeholders;
-        for (int i = 0; i < vehiclesIds.size(); ++i) {
-            placeholders += (i > 0 ? "," : "") + QString(":id%1").arg(i);
-        }
+    QSqlQuery query;
+    QString placeholders;
+    for (int i = 0; i < vehiclesIds.size(); ++i) {
+        placeholders += (i > 0 ? "," : "") + QString(":id%1").arg(i);
+    }
 
-        QString queryString = QString("DELETE FROM vehicles WHERE id IN (%1)").arg(placeholders);
-        query.prepare(queryString);
+    QString queryString = QString("DELETE FROM vehicles WHERE id IN (%1)").arg(placeholders);
+    query.prepare(queryString);
 
-        for (int i = 0; i < vehiclesIds.size(); i++) {
-            query.bindValue(QString(":id%1").arg(i), vehiclesIds[i]);
-        }
+    for (int i = 0; i < vehiclesIds.size(); i++) {
+        query.bindValue(QString(":id%1").arg(i), vehiclesIds[i]);
+    }
 
-        if (!query.exec()) {
-            qDebug() << "Failed to execute query:" << query.lastError();
-            return false;
-        }
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError();
+        return false;
+    }
 
-        qDebug() << "Vehicles removed successfully.";
-        return true;
+    qDebug() << "Vehicles removed successfully.";
+    return true;
 
 }
 
@@ -484,10 +491,10 @@ void DatabaseController::onFetchVehicles(int customer_id)
         }
         emit vehiclesFetched(vehiclesVector);
     }
-        else {
-            qDebug()<<"Query execution failed: "<<query.lastError();
-            return;
-        }
+    else {
+        qDebug()<<"Query execution failed: "<<query.lastError();
+        return;
+    }
 }
 
 void DatabaseController::onFetchServices(int vehicleId)
@@ -567,19 +574,23 @@ void DatabaseController::onFetchNotifications()
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
+        db.open();
         return;
     }
+
     QSqlQuery query;
     query.prepare("SELECT id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration FROM notifications");
     QVector<Notification*> _notifications;
     if(query.exec()) {
         while(query.next()) {
-    Notification *notification = new Notification(query.value(0).toInt(),query.value(1).toDate(),query.value(2).toDate(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toString(),query.value(6).toString());
-    _notifications.append(notification);
+            Notification *notification = new Notification(query.value(0).toInt(),query.value(1).toDate(),query.value(2).toDate(),query.value(3).toInt(),query.value(4).toString(),query.value(5).toString(),query.value(6).toString());
+            _notifications.append(notification);
         }
         emit notificationsFetched(_notifications);
+        db.close();
     }         else {
         qDebug()<<"Query execution failed: "<<query.lastError();
+        db.close();
         return;
     }
 }
@@ -783,20 +794,20 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
 bool DatabaseController::removeService(int serviceId)
 {
 
-        if (!db.open()) {
-            qDebug() << "Database is not open:" << db.lastError();
-            return false;
-        }
+    if (!db.open()) {
+        qDebug() << "Database is not open:" << db.lastError();
+        return false;
+    }
 
-        QSqlQuery query;
-        query.prepare("DELETE FROM services WHERE id  =:id");
-        query.bindValue(":id",serviceId);
-        if (!query.exec()) {
-            qDebug() << "Failed to execute query:" << query.lastError();
-            return false;
-        }
-        qDebug()<<"Service removed successfully";
-        return true;
+    QSqlQuery query;
+    query.prepare("DELETE FROM services WHERE id  =:id");
+    query.bindValue(":id",serviceId);
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError();
+        return false;
+    }
+    qDebug()<<"Service removed successfully";
+    return true;
 }
 
 bool DatabaseController::removeMultipleServices(QVector<int> serviceIds)
@@ -851,71 +862,29 @@ bool DatabaseController::addNotification(QDate _serviceDate, QString _mileage, Q
         int calculated = _mileage.toInt() + _intervalKm.toInt();
         QDate nextServiceDate = _serviceDate.addMonths(_intervalMonths.toInt());
 
-    QSqlQuery query;
-    query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
-    query.addBindValue(_serviceId);
-    query.addBindValue(_serviceDate);
-    if(_intervalMonths.toInt() == 0) {
-        query.addBindValue(QVariant());
-    } else query.addBindValue(nextServiceDate);
-    if(calculated == _mileage.toInt()){
-        query.addBindValue(QVariant());
-    } else query.addBindValue(calculated);
-    query.addBindValue(_service);
-    query.addBindValue(_serviceType);
-    query.addBindValue(_vehicleRegistration);
+        QSqlQuery query;
+        query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
+        query.addBindValue(_serviceId);
+        query.addBindValue(_serviceDate);
+        if(_intervalMonths.toInt() == 0) {
+            query.addBindValue(QVariant());
+        } else query.addBindValue(nextServiceDate);
+        if(calculated == _mileage.toInt()){
+            query.addBindValue(QVariant());
+        } else query.addBindValue(calculated);
+        query.addBindValue(_service);
+        query.addBindValue(_serviceType);
+        query.addBindValue(_vehicleRegistration);
 
-    if(!query.exec()) {
-        qDebug()<<"Nope not working"<<query.lastError();
-        return false;
-    } return true;
+        if(!query.exec()) {
+            qDebug()<<"Nope not working"<<query.lastError();
+            return false;
+        } return true;
     } else {
         qDebug()<<"Notification for this service already exists!";
         return false;
     }
 }
-
-// bool DatabaseController::addNotificationWithInts(QDate _serviceDate, int _mileage, int _intervalMonths, int _intervalKm, int _serviceId, QString _service, QString _serviceType, QString _vehicleRegistration)
-// {
-//     if (!db.open()) {
-//         qDebug() << "Database is not open:" << db.lastError();
-//         return false;
-//     }
-
-//     QSqlQuery findNotif;
-//     findNotif.prepare("SELECT * FROM notifications WHERE service_id = ?");
-//     findNotif.addBindValue(_serviceId);
-//     if(!findNotif.exec()) {
-//         qDebug()<<"Failed to execute query for finding notification";
-//         return false;
-//     }
-//     if(!findNotif.next() && (_intervalKm > 0 || _intervalMonths > 0)) {
-//         int calculated = _mileage + _intervalKm;
-//         QDate nextServiceDate = _serviceDate.addMonths(_intervalMonths);
-
-//         QSqlQuery query;
-//         query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
-//         query.addBindValue(_serviceId);
-//         query.addBindValue(_serviceDate);
-//         if(_intervalMonths == 0) {
-//             query.addBindValue(QVariant());
-//         } else query.addBindValue(nextServiceDate);
-//         if(calculated == _mileage){
-//             query.addBindValue(QVariant());
-//         } else query.addBindValue(calculated);
-//         query.addBindValue(_service);
-//         query.addBindValue(_serviceType);
-//         query.addBindValue(_vehicleRegistration);
-
-//         if(!query.exec()) {
-//             qDebug()<<"Nope not working"<<query.lastError();
-//             return false;
-//         } return true;
-//     } else {
-//         qDebug()<<"Notification for this service already exists or no interval given!";
-//         return false;
-//     }
-// }
 
 bool DatabaseController::removeNotification(int notificationId)
 {

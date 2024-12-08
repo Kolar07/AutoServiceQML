@@ -38,7 +38,7 @@ QVariant VehicleModel::data(const QModelIndex &index, int role) const {
     const Vehicle *vehicle = vehicles.at(index.row());
     switch (role) {
     case IdRole : return vehicle->getId();
-    case TypeRole: return vehicle->getType().getTypeName();
+    case TypeRole: return vehicle->getTypeString();
     case BrandRole: return vehicle->getBrand();
     case ModelRole: return vehicle->getModel();
     case YearRole: return vehicle->getYear();

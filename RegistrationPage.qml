@@ -190,7 +190,6 @@ Item {
 		    cursorShape: Qt.PointingHandCursor
 		    onClicked: {
 			main.showLogin();
-			//viewLoader.source = "LoginPage.qml";
 		    }
 		}
 	    }

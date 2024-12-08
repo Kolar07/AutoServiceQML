@@ -6,7 +6,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Znalezienie Qt
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Sql QuickControls2)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Sql QuickControls2 PrintSupport)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -54,6 +54,8 @@ qt_add_qml_module(appAutoServiceQML
     QML_FILES RemoveVehicleDialog.qml
     SOURCES notificationmodel.h notificationmodel.cpp
     QML_FILES WarningNotificationDialog.qml
+    SOURCES
+    SOURCES reportsgenerator.h reportsgenerator.cpp
 )
 
 # Ustawienia właściwości celu
@@ -66,7 +68,7 @@ set_target_properties(appAutoServiceQML PROPERTIES
 
 # Linkowanie z Qt
 target_link_libraries(appAutoServiceQML
-    PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Sql
+    PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Sql Qt6::PrintSupport
 )
 
 # Instalacja

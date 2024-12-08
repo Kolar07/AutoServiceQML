@@ -111,7 +111,6 @@ Item {
 			cursorShape: Qt.PointingHandCursor
 			onClicked: {
 			    main.showRegister();
-			    //viewLoader.source = "RegistrationPage.qml";
 			}
 		    }
 		}
@@ -122,10 +121,9 @@ Item {
 	    target: loginController
 	    function onSuccessfullyLogged() {
 		main.showMainView();
-	    //viewLoader.source = "MainViewPage.qml";
 	    }
+
 	    function onFailedLogin() {
-		//viewLoader.source = "LoginPage.qml";
 		wrongDataLabelId.visible = true;
 	    }
 	}

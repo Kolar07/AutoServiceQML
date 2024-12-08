@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls 2
 import QtQuick.Effects
+import QtQuick.Dialogs
 
 Item {
     property int selectedVehicleId: -1
@@ -868,9 +869,15 @@ Item {
 
 		MouseArea {
 		    anchors.fill: parent
-		    onClicked: {}
+		    onClicked: {
+			fileDialog.open();
+		    }
 		}
 	    }
+	}
+
+	FileDialog {
+	    id: fileDialog
 	}
 
 	MultiEffect {
