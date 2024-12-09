@@ -150,7 +150,7 @@ Item {
 		    } else
 			return explicitColumnWidth(column);
 		case 10:
-		    return 180;
+		    return 183;
 		default:
 		    return 120;
 		}
@@ -727,6 +727,10 @@ Item {
 	}
     }
 
+    ChoosePathDialog {
+	id: choosePathDialog
+    }
+
     AddServiceDialog {
 	id: addServiceDialog
     }
@@ -843,7 +847,9 @@ Item {
 
 	    MouseArea {
 		anchors.fill: parent
-		onClicked: {}
+		onClicked: {
+		    choosePathDialog.openDialog();
+		}
 	    }
 	}
     }

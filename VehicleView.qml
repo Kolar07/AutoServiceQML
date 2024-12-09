@@ -842,38 +842,38 @@ Item {
 		}
 	    }
 
-	    Rectangle {
-		width: 225
-		height: 35
-		color: "black"
-		radius: 30
-		Row {
-		    anchors.horizontalCenter: parent.horizontalCenter
-		    anchors.verticalCenter: parent.verticalCenter
-		    spacing: 3
-		    Image {
-			width: 30
-			height: parent.height - 4
-			source: "qrc:/assets/raport.png"
-			fillMode: Image.PreserveAspectFit
-			anchors.verticalCenter: parent.verticalCenter
-		    }
+	    //    Rectangle {
+	    // width: 225
+	    // height: 35
+	    // color: "black"
+	    // radius: 30
+	    // Row {
+	    //     anchors.horizontalCenter: parent.horizontalCenter
+	    //     anchors.verticalCenter: parent.verticalCenter
+	    //     spacing: 3
+	    //     Image {
+	    // 	width: 30
+	    // 	height: parent.height - 4
+	    // 	source: "qrc:/assets/raport.png"
+	    // 	fillMode: Image.PreserveAspectFit
+	    // 	anchors.verticalCenter: parent.verticalCenter
+	    //     }
 
-		    Text {
-			color: "white"
-			font.pixelSize: 20
-			text: "Generate report"
-			anchors.verticalCenter: parent.verticalCenter
-		    }
-		}
+	    //     Text {
+	    // 	color: "white"
+	    // 	font.pixelSize: 20
+	    // 	text: "Generate report"
+	    // 	anchors.verticalCenter: parent.verticalCenter
+	    //     }
+	    // }
 
-		MouseArea {
-		    anchors.fill: parent
-		    onClicked: {
-			fileDialog.open();
-		    }
-		}
-	    }
+	    // MouseArea {
+	    //     anchors.fill: parent
+	    //     onClicked: {
+	    // 	fileDialog.open();
+	    //     }
+	    // }
+	    //    }
 	}
 
 	FileDialog {

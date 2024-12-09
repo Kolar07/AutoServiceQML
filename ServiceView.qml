@@ -118,7 +118,7 @@ Item {
 	    anchors.top: pageTitleRect.bottom
 	    anchors.bottom: parent.bottom
 	    radius: 30
-	    anchors.leftMargin: 30
+	    anchors.leftMargin: 20
 	    anchors.topMargin: 30
 	    anchors.bottomMargin: 30
 	    anchors.rightMargin: 20
@@ -353,7 +353,7 @@ Item {
 	    gradient: Gradient {
 		GradientStop {
 		    position: 0.0
-		    color: "#FFC48C"
+		    color: "#FFD6A5"//"#FFFFFF"//"#FFC48C"
 		}
 		// GradientStop {
 		//     position: 0.5
@@ -361,7 +361,7 @@ Item {
 		// }
 		GradientStop {
 		    position: 1.0
-		    color: "#FFD6A5"
+		    color: "#fff4e3"
 		}
 	    }
 

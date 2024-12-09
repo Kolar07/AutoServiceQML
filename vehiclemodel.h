@@ -40,7 +40,7 @@ public:
     Q_INVOKABLE QVector<int> getVehiclesIds() const;
 
 
-    QVector<Vehicle *> getVehicles() const;
+    Q_INVOKABLE QVector<Vehicle *> getVehicles() const;
     Q_INVOKABLE Vehicle* getVehicleByRow(int row) const;
     Q_INVOKABLE Vehicle* getVehicleById(int id) const;
 

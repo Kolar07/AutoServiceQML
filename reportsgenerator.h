@@ -22,9 +22,9 @@ class ReportsGenerator : public QObject
 public:
     explicit ReportsGenerator(QObject *parent = nullptr);
 
-    void generateReport(Customer &customer, QString _path);
-    void generateServicesCSV(Customer &customer, QString _path);
-    void generateVehiclesCSV(Customer &customer, QString _path);
+    Q_INVOKABLE void generateReport(Customer &customer, QString _path);
+    Q_INVOKABLE void generateServicesCSV(QString _name, QString _surname, int _customerId, QVector<Vehicle*> _vehicles, QString _path, QString _fileName);
+    Q_INVOKABLE void generateVehiclesCSV(QString _name, QString _surname, int _customerId, QVector<Vehicle*> _vehicles, QString _path, QString _fileName);
 signals:
 };
 

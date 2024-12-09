@@ -13,10 +13,10 @@ public:
     explicit Customer(QObject *parent = nullptr);
     ~Customer();
 
-    QString getName() const;
+    Q_INVOKABLE QString getName() const;
     void setName(const QString &newName);
 
-    QString getSurname() const;
+    Q_INVOKABLE QString getSurname() const;
     void setSurname(const QString &newSurname);
 
     QString getEmail() const;

@@ -5,17 +5,20 @@ project(AutoServiceQML VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Znalezienie Qt
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Sql QuickControls2 PrintSupport)
+
+
 
 qt_standard_project_setup(REQUIRES 6.5)
 
-# Dodanie wykonawczego pliku
+
 qt_add_executable(appAutoServiceQML
     main.cpp
 )
 
-# Dodanie modułu QML
+
+
 qt_add_qml_module(appAutoServiceQML
     URI AutoServiceQML
     VERSION 1.0
@@ -56,9 +59,10 @@ qt_add_qml_module(appAutoServiceQML
     QML_FILES WarningNotificationDialog.qml
     SOURCES
     SOURCES reportsgenerator.h reportsgenerator.cpp
+    QML_FILES ChoosePathDialog.qml
 )
 
-# Ustawienia właściwości celu
+
 set_target_properties(appAutoServiceQML PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -66,12 +70,11 @@ set_target_properties(appAutoServiceQML PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-# Linkowanie z Qt
 target_link_libraries(appAutoServiceQML
     PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Sql Qt6::PrintSupport
 )
 
-# Instalacja
+
 include(GNUInstallDirs)
 install(TARGETS appAutoServiceQML
     BUNDLE DESTINATION .

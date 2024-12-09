@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     LoginController logController(&customer,&dbController);
     SessionController session;
 
-    logController.login("blablabla@gmail.com","testtest123");
+    //logController.login("blablabla@gmail.com","testtest123");
     NotificationModel notifModel;
     bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
     //dbController.addNotification(date,150050,12,15000,40,"Oil and filters change", "MaintenanceService", "WW1354");
 
 
-     dbController.fetchVehicleTypes();
-     emit customer.fetchVehicles(customer.getId());
-     emit notifModel.fetchNotifications();
+     // dbController.fetchVehicleTypes();
+     // emit customer.fetchVehicles(customer.getId());
+     // emit notifModel.fetchNotifications();
 
 
     //dbController.addVehicle(customer.getId(),"Mercedes","xyzxyz",2020,"xyzxyz","xyzxyz",1,"Truck","sad464asd56sad","SMIK8I1");
@@ -122,9 +122,9 @@ int main(int argc, char *argv[])
     //END OF TESTING
     //
 
-    ReportsGenerator test;
-    test.generateServicesCSV(customer,"C:\\Users\\jakub\\OneDrive\\Pulpit\\testtest");
-    test.generateVehiclesCSV(customer,"C:\\Users\\jakub\\OneDrive\\Pulpit\\testtest");
+     ReportsGenerator reportsGenerator;
+     //reportsGenerator.generateServicesCSV(customer,"C:\\Users\\jakub\\OneDrive\\Pulpit\\testtest", "xyz");
+     //reportsGenerator.generateVehiclesCSV(customer,"C:\\Users\\jakub\\OneDrive\\Pulpit\\testtest", "xyz");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("loginController", &logController);
     engine.rootContext()->setContextProperty("registerController", &registerController);
@@ -134,6 +134,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("valid", &valid);
     engine.rootContext()->setContextProperty("dbController", &dbController);
     engine.rootContext()->setContextProperty("notifModel", &notifModel);
+    engine.rootContext()->setContextProperty("reportsGenerator", &reportsGenerator);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

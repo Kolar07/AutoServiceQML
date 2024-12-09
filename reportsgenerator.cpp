@@ -10,8 +10,8 @@ void ReportsGenerator::generateReport(Customer &customer, QString _path)
      _path = QCoreApplication::applicationDirPath();
 
     QDir dir(_path);
-    if (!dir.exists("Raporty")) {
-        dir.mkdir("Raporty");
+    if (!dir.exists("Raports")) {
+        dir.mkdir("Raports");
     }
 
     }
@@ -22,25 +22,46 @@ void ReportsGenerator::generateReport(Customer &customer, QString _path)
 
     QPainter painter;
     if (!painter.begin(&printer)) {
-        qWarning() << "Nie można rozpocząć rysowania do PDF";
+        qWarning() << "No able to print";
         return;
     }
 }
 
-void ReportsGenerator::generateServicesCSV(Customer &customer, QString _path)
+void ReportsGenerator::generateServicesCSV(QString _name,QString _surname,int _customerId, QVector<Vehicle*> _vehicles, QString _path, QString _fileName)
 {
-    qDebug()<<"EXPORTING TO CSV: customer name:"<<customer.getName()<<"customer vehicles:" <<customer.getVehicles()->getVehicles().size();
-    QFile file("services.csv");
+    if(_path.isEmpty()) {
+        _path = QCoreApplication::applicationDirPath();
+    }
+
+    if (_path.startsWith("file:///")) {
+        _path = QUrl(_path).toLocalFile();
+    }
+
+    qDebug()<<"File name: "<<_fileName;
+
+    if(_fileName == "") {
+        _fileName = "services.csv";
+    } else {
+        _fileName += "_services.csv";
+    }
+
+    int counter = 1;
+    while (QFileInfo::exists(QDir(_path).filePath(_fileName))) {
+        _fileName = QFileInfo(_fileName).completeBaseName() + "_" + QString::number(counter) + "." + QFileInfo(_fileName).suffix();
+        counter++;
+    }
+
+    QFile file(_path + "/" +_fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QTextStream stream(&file);
         stream << "Customer Name & Surname,Customer ID,Vehicle ID,Vehicle Brand,Vehicle Model,Vehicle Year,Vehicle Version,Vehicle Engine,Vehicle Type,"
                                "Vehicle VIN,Vehicle Registration,Service ID,Service Mileage,Service Type,Service Date,Service Interval Km,Service Interval Months,Service Short Description,Service Long Description,"
                               "Service Custom Parts,Service Oil,Service Oil Filter,Service Air Filter,Service Cabin Filter,Service Timing\n";
-        for (const auto& vehicle : customer.getVehicles()->getVehicles()) {
+        for (const auto& vehicle : _vehicles) {
 
                 for (const auto& service : vehicle->getServices()->getServices()) {
-                stream  << customer.getName() + " " + customer.getSurname() << ","
-                        << customer.getId() << ","
+                stream  << _name + " " + _surname << ","
+                        << _customerId << ","
                         << vehicle->getId() << ","
                         << vehicle->getBrand() << ","
                         << vehicle->getModel() << ","
@@ -103,12 +124,12 @@ void ReportsGenerator::generateServicesCSV(Customer &customer, QString _path)
                                 << maintenanceService->getInterval_time() << ","
                                 << maintenanceService->getService() << ","
                                 << maintenanceService->getNote() << ","
-                         << "Empty" << ","
-                         << "Empty" << ","
-                         << "Empty" << ","
-                         << "Empty" << ","
-                         << "Empty" << ","
-                         << "Empty";
+                                << "Empty" << ","
+                                << "Empty" << ","
+                                << "Empty" << ","
+                                << "Empty" << ","
+                                << "Empty" << ","
+                                << "Empty";
                     }
                     stream << "\n";
                 }
@@ -119,26 +140,45 @@ void ReportsGenerator::generateServicesCSV(Customer &customer, QString _path)
 }
 
 
-void ReportsGenerator::generateVehiclesCSV(Customer &customer, QString _path)
+void ReportsGenerator::generateVehiclesCSV(QString _name,QString _surname,int _customerId, QVector<Vehicle*> _vehicles, QString _path, QString _fileName)
 {
-    qDebug()<<"EXPORTING TO CSV: customer name:"<<customer.getName()<<"customer vehicles:" <<customer.getVehicles()->getVehicles().size();
-    QFile file("vehicles.csv");
+    if(_path.isEmpty()) {
+        _path = QCoreApplication::applicationDirPath();
+    }
+
+    if (_path.startsWith("file:///")) {
+        _path = QUrl(_path).toLocalFile();
+    }
+
+    if(_fileName == "") {
+        _fileName = "vehicles.csv";
+    } else {
+        _fileName += "_vehicles.csv";
+    }
+
+    int counter = 1;
+    while (QFileInfo::exists(QDir(_path).filePath(_fileName))) {
+        _fileName = QFileInfo(_fileName).completeBaseName() + "_" + QString::number(counter) + "." + QFileInfo(_fileName).suffix();
+        counter++;
+    }
+
+    QFile file(_path + "/" +_fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QTextStream stream(&file);
         stream << "Customer Name & Surname,Customer ID,Vehicle ID,Vehicle Brand,Vehicle Model,Vehicle Year,Vehicle Version,Vehicle Engine,Vehicle Type,"
                   "Vehicle VIN,Vehicle Registration\n";
-        for (const auto& vehicle : customer.getVehicles()->getVehicles()) {
-                stream << customer.getName() + " " + customer.getSurname() << ","
-                   <<customer.getId() << ","
+        for (const auto& vehicle : _vehicles) {
+                stream << _name + " " + _surname << ","
+                   << _customerId << ","
                    <<   vehicle->getId() << ","
                    <<   vehicle->getBrand() << ","
                    <<   vehicle->getModel() << ","
-                   <<  vehicle->getYear() << ","
+                   <<   vehicle->getYear() << ","
                    <<   vehicle->getVersion() << ","
                    <<   vehicle->getEngine() << ","
-                        << vehicle->getTypeString() << ","
-                        << vehicle->getVin() << ","
-                    << vehicle->getRegistrationNumber();
+                   <<   vehicle->getTypeString() << ","
+                   <<   vehicle->getVin() << ","
+                   <<   vehicle->getRegistrationNumber();
                         stream << "\n";
         }
         file.close();
