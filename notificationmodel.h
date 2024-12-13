@@ -34,7 +34,7 @@ private:
     QVector<Notification*> notifications;
 
 signals:
-    void fetchNotifications();
+    void fetchNotifications(int customerId);
 
 public slots:
     void onNotificationsFetched(QVector<Notification*> &_notifications);

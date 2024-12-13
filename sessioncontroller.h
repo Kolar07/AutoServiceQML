@@ -13,6 +13,7 @@ public:
     std::shared_ptr<Customer> getCurrentCustomer() const;
     void setCurrentCustomer(const std::shared_ptr<Customer> &newCurrentCustomer);
     void printingPtr() const;
+    Q_INVOKABLE void clear();
 
 public slots:
     void successfullyLogged(std::shared_ptr<Customer> &customer);

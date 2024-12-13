@@ -58,10 +58,10 @@ public:
     Q_INVOKABLE bool removeService(int serviceId);
     Q_INVOKABLE bool removeMultipleServices(QVector<int> serviceIds);
 
-    Q_INVOKABLE bool addNotification(QDate _serviceDate,QString _mileage, QString _intervalMonths,QString _intervalKm,
-                                     int _serviceId, QString _service,QString _serviceType, QString _vehicleRegistration);
+    Q_INVOKABLE bool addNotification(int customerId, QDate _serviceDate, QString _mileage, QString _intervalMonths, QString _intervalKm,
+                                     int _serviceId, QString _service, QString _serviceType, QString _vehicleRegistration);
     Q_INVOKABLE bool removeNotification(int notificationId);
-    Q_INVOKABLE bool updateNotificationWithService(int serviceId);
+    Q_INVOKABLE bool updateNotificationWithService(int serviceId, int customerId);
 
  signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);
@@ -80,7 +80,7 @@ public:
 
     void onServicesFetchVersionSpecifiedVehicle(int vehicleId);
 
-    void onFetchNotifications();
+    void onFetchNotifications(int customerId);
 
 private:
     QSqlDatabase db;

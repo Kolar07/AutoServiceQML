@@ -27,14 +27,15 @@ public:
 
     Q_INVOKABLE int getId() const;
     void setId(int newId);
-    void print() const;
+    Q_INVOKABLE void print() const;
 
     Q_INVOKABLE VehicleModel *getVehicles();
     void setVehicles(VehicleModel *_vehicles);
 
+    Q_INVOKABLE void clear();
+
 public: signals:
     void fetchVehicles(int customerId);
-
     void fetchServicesVersionSpecifiedVehicle(int vehicleId);
 
 public slots:

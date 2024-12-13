@@ -24,3 +24,13 @@ void SessionController::printingPtr() const
 {
     qDebug()<<"SessionController pointer: "<<&currentCustomer;
 }
+
+void SessionController::clear()
+{
+    currentCustomer->setId(0);
+    currentCustomer->setEmail("");
+    currentCustomer->setName("");
+    currentCustomer->setPassword("");
+    currentCustomer->setSurname("");
+    currentCustomer->setVehicles(nullptr);
+}

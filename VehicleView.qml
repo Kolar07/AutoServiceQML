@@ -642,9 +642,8 @@ Item {
 					}
 					onClicked: {
 					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
-					    //showService(selectedVehicleId, selectedServiceId);
-					    if (dbController.addNotification(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getServiceDate(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getMileage(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getInterval_time(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getInterval_km(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getService(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getType(), customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber())) {
-						notifModel.fetchNotifications();
+					    if (dbController.addNotification(customer.getId(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getServiceDate(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getMileage(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getInterval_time(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getInterval_km(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getService(), customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getType(), customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber())) {
+						notifModel.fetchNotifications(customer.getId());
 					    } else {
 						warningNotificationDialog.openDialog();
 					    }
@@ -841,39 +840,6 @@ Item {
 		    }
 		}
 	    }
-
-	    //    Rectangle {
-	    // width: 225
-	    // height: 35
-	    // color: "black"
-	    // radius: 30
-	    // Row {
-	    //     anchors.horizontalCenter: parent.horizontalCenter
-	    //     anchors.verticalCenter: parent.verticalCenter
-	    //     spacing: 3
-	    //     Image {
-	    // 	width: 30
-	    // 	height: parent.height - 4
-	    // 	source: "qrc:/assets/raport.png"
-	    // 	fillMode: Image.PreserveAspectFit
-	    // 	anchors.verticalCenter: parent.verticalCenter
-	    //     }
-
-	    //     Text {
-	    // 	color: "white"
-	    // 	font.pixelSize: 20
-	    // 	text: "Generate report"
-	    // 	anchors.verticalCenter: parent.verticalCenter
-	    //     }
-	    // }
-
-	    // MouseArea {
-	    //     anchors.fill: parent
-	    //     onClicked: {
-	    // 	fileDialog.open();
-	    //     }
-	    // }
-	    //    }
 	}
 
 	FileDialog {
@@ -908,9 +874,4 @@ Item {
     function setSelectedService(serviceId) {
 	selectedServiceId = serviceId;
     }
-
-    //    function showService(serviceId) {
-    // selectedServiceId = serviceId;
-    // viewLoader.source = "ServiceView.qml";
-    //    }
 }

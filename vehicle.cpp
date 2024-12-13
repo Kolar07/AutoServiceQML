@@ -128,7 +128,7 @@ ServiceModel *Vehicle::getServices()
 {
 
     if (!services) {
-        qDebug() << "DEBUG - Services not initialized for vehicle!";
+        //qDebug() << "DEBUG - Services not initialized for vehicle!";
     }
     return services;
 }
@@ -146,8 +146,9 @@ void Vehicle::onFetchedServices(int vehicleId, QVector<std::shared_ptr<Service> 
     if(!servicesVector.empty() && vehicleId == id) {
         qDebug()<<"From vehicle "<< id <<" - setting services, size: "<<servicesVector.size();
     services->setData(servicesVector);
-    qDebug()<<"From vehicle "<< id <<" - after setting services: "<<services->getServices().size();
-    } else return;
+    //qDebug()<<"From vehicle "<< id <<" - after setting services: "<<services->getServices().size();
+    } else
+    return;
 }
 
 

@@ -93,6 +93,7 @@ void VehicleModel::setData(QVector<Vehicle*> &_vehicles) {
     qDebug()<<"SetData activated";
     qDeleteAll(vehicles);
     vehicles.clear();
+
     for (Vehicle* vehicle : _vehicles) {
         vehicle->setParent(this);
         QQmlEngine::setObjectOwnership(vehicle, QQmlEngine::CppOwnership); // QML can not delete objects now
@@ -101,6 +102,7 @@ void VehicleModel::setData(QVector<Vehicle*> &_vehicles) {
     selected.fill(false, vehicles.size());
     // vehicles = _vehicles;
     // selected.resize(vehicles.size(), false);
+        qDebug()<<"Till now works, vehicles size: "<<vehicles.size();
     endResetModel();
 }
 
@@ -150,16 +152,16 @@ Vehicle *VehicleModel::getVehicleByRow(int row) const
 
 Vehicle *VehicleModel::getVehicleById(int id) const
 {
-    qDebug() << "DEBUG - Searching for vehicle ID:" << id;
+    //qDebug() << "DEBUG - Searching for vehicle ID:" << id;
     if(id>=0) {
        auto it = std::find_if(vehicles.begin(), vehicles.end(), [id]( Vehicle *vehicle){
             return vehicle->getId() == id;
 });
 if (it != vehicles.end()) {
-    qDebug() << "DEBUG - Vehicle found!";
+    //qDebug() << "DEBUG - Vehicle found!";
            return *it;
         }
     }
-    qDebug() << "DEBUG - Vehicle not found.";
+    //qDebug() << "DEBUG - Vehicle not found.";
     return nullptr;
 }

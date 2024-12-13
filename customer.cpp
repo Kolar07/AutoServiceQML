@@ -74,8 +74,8 @@ void Customer::onVehiclesFetched(QVector<Vehicle *> &vehiclesVector)
     //if(!vehiclesVector.empty()) {
         qDebug()<<"From customer - setting vehicles, size: "<<vehiclesVector.size();
     vehicles->setData(vehiclesVector);
-    qDebug()<<"From customer - after setting vehicles: "<<vehicles->getVehicles().size();
-    qDebug()<<"Vehicles services size: ";
+    //qDebug()<<"From customer - after setting vehicles: "<<vehicles->getVehicles().size();
+    //qDebug()<<"Vehicles services size: ";
     // for(int i = 0; i<vehicles->getVehicles().size(); i++) {
     //     qDebug()<<vehicles->getVehicleByRow(i)->getServices()->getServices().size();
     // }
@@ -84,16 +84,27 @@ void Customer::onVehiclesFetched(QVector<Vehicle *> &vehiclesVector)
 
 void Customer::onServicesFetchedVersionSpecifiedVehicle(int vehicleId, QVector<std::shared_ptr<Service> > &services)
 {
-    qDebug()<<"DEBUG - FROM CUSTOMER NOW SETTING DATA";
+    //qDebug()<<"DEBUG - FROM CUSTOMER NOW SETTING DATA";
     vehicles->getVehicleById(vehicleId)->getServices()->setData(services);
 }
 
 void Customer::setVehicles(VehicleModel *newVehicles)
 {
     if (vehicles) {
-        qDebug() << "DEBUG - Deleting old vehicles model.";
+       // qDebug() << "DEBUG - Deleting old vehicles model.";
         delete vehicles;
     }
     vehicles = newVehicles;
-    qDebug() << "DEBUG - New vehicles model set.";
+    //qDebug()<<"Vehicles size: "<<vehicles->getVehicles().size();
+   // qDebug() << "DEBUG - New vehicles model set.";
+}
+
+void Customer::clear()
+{
+    id = 0;
+    name = "";
+    surname = "";
+    email = "";
+    password = "";
+    delete vehicles;
 }

@@ -529,9 +529,9 @@ Item {
 
 			    //date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
 			    if (dbController.updateService(selectedServiceId, mileageInput.text, intervalKmInput.text, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text)) {
-				if (dbController.updateNotificationWithService(selectedServiceId)) {
+				if (dbController.updateNotificationWithService(selectedServiceId, customer.getId())) {
 				    console.log("Notification updated successfully");
-				    notifModel.fetchNotifications();
+				    notifModel.fetchNotifications(customer.getId());
 				}
 				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
 				console.log("Service updated successfully");
@@ -557,4 +557,3 @@ Item {
 	partsInput.text = "";
     }
 }
-

@@ -31,7 +31,6 @@ bool LoginController::login(QString email, QString password)
         customer->setSurname(customerFromDB.value("surname").toString());
         qDebug()<<"CUSTOMER LOGGED IN!";
 
-        //SET VEHICLE LIST TO CUSTOMER AFTER LOGIN
         qDebug()<<"Login controller pointer: "<<customer.get();
         emit successfullyLogged(customer);
         return true;

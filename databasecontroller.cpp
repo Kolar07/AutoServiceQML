@@ -108,11 +108,14 @@ void DatabaseController::init()
           service varchar(255) NOT NULL,
           service_type varchar(255) NOT NULL,
           vehicle_registration varchar(255) NOT NULL,
+          customer_id INT NOT NULL,
           PRIMARY KEY (id),
           CONSTRAINT fk_service_id FOREIGN KEY (service_id) REFERENCES services(id)
             ON DELETE CASCADE ON UPDATE CASCADE);
           CONSTRAINT fk_vehicle_registration FOREIGN KEY (vehicle_registration) REFERENCES vehicles(registration_number)
             ON UPDATE CASCADE
+          CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customers(id)
+            ON UPDATE CASCADE ON DELETE CASCADE
     )";
 
     if (!executeQuery(createVehiclesTable) ||
@@ -499,7 +502,7 @@ void DatabaseController::onFetchVehicles(int customer_id)
 
 void DatabaseController::onFetchServices(int vehicleId)
 {
-    qDebug()<<"Started fetching services for vehicle id: "<<vehicleId;
+    //qDebug()<<"Started fetching services for vehicle id: "<<vehicleId;
 
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -535,7 +538,7 @@ void DatabaseController::onFetchServices(int vehicleId)
 
 void DatabaseController::onServicesFetchVersionSpecifiedVehicle(int vehicleId)
 {
-    qDebug()<<"DEBUGING SERVICES FETCHING FOR VEHICLE ID: "<<vehicleId;
+    //qDebug()<<"DEBUGING SERVICES FETCHING FOR VEHICLE ID: "<<vehicleId;
 
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -561,16 +564,16 @@ void DatabaseController::onServicesFetchVersionSpecifiedVehicle(int vehicleId)
                 services.push_back(std::move(service));
             } else return;
         }
-        qDebug()<<"SERVICESS SUCCESSFULLY FETCHED - DEBUG";
+        //qDebug()<<"SERVICESS SUCCESSFULLY FETCHED - DEBUG";
         emit servicesFetchedVersionSpecifiedVehicle(vehicleId,services);
-        qDebug() << "DEBUG - Emitting servicesFetched for vehicle ID:" << vehicleId << ", Services size:" << services.size();
+        //qDebug() << "DEBUG - Emitting servicesFetched for vehicle ID:" << vehicleId << ", Services size:" << services.size();
     } else {
         qDebug()<<"Query execution failed: "<<query.lastError();
         return;
     }
 }
 
-void DatabaseController::onFetchNotifications()
+void DatabaseController::onFetchNotifications(int customerId)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -579,7 +582,8 @@ void DatabaseController::onFetchNotifications()
     }
 
     QSqlQuery query;
-    query.prepare("SELECT id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration FROM notifications");
+    query.prepare("SELECT id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration FROM notifications WHERE customer_id = :id");
+    query.bindValue(":id", customerId);
     QVector<Notification*> _notifications;
     if(query.exec()) {
         while(query.next()) {
@@ -778,13 +782,12 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
 
     if (!query.exec()) {
         qDebug() << "Failed to update service: " << query.lastError();
-        qDebug()<<"ABOUT TO ROLLBACK1";
         return false;
     } else {
         //qDebug()<<"EXECUTED QUERY: "<<query.executedQuery();
-        qDebug() << "Prepared query:" << query.lastQuery();
-        qDebug() << "Bound values:" << query.boundValues();
-        qDebug() << "Rows affected:" << query.numRowsAffected();
+        //qDebug() << "Prepared query:" << query.lastQuery();
+        //qDebug() << "Bound values:" << query.boundValues();
+        //qDebug() << "Rows affected:" << query.numRowsAffected();
         return true;
     }
 
@@ -844,7 +847,7 @@ bool DatabaseController::removeMultipleServices(QVector<int> serviceIds)
     return true;
 }
 
-bool DatabaseController::addNotification(QDate _serviceDate, QString _mileage, QString _intervalMonths, QString _intervalKm, int _serviceId, QString _service, QString _serviceType, QString _vehicleRegistration)
+bool DatabaseController::addNotification(int customerId, QDate _serviceDate, QString _mileage, QString _intervalMonths, QString _intervalKm, int _serviceId, QString _service, QString _serviceType, QString _vehicleRegistration)
 {
     if (!db.open()) {
         qDebug() << "Database is not open:" << db.lastError();
@@ -863,7 +866,7 @@ bool DatabaseController::addNotification(QDate _serviceDate, QString _mileage, Q
         QDate nextServiceDate = _serviceDate.addMonths(_intervalMonths.toInt());
 
         QSqlQuery query;
-        query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
+        query.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration,customer_id) VALUES (?,?,?,?,?,?,?,?)");
         query.addBindValue(_serviceId);
         query.addBindValue(_serviceDate);
         if(_intervalMonths.toInt() == 0) {
@@ -875,6 +878,7 @@ bool DatabaseController::addNotification(QDate _serviceDate, QString _mileage, Q
         query.addBindValue(_service);
         query.addBindValue(_serviceType);
         query.addBindValue(_vehicleRegistration);
+        query.addBindValue(customerId);
 
         if(!query.exec()) {
             qDebug()<<"Nope not working"<<query.lastError();
@@ -904,7 +908,7 @@ bool DatabaseController::removeNotification(int notificationId)
     return true;
 }
 
-bool DatabaseController::updateNotificationWithService(int serviceId)
+bool DatabaseController::updateNotificationWithService(int serviceId, int customerId)
 {
 
     int upToDateMileage = 0;
@@ -925,7 +929,6 @@ bool DatabaseController::updateNotificationWithService(int serviceId)
     dataFromService.addBindValue(serviceId);
     if(!dataFromService.exec()) {
         qDebug()<<"Failed to execute query for finding service";
-        qDebug()<<"ABOUT TO ROLLBACK2";
         return false;
     }
     if(dataFromService.next()) {
@@ -959,6 +962,7 @@ bool DatabaseController::updateNotificationWithService(int serviceId)
             newNotifNextServiceDate = upToDateServiceDate.addMonths(upToDateIntervalTime);
             setClausesNotifications.append("next_service_date = ?");
         }
+
         if(upToDateService != findNotif.value(5).toString()) {
             qDebug() << "Updating service field in notification.";
             newNotifService = upToDateService;
@@ -989,7 +993,6 @@ bool DatabaseController::updateNotificationWithService(int serviceId)
 
             if (!queryNotif.exec()) {
                 qDebug() << "Failed to update notification: " << queryNotif.lastError();
-                qDebug()<<"ABOUT TO ROLLBACK3";
                 return false;
             } else {
                 return true;
@@ -1012,11 +1015,9 @@ bool DatabaseController::updateNotificationWithService(int serviceId)
             registrationNumber = queryReg.value(0).toString();
         } else {
             qDebug() << "Failed to find registration number:" << queryReg.lastError().text();
-            qDebug()<<"ABOUT TO ROLLBACK4";
             return false;
         }
-        if(!addNotification(upToDateServiceDate,QString::number(upToDateMileage),QString::number(upToDateIntervalTime),QString::number(upToDateIntervalKm),serviceId,upToDateService,upToDateType,registrationNumber)) {
-            qDebug()<<"ABOUT TO ROLLBACK5";
+        if(!addNotification(customerId,upToDateServiceDate,QString::number(upToDateMileage),QString::number(upToDateIntervalTime),QString::number(upToDateIntervalKm),serviceId,upToDateService,upToDateType,registrationNumber)) {
             return false;
         }
     }

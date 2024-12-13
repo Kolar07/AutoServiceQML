@@ -60,6 +60,7 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES
     SOURCES reportsgenerator.h reportsgenerator.cpp
     QML_FILES ChoosePathDialog.qml
+    QML_FILES LogoutDialog.qml
 )
 
 

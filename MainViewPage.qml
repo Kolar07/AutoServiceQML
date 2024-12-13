@@ -41,7 +41,10 @@ Item {
 
 	MouseArea {
 	    anchors.fill: parent
-	    onClicked: {}
+	    cursorShape: "PointingHandCursor"
+	    onClicked: {
+		logoutDialog.openDialog();
+	    }
 	}
     }
 
@@ -710,7 +713,7 @@ Item {
 
 			    onClicked: {
 				if (dbController.removeNotification(model.id)) {
-				    notifModel.fetchNotifications();
+				    notifModel.fetchNotifications(customer.getId());
 				}
 			    }
 
@@ -725,6 +728,10 @@ Item {
 		}
 	    }
 	}
+    }
+
+    LogoutDialog {
+	id: logoutDialog
     }
 
     ChoosePathDialog {

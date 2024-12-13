@@ -35,12 +35,14 @@ Item {
 			if (!removeMultiple) {
 			    if (dbController.removeService(selectedServiceId)) {
 				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
+				notifModel.fetchNotifications(customer.getId());
 				removeServiceDialog.close();
 			    } else
 				removeServiceDialog.close();
 			} else {
 			    if (dbController.removeMultipleServices(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getSelectedServicesIds())) {
 				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
+				notifModel.fetchNotifications(customer.getId());
 				removeServiceDialog.close();
 			    } else
 				removeServiceDialog.close();

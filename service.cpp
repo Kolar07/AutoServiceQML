@@ -10,7 +10,7 @@ Service::Service(int _id, int _milleage, QString _type, QString date) : id(_id),
     mileage(_milleage), type(_type)
 {
     QDate temp = QDate::fromString(date,"yyyy-MM-dd");
-    qDebug()<<"Date input: "<<date;
+    //qDebug()<<"Date input: "<<date;
     if(!temp.isValid()){
         qDebug()<<"Wrong date format!";
     } else serviceDate = temp;
@@ -20,7 +20,7 @@ Service::Service(int _id, int _milleage, QString _type, QString date) : id(_id),
 Service::Service(int _mileage, QString _type, QString date): mileage(_mileage), type(_type)
 {
     QDate temp = QDate::fromString(date,"yyyy-MM-dd");
-    qDebug()<<"Date input: "<<date;
+    //qDebug()<<"Date input: "<<date;
     if(!temp.isValid()){
         qDebug()<<"Wrong date format!";
     } else serviceDate = temp;

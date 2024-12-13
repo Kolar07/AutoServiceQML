@@ -38,10 +38,9 @@ ApplicationWindow {
     Loader {
 	id: mainLoader
 	anchors.fill: parent
-	source: "LoginPage.qml" // Startujemy z login page
+	source: "LoginPage.qml"
     }
 
-    // Obsługa sygnałów do zmiany głównego widoku
     onShowLogin: mainLoader.source = "LoginPage.qml"
     onShowRegister: mainLoader.source = "RegistrationPage.qml"
     onShowMainView: mainLoader.source = "MainViewPage.qml"
