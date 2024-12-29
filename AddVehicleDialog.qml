@@ -235,6 +235,15 @@ Item {
 			}
 		    }
 		}
+
+		Label {
+		    id: wrongType
+		    visible: false
+		    font.pixelSize: 10
+		    color: "red"
+		    text: "Choose a type!"
+		    anchors.verticalCenter: vehicleTypeComboBox.verticalCenter
+		}
 	    }
 	}
 
@@ -277,6 +286,12 @@ Item {
 			isValid = false;
 		    } else {
 			wrongVersionInput.visible = false;
+		    }
+		    if (vehicleTypeComboBox.currentIndex === -1) {
+			wrongType.visible = true;
+			isValid = false;
+		    } else {
+			wrongType.visible = false;
 		    }
 		    if (!valid.vinIsValid(vinInput.text)) {
 			wrongVinInput.text = "VIN should contain 17 characters withoud O, I and Q";

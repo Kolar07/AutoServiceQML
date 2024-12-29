@@ -48,7 +48,7 @@ public:
                                    QString version, QString engine, int typeId, QString type,
                                    QString vin, QString registrationNumber);
 
-    Q_INVOKABLE bool addService(int vehicle_id, QString mileage, QString type, QString interval_km,
+    Q_INVOKABLE bool addService(int customerId, int vehicle_id, QString mileage, QString type, QString interval_km,
                                 QString service_date, QString interval_time, QString service, QString oil,
                                 QString oilFilter, QString airFilter, QString cabinFilter, QString timing,
                                 QString customParts, QString note, QString _vehicleRegistration);

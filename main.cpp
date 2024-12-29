@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     //dbController.init();
     dbController.open();
     dbController.init();
-    bool isConnected = QObject::connect(&registerController,&RegisterController::registrationSuccess,
+    QObject::connect(&registerController,&RegisterController::registrationSuccess,
                                         &dbController,&DatabaseController::registrationSuccess);
 
     Customer customer;
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     //logController.login("blablabla@gmail.com","testtest123");
     NotificationModel notifModel;
-    bool isConnected2 = QObject::connect(&logController, &LoginController::successfullyLogged,
+    QObject::connect(&logController, &LoginController::successfullyLogged,
                                          &session, &SessionController::successfullyLogged);
     VehicleTypeContainer vehicleTypeContainer;
 

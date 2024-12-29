@@ -44,11 +44,11 @@ void DatabaseController::init()
         CREATE TABLE IF NOT EXISTS vehicles (
           id INT NOT NULL AUTO_INCREMENT,
           customer_id INT DEFAULT NULL,
-          brand VARCHAR(255) DEFAULT NULL,
-          model VARCHAR(255) DEFAULT NULL,
+          brand VARCHAR(255) NOT NULL,
+          model VARCHAR(255) NOT NULL,
           year INT NOT NULL,
-          version VARCHAR(255) DEFAULT NULL,
-          engine VARCHAR(255) DEFAULT NULL,
+          version VARCHAR(255) NOT NULL,
+          engine VARCHAR(255) NOT NULL,
           type_id INT DEFAULT NULL,
           type VARCHAR(255) DEFAULT NULL,
           vin VARCHAR(255) NOT NULL,
@@ -56,7 +56,7 @@ void DatabaseController::init()
           PRIMARY KEY (id),
           UNIQUE (customer_id, registration_number),
           UNIQUE (customer_id, vin),
-          CONSTRAINT fk_type_id FOREIGN KEY (type_id) REFERENCES vehicle_types (id) ON DELETE CASCADE ON UPDATE CASCADE,
+          CONSTRAINT fk_type_id FOREIGN KEY (type_id) REFERENCES vehicle_types (id) ON DELETE SET NULL ON UPDATE CASCADE,
           CONSTRAINT vehicles_ibfk_1 FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE ON UPDATE CASCADE)
     )";
 
@@ -78,7 +78,7 @@ void DatabaseController::init()
           custom_parts VARCHAR(255) DEFAULT NULL,
           note VARCHAR(255) DEFAULT NULL,
           PRIMARY KEY (id),
-          CONSTRAINT services_ibfk_1 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id) ON DELETE CASCADE)
+          CONSTRAINT services_ibfk_1 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id) ON DELETE CASCADE ON UPDATE CASCADE)
     )";
 
     const QString createVehicleTypesTable = R"(
@@ -111,17 +111,17 @@ void DatabaseController::init()
           customer_id INT NOT NULL,
           PRIMARY KEY (id),
           CONSTRAINT fk_service_id FOREIGN KEY (service_id) REFERENCES services(id)
-            ON DELETE CASCADE ON UPDATE CASCADE);
-          CONSTRAINT fk_vehicle_registration FOREIGN KEY (vehicle_registration) REFERENCES vehicles(registration_number)
-            ON UPDATE CASCADE
+            ON DELETE CASCADE ON UPDATE CASCADE,
+          CONSTRAINT fk_vehicle_registration FOREIGN KEY (customer_id, vehicle_registration) REFERENCES vehicles(customer_id,registration_number)
+            ON UPDATE CASCADE ON DELETE CASCADE,
           CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customers(id)
             ON UPDATE CASCADE ON DELETE CASCADE
-    )";
+    ))";
 
-    if (!executeQuery(createVehiclesTable) ||
-        !executeQuery(createServicesTable) ||
-        !executeQuery(createVehicleTypesTable) ||
+    if (!executeQuery(createVehicleTypesTable) ||
         !executeQuery(createCustomersTable) ||
+        !executeQuery(createVehiclesTable) ||
+        !executeQuery(createServicesTable) ||
         !executeQuery(createNotificationsTable)) {
         return;
     }
@@ -600,7 +600,7 @@ void DatabaseController::onFetchNotifications(int customerId)
 }
 
 
-bool DatabaseController::addService(int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note,QString _vehicleRegistration)
+bool DatabaseController::addService(int customerId,int vehicle_id, QString mileage, QString type, QString interval_km, QString service_date, QString interval_time, QString service, QString oil, QString oilFilter, QString airFilter, QString cabinFilter, QString timing, QString customParts,QString note,QString _vehicleRegistration)
 
 
 {
@@ -652,17 +652,31 @@ bool DatabaseController::addService(int vehicle_id, QString mileage, QString typ
         int service_id = query.lastInsertId().toInt();
 
         int calculated = mileage.toInt() + interval_km.toInt();
-        QDate nextServiceDate = QDate::fromString(service_date, "yyyy-MM-dd").addMonths(interval_time.toInt());
-        ;
+        qDebug()<<"Service date:::: " <<service_date;
+
+        QStringList dateParts = service_date.split("-");
+        int year = dateParts[0].toInt();
+        int month = dateParts[1].toInt();
+        int day = dateParts[2].toInt();
+        QDate nextServiceDate(year,month,day);
+        if(nextServiceDate.isValid()) {
+        nextServiceDate = nextServiceDate.addMonths(interval_time.toInt());
+           qDebug() << "Next service date:" << nextServiceDate.toString("yyyy-MM-dd");
+        } else {
+        qDebug() << "Invalid date!";
+    }
+
         QSqlQuery notificationQuery;
-        notificationQuery.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration) VALUES (?,?,?,?,?,?,?)");
+        notificationQuery.prepare("INSERT INTO notifications (service_id,service_date,next_service_date,next_service_km,service,service_type,vehicle_registration,customer_id) VALUES (?,?,?,?,?,?,?,?)");
         notificationQuery.addBindValue(service_id);
         notificationQuery.addBindValue(service_date);
         notificationQuery.addBindValue(nextServiceDate);
+        qDebug()<<"NEXT SERVICE DATE FOR NOTIF: "<<nextServiceDate.toString("dd-MM-yyy");
         notificationQuery.addBindValue(calculated);
         notificationQuery.addBindValue(service);
         notificationQuery.addBindValue(type);
         notificationQuery.addBindValue(_vehicleRegistration);
+        notificationQuery.addBindValue(customerId);
         if (!notificationQuery.exec()) {
             qDebug() << "Error while inserting notification: " << notificationQuery.lastError();
             db.rollback();

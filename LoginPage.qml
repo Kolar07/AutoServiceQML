@@ -30,16 +30,16 @@ Item {
 	TextField {
 	    id: emailInput
 	    font.pixelSize: 14
-	    //PlaceholderText: "email"
 	    color: "black"
+
 	    text: "blablabla@gmail.com"
+
 	    background: Rectangle {
 		id: emailBackground
 		width: 300
-		height: 20
-		color: "white"
 		radius: 10
-		border.color: "black"
+		color: "white"//color: emailInput.enabled ? "transparent" : "white"
+		border.color: "black"//emailInput.focus ? "transparent" : "black"
 	    }
 	    wrapMode: "Wrap"
 	    implicitWidth: emailBackground.width
@@ -56,7 +56,7 @@ Item {
 	    background: Rectangle {
 		id: passwordBackground
 		width: 300
-		height: 20
+		//height: 20
 		color: "white"
 		radius: 10
 		border.color: "black"

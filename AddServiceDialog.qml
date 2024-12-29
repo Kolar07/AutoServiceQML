@@ -174,14 +174,11 @@ Item {
 			}
 		    }
 		}
-
-
 	    }
 	    Label {
 		text: "Service date: "
 		font.pixelSize: 15
 		anchors.horizontalCenter: parent.horizontalCenter
-
 	    }
 	    Row {
 
@@ -633,7 +630,7 @@ Item {
 			    wrongPartsInput.visible = false;
 			if (isValid) {
 			    date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
-			    if (dbController.addService(customer.getVehicles().getVehicleById(selectedVehicleId).getId(), mileageInput.text, type, intervalKmInput.text, date, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text, customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber())) {
+			    if (dbController.addService(customer.getId(), customer.getVehicles().getVehicleById(selectedVehicleId).getId(), mileageInput.text, type, intervalKmInput.text, date, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text, customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber())) {
 				customer.fetchServicesVersionSpecifiedVehicle(selectedVehicleId);
 				notifModel.fetchNotifications(customer.getId());
 				console.log("Service added successfully");
