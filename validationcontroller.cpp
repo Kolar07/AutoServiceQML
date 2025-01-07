@@ -144,3 +144,17 @@ bool ValidationController::noteIsValid(QString note) const
         return true;
     return false;
 }
+
+bool ValidationController::passwordIsValid(QString password) const
+{
+    if(password.length()>8)
+        return true;
+    return false;
+}
+
+bool ValidationController::passwordsMatch(QString password, QString repeatPassword) const
+{
+    if(password == repeatPassword)
+        return true;
+    return false;
+}

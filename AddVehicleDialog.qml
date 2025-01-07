@@ -29,23 +29,16 @@ Item {
 
 	Column {
 	    id: addVehicleColumn
-	    spacing: 5
+	    spacing: 7
 	    anchors.horizontalCenter: parent.horizontalCenter
 
 	    TextField {
 		id: brandInput
-		background: Rectangle {
-		    id: brandTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: brandTextRect.width
+		width: 350
+		height: 30
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Brand...                      "
+		placeholderText: "Brand"
 	    }
 
 	    Label {
@@ -58,18 +51,11 @@ Item {
 
 	    TextField {
 		id: modelInput
-		background: Rectangle {
-		    id: modelTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: modelTextRect.width
+		width: 350
+		height: 30
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Model...                      "
+		placeholderText: "Model"
 	    }
 	    Label {
 		id: wrongModelInput
@@ -81,21 +67,14 @@ Item {
 
 	    TextField {
 		id: yearInput
-		background: Rectangle {
-		    id: yearTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: yearTextRect.width
+		width: 350
+		height: 30
 		validator: RegularExpressionValidator {
 		    regularExpression: /^[0-9]*$/
 		}
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Year...                      "
+		placeholderText: "Year"
 	    }
 
 	    Label {
@@ -108,18 +87,11 @@ Item {
 
 	    TextField {
 		id: versionInput
-		background: Rectangle {
-		    id: versionTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: versionTextRect.width
+		width: 350
+		height: 30
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Version...                      "
+		placeholderText: "Version"
 	    }
 	    Label {
 		id: wrongVersionInput
@@ -131,18 +103,11 @@ Item {
 
 	    TextField {
 		id: engineInput
-		background: Rectangle {
-		    id: engineTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: engineTextRect.width
+		width: 350
+		height: 30
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Engine...                      "
+		placeholderText: "Engine"
 	    }
 	    Label {
 		id: wrongEngineInput
@@ -154,18 +119,11 @@ Item {
 
 	    TextField {
 		id: vinInput
-		background: Rectangle {
-		    id: vinTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: vinTextRect.width
+		width: 350
+		height: 30
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "VIN...                      "
+		placeholderText: "VIN"
 	    }
 
 	    Label {
@@ -178,18 +136,11 @@ Item {
 
 	    TextField {
 		id: registrationInput
-		background: Rectangle {
-		    id: registrationTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: registrationTextRect.width
+		width: 350
+		height: 30
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Registration number...                      "
+		placeholderText: "Registration number"
 	    }
 	    Label {
 		id: wrongRegistrationInput

@@ -34,15 +34,8 @@ Item {
 
 	    TextField {
 		id: editBrandInput
-		background: Rectangle {
-		    id: editBrandTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editBrandTextRect.width
+		width: 350
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "Brand (" + customer.getVehicles().getVehicleById(selectedVehicleId).getBrand() + ")"
@@ -58,15 +51,8 @@ Item {
 
 	    TextField {
 		id: editModelInput
-		background: Rectangle {
-		    id: editModelTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editModelTextRect.width
+		width: 350
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "Model (" + customer.getVehicles().getVehicleById(selectedVehicleId).getModel() + ")"
@@ -81,15 +67,8 @@ Item {
 
 	    TextField {
 		id: editYearInput
-		background: Rectangle {
-		    id: editYearTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editYearTextRect.width
+		width: 350
+		height: 40
 		validator: RegularExpressionValidator {
 		    regularExpression: /^[0-9]*$/
 		}
@@ -108,15 +87,8 @@ Item {
 
 	    TextField {
 		id: editVersionInput
-		background: Rectangle {
-		    id: editVersionTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editVersionTextRect.width
+		width: 350
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "Version (" + customer.getVehicles().getVehicleById(selectedVehicleId).getVersion() + ")"
@@ -131,15 +103,8 @@ Item {
 
 	    TextField {
 		id: editEngineInput
-		background: Rectangle {
-		    id: editEngineTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editEngineTextRect.width
+		width: 350
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "Engine (" + customer.getVehicles().getVehicleById(selectedVehicleId).getEngine() + ")"
@@ -154,15 +119,8 @@ Item {
 
 	    TextField {
 		id: editVinInput
-		background: Rectangle {
-		    id: editVinTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editVinTextRect.width
+		width: 350
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "VIN (" + customer.getVehicles().getVehicleById(selectedVehicleId).getVin() + ")"
@@ -178,15 +136,8 @@ Item {
 
 	    TextField {
 		id: editRegistrationInput
-		background: Rectangle {
-		    id: editRegistrationTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: editRegistrationTextRect.width
+		width: 350
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
 		placeholderText: "Registration (" + customer.getVehicles().getVehicleById(selectedVehicleId).getRegistrationNumber() + ")"

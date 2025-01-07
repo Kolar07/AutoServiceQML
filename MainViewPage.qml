@@ -876,20 +876,16 @@ Item {
 	title: "New Type"
 
 	Column {
+	    anchors.horizontalCenter: parent.horizontalCenter
 	    TextField {
 		id: typeInput
-		background: Rectangle {
-		    id: typeTextRect
-		    color: "white"
-		    radius: 10
-		    width: 200
-		    height: 30
-		    border.color: "lightgray"
-		}
-		implicitWidth: typeTextRect.width
+		anchors.verticalCenter: parent
+		anchors.horizontalCenter: parent.horizontalCenter
+		width: 200
+		height: 40
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Type...                      "
+		placeholderText: "Type"
 	    }
 	    Label {
 		id: wrongTypeInput

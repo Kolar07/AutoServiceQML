@@ -31,39 +31,45 @@ Item {
 	    id: emailInput
 	    font.pixelSize: 14
 	    color: "black"
-
+	    width: 300
+	    height: 40
 	    text: "blablabla@gmail.com"
-
-	    background: Rectangle {
-		id: emailBackground
-		width: 300
-		radius: 10
-		color: "white"//color: emailInput.enabled ? "transparent" : "white"
-		border.color: "black"//emailInput.focus ? "transparent" : "black"
-	    }
 	    wrapMode: "Wrap"
-	    implicitWidth: emailBackground.width
-	    placeholderText: "Email                              "
+	    placeholderText: "Email"
 	}
+
+	// TextField {
+	//     id: passwordInput
+	//     font.pixelSize: 14
+	//     //PlaceholderText: "password"
+	//     echoMode: "Password"
+	//     color: "black"
+	//     text: "testtest123"
+	//     background: Rectangle {
+	// 	id: passwordBackground
+	// 	width: 300
+	// 	color: "white"
+	// 	border.color: "black"
+
+	// 	//height: 20
+
+	// 	radius: 10
+	//     }
+	//     wrapMode: "Wrap"
+	//     implicitWidth: passwordBackground.width
+	//     placeholderText: "Password                        "
+	// }
 
 	TextField {
 	    id: passwordInput
 	    font.pixelSize: 14
-	    //PlaceholderText: "password"
 	    echoMode: "Password"
 	    color: "black"
 	    text: "testtest123"
-	    background: Rectangle {
-		id: passwordBackground
-		width: 300
-		//height: 20
-		color: "white"
-		radius: 10
-		border.color: "black"
-	    }
+	    width: 300
+	    height: 40
 	    wrapMode: "Wrap"
-	    implicitWidth: passwordBackground.width
-	    placeholderText: "Password                        "
+	    placeholderText: "Password"
 	}
 
 	Label {
@@ -115,6 +121,21 @@ Item {
 		}
 	    }
 	}
+	Label {
+	    id: forgotPasswordText
+	    text: "forgot password?"
+	    font.pixelSize: 12
+	    color: "black"
+	    font.underline: true
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    MouseArea {
+		anchors.fill: parent
+		cursorShape: Qt.PointingHandCursor
+		onClicked: {
+		    changePasswordDialog.openDialog();
+		}
+	    }
+	}
     }
 
     Connections {
@@ -126,5 +147,9 @@ Item {
 	function onFailedLogin() {
 	    wrongDataLabelId.visible = true;
 	}
+    }
+
+    ChangePasswordDialog {
+	id: changePasswordDialog
     }
 }

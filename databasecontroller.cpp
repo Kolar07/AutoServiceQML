@@ -164,20 +164,52 @@ bool DatabaseController::addCustomer(QString name, QString surname, QString emai
 
 }
 
-bool DatabaseController::changeCustomerPassword(int &customerId, QString &newPassword)
+bool DatabaseController::changeCustomerPassword(QString _email, QString _name, QString _surname, QString _password)
 {
     if(!db.open()) {
         qDebug()<<"Database is not open!";
         return false;
     }
+
+    QSqlQuery queryCheck;
+    queryCheck.prepare("SELECT name, surname FROM customers WHERE email = :emailCheck");
+    queryCheck.bindValue(":emailCheck", _email);
+
+
+    if(!queryCheck.exec()) {
+        qDebug()<<"Failed to change password.";
+        return false;
+    } else {
+        if(queryCheck.next()) {
+            qDebug()<<"Found account with email: " << _email;
+            QString dbName = queryCheck.value("name").toString().toLower();
+            QString dbSurname = queryCheck.value("surname").toString().toLower();
+            qDebug()<<"Name and surname from db: " << dbName << " " << dbSurname;
+            qDebug()<<"Name and surname to compare : " << _name << " " << _surname;
+            if(dbName == _name.toLower() && dbSurname == _surname.toLower()) {
+
+            RegisterController reg;
+            QByteArray salt = reg.generateSalt();
+            QString psw = reg.hashPassword(_password, salt);
     QSqlQuery query;
-    query.prepare("UPDATE customers SET password = :password WHERE id = :id");
-    query.bindValue(":password", newPassword);
-    query.bindValue(":id", customerId);
+    query.prepare("UPDATE customers SET password = :password WHERE email = :email");
+    query.bindValue(":password", psw);
+    query.bindValue(":email", _email);
+
+    qDebug()<<"New password: " << psw;
 
     if(!query.exec()) {
-        qDebug()<<"Failed to add new customer to database.";
+        qDebug()<<"Failed to change password.";
         return false;
+    }
+        } else {
+            qDebug()<<"Failed to change password.";
+            return false;
+        }
+        } else  {
+            qDebug()<<"Failed to find account with given email";
+            return false;
+        }
     }
     return true;
 }
@@ -797,14 +829,8 @@ bool DatabaseController::updateService(int serviceId, QString mileage, QString i
     if (!query.exec()) {
         qDebug() << "Failed to update service: " << query.lastError();
         return false;
-    } else {
-        //qDebug()<<"EXECUTED QUERY: "<<query.executedQuery();
-        //qDebug() << "Prepared query:" << query.lastQuery();
-        //qDebug() << "Bound values:" << query.boundValues();
-        //qDebug() << "Rows affected:" << query.numRowsAffected();
+    } else
         return true;
-    }
-
 }
 
 

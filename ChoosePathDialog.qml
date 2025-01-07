@@ -88,8 +88,8 @@ Item {
 		Button {
 		    text: "Export to CSV"
 		    onClicked: {
-			if (fileNameInput !== "") {
-			    if (fileDialog.selectedFolder !== "") {
+			if (fileNameInput.text !== "") {
+			    if (pathLabel.text !== "Choose file path") {
 				reportsGenerator.generateVehiclesCSV(customer.getName(), customer.getSurname(), customer.getId(), customer.getVehicles().getVehicles(), fileDialog.selectedFolder, fileNameInput.text);
 				reportsGenerator.generateServicesCSV(customer.getName(), customer.getSurname(), customer.getId(), customer.getVehicles().getVehicles(), fileDialog.selectedFolder, fileNameInput.text);
 				fileNameInput.text = "";

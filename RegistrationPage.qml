@@ -30,17 +30,10 @@ Item {
 	    id: nameInput
 	    font.pixelSize: 14
 	    color: "black"
-	    background: Rectangle {
-		id: nameBackground
-		width: 300
-		height: 35
-		color: "white"
-		radius: 10
-		border.color: "black"
-	    }
+	    width: 300
+	    height: 40
 	    wrapMode: "Wrap"
-	    implicitWidth: nameBackground.width
-	    placeholderText: "Name                              "
+	    placeholderText: "Name"
 	}
 
 	Label {
@@ -55,17 +48,10 @@ Item {
 	    id: surnameInput
 	    font.pixelSize: 14
 	    color: "black"
-	    background: Rectangle {
-		id: surnameBackground
-		width: 300
-		height: 35
-		color: "white"
-		radius: 10
-		border.color: "black"
-	    }
 	    wrapMode: "Wrap"
-	    implicitWidth: surnameBackground.width
-	    placeholderText: "Surname                              "
+	    width: 300
+	    height: 40
+	    placeholderText: "Surname"
 	}
 
 	Label {
@@ -80,17 +66,10 @@ Item {
 	    id: emailInput
 	    font.pixelSize: 14
 	    color: "black"
-	    background: Rectangle {
-		id: emailBackground
-		width: 300
-		height: 35
-		color: "white"
-		radius: 10
-		border.color: "black"
-	    }
 	    wrapMode: "Wrap"
-	    implicitWidth: emailBackground.width
-	    placeholderText: "Email                              "
+	    placeholderText: "Email"
+	    width: 300
+	    height: 40
 	}
 
 	Label {
@@ -106,17 +85,10 @@ Item {
 	    font.pixelSize: 14
 	    echoMode: "Password"
 	    color: "black"
-	    background: Rectangle {
-		id: passwordBackground
-		width: 300
-		height: 35
-		color: "white"
-		radius: 10
-		border.color: "black"
-	    }
 	    wrapMode: "Wrap"
-	    implicitWidth: passwordBackground.width
-	    placeholderText: "Password                        "
+	    placeholderText: "Password"
+	    width: 300
+	    height: 40
 	}
 
 	Label {
@@ -132,17 +104,10 @@ Item {
 	    font.pixelSize: 14
 	    echoMode: "Password"
 	    color: "black"
-	    background: Rectangle {
-		id: passwordRepeatBackground
-		width: 300
-		height: 35
-		color: "white"
-		radius: 10
-		border.color: "black"
-	    }
 	    wrapMode: "Wrap"
-	    implicitWidth: passwordRepeatBackground.width
-	    placeholderText: "Repeat password                    "
+	    placeholderText: "Repeat password"
+	    width: 300
+	    height: 40
 	}
 
 	Label {

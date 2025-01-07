@@ -23,7 +23,7 @@ Item {
 
 	Column {
 	    id: addServiceColumn
-	    spacing: 5
+	    spacing: 7
 	    anchors.horizontalCenter: parent.horizontalCenter
 
 	    Label {
@@ -183,18 +183,11 @@ Item {
 	    Row {
 
 		anchors.horizontalCenter: parent.horizontalCenter
-		spacing: 5
+		spacing: 7
 		TextField {
 		    id: ddInput
-		    background: Rectangle {
-			id: ddTextRect
-			color: "white"
-			radius: 10
-			width: 60
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: ddTextRect.width
+		    width: 60
+		    height: 30
 		    wrapMode: "Wrap"
 		    font.pixelSize: 15
 		    placeholderText: "DD"
@@ -205,15 +198,8 @@ Item {
 
 		TextField {
 		    id: mmInput
-		    background: Rectangle {
-			id: mmTextRect
-			color: "white"
-			radius: 10
-			width: 60
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: mmTextRect.width
+		    width: 60
+		    height: 30
 		    wrapMode: "Wrap"
 		    font.pixelSize: 15
 		    placeholderText: "MM"
@@ -224,15 +210,8 @@ Item {
 
 		TextField {
 		    id: yyInput
-		    background: Rectangle {
-			id: yyTextRect
-			color: "white"
-			radius: 10
-			width: 70
-			height: 30
-			border.color: "lightgray"
-		    }
-		    implicitWidth: yyTextRect.width
+		    width: 70
+		    height: 30
 		    wrapMode: "Wrap"
 		    font.pixelSize: 15
 		    placeholderText: "YYYY"
@@ -252,22 +231,15 @@ Item {
 	    }
 
 	    Row {
-		spacing: 5
+		spacing: 7
 		Column {
 		    TextField {
 			id: mileageInput
-			background: Rectangle {
-			    id: markTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: markTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Mileage...                      "
+			placeholderText: "Mileage"
 			validator: RegularExpressionValidator {
 			    regularExpression: /^\d+$/
 			}
@@ -284,18 +256,11 @@ Item {
 		Column {
 		    TextField {
 			id: intervalKmInput
-			background: Rectangle {
-			    id: intervalKmTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: intervalKmTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Interval kilometers...                      "
+			placeholderText: "Interval kilometers"
 			validator: RegularExpressionValidator {
 			    regularExpression: /^\d+$/
 			}
@@ -311,22 +276,15 @@ Item {
 		}
 	    }
 	    Row {
-		spacing: 5
+		spacing: 7
 		Column {
 		    TextField {
 			id: intervalDateInput
-			background: Rectangle {
-			    id: intervalDateTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: intervalDateTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Interval in months                      "
+			placeholderText: "Interval in months"
 			validator: RegularExpressionValidator {
 			    regularExpression: /^\d+$/
 			}
@@ -344,18 +302,11 @@ Item {
 
 		    TextField {
 			id: serviceInput
-			background: Rectangle {
-			    id: serviceTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: serviceTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Service...                      "
+			placeholderText: "Service"
 		    }
 
 		    Label {
@@ -369,22 +320,15 @@ Item {
 	    }
 
 	    Row {
-		spacing: 5
+		spacing: 7
 		Column {
 		    TextField {
 			id: oilInput
-			background: Rectangle {
-			    id: oilTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: oilTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Oil...                      "
+			placeholderText: "Oil"
 			visible: false
 		    }
 
@@ -400,18 +344,11 @@ Item {
 
 		    TextField {
 			id: oilFilterInput
-			background: Rectangle {
-			    id: oilFilterTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: oilFilterTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Oil filter...                      "
+			placeholderText: "Oil filter"
 			visible: false
 		    }
 
@@ -425,22 +362,15 @@ Item {
 		}
 	    }
 	    Row {
-		spacing: 5
+		spacing: 7
 		Column {
 		    TextField {
 			id: airFilterInput
-			background: Rectangle {
-			    id: airFilterTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: airFilterTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Air filter...                      "
+			placeholderText: "Air filter"
 			visible: false
 		    }
 
@@ -456,18 +386,11 @@ Item {
 
 		    TextField {
 			id: cabinFilterInput
-			background: Rectangle {
-			    id: cabinFilterTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: oilFilterTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Cabin filter...                      "
+			placeholderText: "Cabin filter"
 			visible: false
 		    }
 
@@ -482,22 +405,15 @@ Item {
 	    }
 
 	    Row {
-		spacing: 5
+		spacing: 7
 		Column {
 		    TextField {
 			id: timingInput
-			background: Rectangle {
-			    id: timingTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: timingTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Timing...                      "
+			placeholderText: "Timing"
 			visible: false
 		    }
 
@@ -513,18 +429,11 @@ Item {
 
 		    TextField {
 			id: partsInput
-			background: Rectangle {
-			    id: partsTextRect
-			    color: "white"
-			    radius: 10
-			    width: 350
-			    height: 30
-			    border.color: "lightgray"
-			}
-			implicitWidth: partsTextRect.width
+			width: 350
+			height: 30
 			wrapMode: "Wrap"
 			font.pixelSize: 15
-			placeholderText: "Repair parts...            "
+			placeholderText: "Repair parts"
 			visible: false
 		    }
 
@@ -540,19 +449,11 @@ Item {
 
 	    TextField {
 		id: noteInput
-		background: Rectangle {
-		    id: noteTextRect
-		    color: "white"
-		    radius: 10
-		    width: 350
-		    height: 130
-		    border.color: "lightgray"
-		}
-		implicitWidth: noteTextRect.width
-		implicitHeight: noteTextRect.height
+		width: 350
+		height: 130
 		wrapMode: "Wrap"
 		font.pixelSize: 15
-		placeholderText: "Note (optional)...            "
+		placeholderText: "Note (optional)"
 		horizontalAlignment: Text.AlignLeft
 		verticalAlignment: Text.AlignTop
 	    }
@@ -566,7 +467,7 @@ Item {
 	    }
 
 	    Row {
-		spacing: 5
+		spacing: 7
 		anchors.horizontalCenter: parent.horizontalCenter
 
 		Button {

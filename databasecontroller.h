@@ -15,6 +15,7 @@
 #include "repairservice.h"
 #include "serviceoil.h"
 #include "servicetiming.h"
+#include "registercontroller.h"
 
 class DatabaseController : public QObject
 {
@@ -29,7 +30,7 @@ public:
     bool executeQuery(const QString &query);
 
     bool addCustomer(QString name, QString surname, QString email, QString password);
-    bool changeCustomerPassword(int &customerId, QString &newPassword);
+    Q_INVOKABLE bool changeCustomerPassword(QString _email, QString _name, QString _surname, QString _password);
     QMap<QString, QVariant> getCustomerByEmail(QString &email);
     bool fetchVehiclesForCustomer(Customer &currentCustomer);
 

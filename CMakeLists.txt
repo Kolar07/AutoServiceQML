@@ -61,6 +61,8 @@ qt_add_qml_module(appAutoServiceQML
     SOURCES reportsgenerator.h reportsgenerator.cpp
     QML_FILES ChoosePathDialog.qml
     QML_FILES LogoutDialog.qml
+    QML_FILES ChangePasswordDialog.qml
+    QML_FILES SuccessDialog.qml
 )
 
 

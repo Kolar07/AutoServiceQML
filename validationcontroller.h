@@ -37,6 +37,10 @@ public:
    Q_INVOKABLE bool customPartsIsValid(QString customParts) const;
    Q_INVOKABLE bool noteIsValid(QString note) const;
 
+   //CHANGE PASSWORD
+   Q_INVOKABLE bool passwordIsValid(QString password) const;
+   Q_INVOKABLE bool passwordsMatch(QString password, QString repeatPassword) const;
+
 };
 
 #endif // VALIDATIONCONTROLLER_H
