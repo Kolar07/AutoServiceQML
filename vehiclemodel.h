@@ -43,6 +43,7 @@ public:
     Q_INVOKABLE QVector<Vehicle *> getVehicles() const;
     Q_INVOKABLE Vehicle* getVehicleByRow(int row) const;
     Q_INVOKABLE Vehicle* getVehicleById(int id) const;
+    Q_INVOKABLE int getVehicleByRegistration(QString regNb);
 
 private:
     QVector<Vehicle*> vehicles;

@@ -303,7 +303,7 @@ bool DatabaseController::addVehicle(int customerId, QString brand, QString model
     query.addBindValue(typeId);
     query.addBindValue(type);
     query.addBindValue(vin);
-    query.addBindValue(registrationNumber);
+    query.addBindValue(registrationNumber.toUpper());
 
 
     if(!query.exec()) {

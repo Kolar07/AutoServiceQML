@@ -165,3 +165,12 @@ if (it != vehicles.end()) {
     //qDebug() << "DEBUG - Vehicle not found.";
     return nullptr;
 }
+
+int VehicleModel::getVehicleByRegistration(QString regNb)
+{
+    for(int row = 0; row<vehicles.size();row++) {
+        if(vehicles[row]->getRegistrationNumber() == regNb.toUpper()) {
+            return row;
+        }
+    } return -1;
+}

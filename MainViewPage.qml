@@ -60,6 +60,58 @@ Item {
     }
 
     Rectangle {
+	id: findButton
+	width: 80
+	height: 26
+	color: "black"
+	radius: 30
+	anchors.top: parent.top
+	anchors.right: tableViewContainer.right
+	anchors.topMargin: 2
+	anchors.rightMargin: 5
+	Row {
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    anchors.verticalCenter: parent.verticalCenter
+	    spacing: 5
+
+	    Text {
+		anchors.verticalCenter: parent.verticalCenter
+		// anchors.horizontalCenter: parent.horizontalCenter
+		color: "white"
+		font.pixelSize: 15
+		text: "find"
+	    }
+	}
+
+	MouseArea {
+	    anchors.fill: parent
+	    cursorShape: "PointingHandCursor"
+	    onClicked: {
+		const rowIndex = customer.getVehicles().getVehicleByRegistration(findVehicleByRegTextBox.text);
+		if (rowIndex === -1) {
+		    console.log("vehicle not found");
+		} else
+		    tableView.positionViewAtRow(rowIndex, TableView.Visible, 0, Qt.rect(0, 0, 0, 0));
+	    }
+	}
+    }
+
+    TextField {
+	id: findVehicleByRegTextBox
+	width: 100
+	height: 26
+	anchors.top: parent.top
+	anchors.topMargin: 2
+	anchors.right: findButton.left
+	anchors.rightMargin: 5
+	font.pixelSize: 10
+	topInset: 0
+	bottomInset: 0
+	placeholderText: "Registration"
+	placeholderTextColor: "black"
+    }
+
+    Rectangle {
 	id: tableViewContainer
 	anchors.bottom: logoId.top
 	anchors.left: parent.left
@@ -260,6 +312,7 @@ Item {
 			border.color: "#CCCCCC"
 
 			CheckBox {
+			    id: checkBox
 			    anchors.centerIn: parent
 			    checked: selected
 
