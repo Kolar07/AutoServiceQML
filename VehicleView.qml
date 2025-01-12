@@ -29,7 +29,7 @@ Item {
 	    MouseArea {
 		anchors.fill: parent
 		onClicked: {
-		    goBack();
+		    main.showMainView();//goBack();
 		}
 		cursorShape: "PointingHandCursor"
 	    }
@@ -582,6 +582,7 @@ Item {
 					id: showServiceMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
+					cursorShape: "PointingHandCursor"
 					onEntered: {
 					    parent.scale = 1.07;
 					}
@@ -596,7 +597,7 @@ Item {
 					}
 					onClicked: {
 					    setSelectedService(customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByRowQML(row).getId());
-					    showService(selectedVehicleId, selectedServiceId);
+					    main.showService(selectedVehicleId, selectedServiceId);
 					}
 				    }
 
@@ -628,6 +629,7 @@ Item {
 					id: addNotificationMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
+					cursorShape: "PointingHandCursor"
 					onEntered: {
 					    parent.scale = 1.07;
 					}
@@ -678,6 +680,7 @@ Item {
 					id: editServiceMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
+					cursorShape: "PointingHandCursor"
 					onEntered: {
 					    parent.scale = 1.07;
 					}
@@ -724,6 +727,7 @@ Item {
 					id: removeServiceMouseArea
 					anchors.fill: parent
 					hoverEnabled: true
+					cursorShape: "PointingHandCursor"
 					onEntered: {
 					    parent.scale = 1.07;
 					}
@@ -801,6 +805,7 @@ Item {
 
 		MouseArea {
 		    anchors.fill: parent
+		    cursorShape: "PointingHandCursor"
 		    onClicked: {
 			addServiceDialog.openDialog();
 		    }
@@ -834,6 +839,7 @@ Item {
 
 		MouseArea {
 		    anchors.fill: parent
+		    cursorShape: "PointingHandCursor"
 		    onClicked: {
 			removeServiceDialog.openDialog(true);
 			console.log("Clicked remove checked");
@@ -874,4 +880,11 @@ Item {
     function setSelectedService(serviceId) {
 	selectedServiceId = serviceId;
     }
+
+    //     function showService(vehicleId, serviceId) {
+    //         //selectedVehicleId = vehicleId;
+    //         mainLoader.source = "ServiceView.qml";
+    //         mainLoader.item.selectedVehicleId = vehicleId;
+    //         mainLoader.item.selectedServiceId = serviceId;
+    //     }
 }

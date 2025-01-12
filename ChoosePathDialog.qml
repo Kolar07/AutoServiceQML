@@ -22,12 +22,15 @@ Item {
 	    Row {
 		spacing: 5
 		anchors.horizontalCenter: parent.horizontalCenter
+		width: parent.width
 		Label {
 		    id: pathLabel
 		    text: "Choose file path"
 		    font.pixelSize: 12
 		    color: "black"
 		    font.bold: true
+		    wrapMode: "Wrap"
+		    width: parent.width - 50
 		}
 
 		Rectangle {

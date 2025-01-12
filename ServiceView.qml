@@ -65,7 +65,7 @@ Item {
 	    MouseArea {
 		anchors.fill: parent
 		onClicked: {
-		    backToVehicle(selectedVehicleId, selectedServiceId);
+		    main.showBackVehicle(selectedVehicleId, selectedServiceId);//backToVehicle(selectedVehicleId, selectedServiceId);
 		}
 		cursorShape: "PointingHandCursor"
 	    }
@@ -661,7 +661,9 @@ Item {
 	}
     }
 
-    function goBackToVehicle() {
-	viewLoader.source = "VehicleView.qml";
-    }
+    //    function backToVehicle(vehicleId, serviceId) {
+    // mainLoader.source = "VehicleView.qml";
+    // mainLoader.item.selectedVehicleId = vehicleId;
+    // mainLoader.item.selectedServiceId = serviceId;
+    //    }
 }

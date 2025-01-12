@@ -17,6 +17,7 @@ Item {
     }
 
     Rectangle {
+	id: logoutButton
 	width: 100
 	height: 20
 	color: "black"
@@ -46,6 +47,16 @@ Item {
 		logoutDialog.openDialog();
 	    }
 	}
+    }
+
+    Label {
+	text: customer.getName() + " " + customer.getSurname()
+	font.pixelSize: 13
+	color: "black"
+	font.bold: true
+	anchors.right: logoutButton.left
+	anchors.rightMargin: 5
+	anchors.verticalCenter: logoutButton.verticalCenter
     }
 
     Rectangle {
@@ -291,6 +302,7 @@ Item {
 				    id: showVehicleMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
+				    cursorShape: "PointingHandCursor"
 				    onEntered: {
 					parent.scale = 1.07;
 				    }
@@ -335,6 +347,7 @@ Item {
 				    id: addServiceMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
+				    cursorShape: "PointingHandCursor"
 				    onEntered: {
 					parent.scale = 1.07;
 				    }
@@ -381,6 +394,7 @@ Item {
 				    id: editMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
+				    cursorShape: "PointingHandCursor"
 				    onEntered: {
 					parent.scale = 1.07;
 				    }
@@ -427,6 +441,7 @@ Item {
 				    id: removeMouseArea
 				    anchors.fill: parent
 				    hoverEnabled: true
+				    cursorShape: "PointingHandCursor"
 				    onEntered: {
 					parent.scale = 1.07;
 				    }
@@ -710,6 +725,7 @@ Item {
 			MouseArea {
 			    anchors.fill: parent
 			    hoverEnabled: true
+			    cursorShape: "PointingHandCursor"
 
 			    onClicked: {
 				if (dbController.removeNotification(model.id)) {
@@ -786,6 +802,7 @@ Item {
 
 		MouseArea {
 		    anchors.fill: parent
+		    cursorShape: "PointingHandCursor"
 		    onClicked: {
 			addVehicleDialog.openDialog();
 		    }
@@ -819,6 +836,7 @@ Item {
 
 		MouseArea {
 		    anchors.fill: parent
+		    cursorShape: "PointingHandCursor"
 		    onClicked: {
 			removeVehicleDialog.openDialog(true);
 		    }
@@ -854,6 +872,7 @@ Item {
 
 	    MouseArea {
 		anchors.fill: parent
+		cursorShape: "PointingHandCursor"
 		onClicked: {
 		    choosePathDialog.openDialog();
 		}
@@ -879,8 +898,8 @@ Item {
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    TextField {
 		id: typeInput
-		anchors.verticalCenter: parent
-		anchors.horizontalCenter: parent.horizontalCenter
+		//anchors.verticalCenter: parent.verticalCenter
+		//anchors.horizontalCenter: parent.horizontalCenter
 		width: 200
 		height: 40
 		wrapMode: "Wrap"
@@ -928,41 +947,40 @@ Item {
 	source: ""
     }
 
-    function showVehicle(vehicleId) {
-	//selectedVehicleId = vehicleId;
-	detailLoader.source = "VehicleView.qml";
-	detailLoader.item.selectedVehicleId = vehicleId;
-    }
+    //    function showVehicle(vehicleId) {
+    // //selectedVehicleId = vehicleId;
+    // mainLoader.source = "VehicleView.qml";
+    // mainLoader.item.selectedVehicleId = vehicleId;
+    //    }
 
-    function showService(vehicleId, serviceId) {
-	//selectedVehicleId = vehicleId;
-	detailLoader.source = "ServiceView.qml";
-	detailLoader.item.selectedVehicleId = vehicleId;
-	detailLoader.item.selectedServiceId = serviceId;
-    }
+    //    function showService(vehicleId, serviceId) {
+    // //selectedVehicleId = vehicleId;
+    // mainLoader.source = "ServiceView.qml";
+    // mainLoader.item.selectedVehicleId = vehicleId;
+    // mainLoader.item.selectedServiceId = serviceId;
+    //    }
 
     function setSelectedVehicle(vehicleId) {
 	selectedVehicleId = vehicleId;
     }
 
-    function goBack() {
-	detailLoader.source = "";
-    }
+    //    function goBack() {
+    // mainLoader.source = "MainViewPage.qml";
+    //    }
 
-    function backToVehicle(vehicleId, serviceId) {
-	detailLoader.source = "";
-	detailLoader.source = "VehicleView.qml";
-	detailLoader.item.selectedVehicleId = vehicleId;
-	detailLoader.item.selectedServiceId = serviceId;
-    }
+    //    function backToVehicle(vehicleId, serviceId) {
+    // mainLoader.source = "VehicleView.qml";
+    // mainLoader.item.selectedVehicleId = vehicleId;
+    // mainLoader.item.selectedServiceId = serviceId;
+    //    }
 
-    Connections {
-	target: detailLoader.item
-	function onShowService(vehicleId, serviceId) {
-	    showService(vehicleId, serviceId);
-	}
-	function onBackToVehicle(vehicleId, serviceId) {
-	    backToVehicle(vehicleId, serviceId);
-	}
-    }
+    //    Connections {
+    // target: mainLoader.item
+    // function onShowService(vehicleId, serviceId) {
+    //     showService(vehicleId, serviceId);
+    // }
+    // function onBackToVehicle(vehicleId, serviceId) {
+    //     backToVehicle(vehicleId, serviceId);
+    // }
+    //    }
 }

@@ -7,33 +7,12 @@ ApplicationWindow {
     width: 1350
     height: 720
 
-    //    signal showVehicle(int vehicleId)
-    //    signal showService(int serviceId)
-
-    //    onShowVehicle: {
-    // selectedVehicleId = vehicleId;
-    // viewLoader.source = "VehicleView.qml";
-    //    }
-
-    //    onShowService: {
-    // selectedServiceId = serviceId;
-    // viewLoader.source = "ServiceView.qml";
-    //    }
-
-    //    Loader {
-    // id: viewLoader
-    // anchors.fill: parent
-    // source: "LoginPage.qml"
-    //    }
-
     signal showLogin
     signal showRegister
     signal showMainView
     signal showVehicle(int vehicleId)
+    signal showBackVehicle(int vehicleId, int serviceId)
     signal showService(int vehicleId, int serviceId)
-
-    //property int selectedVehicleId: -1
-    //property int selectedServiceId: -1
 
     Loader {
 	id: mainLoader
@@ -44,4 +23,18 @@ ApplicationWindow {
     onShowLogin: mainLoader.source = "LoginPage.qml"
     onShowRegister: mainLoader.source = "RegistrationPage.qml"
     onShowMainView: mainLoader.source = "MainViewPage.qml"
+    onShowVehicle: {
+	mainLoader.source = "VehicleView.qml";
+	mainLoader.item.selectedVehicleId = vehicleId;
+    }
+    onShowBackVehicle: {
+	mainLoader.source = "VehicleView.qml";
+	mainLoader.item.selectedVehicleId = vehicleId;
+	mainLoader.item.selectedServiceId = serviceId;
+    }
+    onShowService: {
+	mainLoader.source = "ServiceView.qml";
+	mainLoader.item.selectedVehicleId = vehicleId;
+	mainLoader.item.selectedServiceId = serviceId;
+    }
 }

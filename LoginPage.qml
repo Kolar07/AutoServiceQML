@@ -33,7 +33,7 @@ Item {
 	    color: "black"
 	    width: 300
 	    height: 40
-	    text: "blablabla@gmail.com"
+	    text: ""
 	    wrapMode: "Wrap"
 	    placeholderText: "Email"
 	}
@@ -65,7 +65,7 @@ Item {
 	    font.pixelSize: 14
 	    echoMode: "Password"
 	    color: "black"
-	    text: "testtest123"
+	    text: ""
 	    width: 300
 	    height: 40
 	    wrapMode: "Wrap"
