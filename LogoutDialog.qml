@@ -30,7 +30,6 @@ Item {
 		anchors.horizontalCenter: parent.horizontalCenter
 		spacing: 5
 		Button {
-		    //anchors.horizontalCenter: parent.horizontalCenter
 		    text: "Ok"
 		    onClicked: {
 			customer.print();
@@ -39,7 +38,6 @@ Item {
 		}
 
 		Button {
-		    //anchors.horizontalCenter: parent.horizontalCenter
 		    text: "Cancel"
 		    onClicked: {
 			logoutDialog.close();

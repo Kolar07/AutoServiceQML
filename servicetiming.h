@@ -12,7 +12,6 @@ public:
     ServiceTiming(int _id, int _mileage,int _interval_km,QString date,  int _interval_time, const QString &_service, const QString &_type, const QString _timing, const QString &_note);
     ServiceTiming(int _mileage,int _interval_km,QString date,  int _interval_time, const QString &_service, const QString &_type, const QString _timing,const QString &_note);
 
-    //void print() override;
 
     Q_INVOKABLE QString getTiming() const;
     void setTiming(const QString &newTiming);

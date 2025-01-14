@@ -30,7 +30,7 @@ Item {
 		    color: "black"
 		    font.bold: true
 		    wrapMode: "Wrap"
-		    width: parent.width - 60 // Rozciąga się do szerokości wiersza, ale rezerwuje miejsce dla przycisku
+		    width: parent.width - 60
 		}
 
 		Rectangle {

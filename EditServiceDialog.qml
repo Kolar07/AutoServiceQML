@@ -6,25 +6,22 @@ Item {
     id: editServiceDialogContainer
     property string type: customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getType()
 
-    //property string date: ""
 
     function setPlaceholderTexts() {
 	if (type == "MaintenanceService") {
 	    mileageInput.placeholderText = "Mileage (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getMileage() + ")";
-	    //intervalDateInput.placeholderText =
 	    intervalKmInput.placeholderText = "Interval kilometers (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_km() + ")";
 	    serviceInput.placeholderText = "Service (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getService() + ")";
 	    intervalDateInput.placeholderText = "Interval months (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_time() + ")";
 	} else if (type == "RepairService") {
 	    mileageInput.placeholderText = "Mileage (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getMileage() + ")";
-	    //intervalDateInput.placeholderText =
 	    intervalKmInput.placeholderText = "Interval kilometers (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_km() + ")";
 	    serviceInput.placeholderText = "Service (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getService() + ")";
 	    intervalDateInput.placeholderText = "Interval months (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_time() + ")";
 	    partsInput.placeholderText = "Repair parts (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getCustomParts() + ")";
 	} else if (type == "ServiceOil") {
 	    mileageInput.placeholderText = "Mileage (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getMileage() + ")";
-	    //intervalDateInput.placeholderText =
+
 	    intervalKmInput.placeholderText = "Interval kilometers (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_km() + ")";
 	    serviceInput.placeholderText = "Service (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getService() + ")";
 	    intervalDateInput.placeholderText = "Interval months (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_time() + ")";
@@ -34,7 +31,6 @@ Item {
 	    cabinFilterInput.placeholderText = "Cabin filter (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getCabinFilter() + ")";
 	} else if (type == "ServiceTiming") {
 	    mileageInput.placeholderText = "Mileage (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getMileage() + ")";
-	    //intervalDateInput.placeholderText =
 	    intervalKmInput.placeholderText = "Interval kilometers (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_km() + ")";
 	    serviceInput.placeholderText = "Service (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getService() + ")";
 	    intervalDateInput.placeholderText = "Interval months (" + customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getServiceByIdQML(selectedServiceId).getInterval_time() + ")";
@@ -375,11 +371,6 @@ Item {
 			    } else
 				wrongIntervalKmInput.visible = false;
 			}
-			// if (!valid.serviceDateIsValid(ddInput.text, mmInput.text, yyInput.text)) {
-			//     wrongServiceDateInput.visible = true;
-			//     isValid = false;
-			// } else
-			//     wrongServiceDateInput.visible = false;
 			if (serviceInput.text !== "") {
 			    if (!valid.serviceIsValid(serviceInput.text)) {
 				wrongServiceInput.visible = true;
@@ -440,7 +431,6 @@ Item {
 			    wrongMileageInput.visible = false;
 			    wrongAirFilterInput.visible = false;
 			    wrongCabinFilterInput.visible = false;
-			    //wrongIntervalDateInput.visible = false;
 			    wrongIntervalKmInput.visible = false;
 			    wrongOilFilterInput.visible = false;
 			    wrongOilInput.visible = false;
@@ -449,7 +439,6 @@ Item {
 			    wrongPartsInput.visible = false;
 			    wrongNoteInput.visible = false;
 
-			    //date = yyInput.text + "-" + mmInput.text + "-" + ddInput.text;
 			    if (dbController.updateService(selectedServiceId, mileageInput.text, intervalKmInput.text, intervalDateInput.text, serviceInput.text, oilInput.text, oilFilterInput.text, airFilterInput.text, cabinFilterInput.text, timingInput.text, partsInput.text, noteInput.text)) {
 				if (dbController.updateNotificationWithService(selectedServiceId, customer.getId())) {
 				    console.log("Notification updated successfully");

@@ -38,27 +38,6 @@ Item {
 	    placeholderText: "Email"
 	}
 
-	// TextField {
-	//     id: passwordInput
-	//     font.pixelSize: 14
-	//     //PlaceholderText: "password"
-	//     echoMode: "Password"
-	//     color: "black"
-	//     text: "testtest123"
-	//     background: Rectangle {
-	// 	id: passwordBackground
-	// 	width: 300
-	// 	color: "white"
-	// 	border.color: "black"
-
-	// 	//height: 20
-
-	// 	radius: 10
-	//     }
-	//     wrapMode: "Wrap"
-	//     implicitWidth: passwordBackground.width
-	//     placeholderText: "Password                        "
-	// }
 
 	TextField {
 	    id: passwordInput

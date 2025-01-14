@@ -52,7 +52,6 @@ public:
     Q_INVOKABLE std::shared_ptr<Service> getServiceByRow(int row) const;
     Q_INVOKABLE std::shared_ptr<Service> getServiceById(int id) const;
     Q_INVOKABLE QObject* getServiceByRowQML(int row) const;
-    //Q_INVOKABLE QPointer<Service> getServiceByRowQML(int row) const;
     Q_INVOKABLE QObject* getServiceByIdQML(int id) const;
 
 private:

@@ -16,7 +16,6 @@ Item {
 	    id: backButton
 	    width: 50
 	    height: 50
-	    //anchors.top: parent.top
 	    color: "transparent"
 	    anchors.left: parent.left
 	    anchors.verticalCenter: pageTitleRect.verticalCenter
@@ -29,7 +28,7 @@ Item {
 	    MouseArea {
 		anchors.fill: parent
 		onClicked: {
-		    main.showMainView();//goBack();
+		    main.showMainView();
 		}
 		cursorShape: "PointingHandCursor"
 	    }
@@ -38,14 +37,12 @@ Item {
 	Rectangle {
 	    id: pageTitleRect
 	    anchors.top: parent.top
-	    //anchors.left: backButton.right
 	    anchors.topMargin: 10
 	    anchors.leftMargin: 10
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    width: vehicleInfoLabel.width + imageRect.width + 30
 	    height: 100
 	    color: "#FFD54F"
-	    //border.color: "black"
 	    radius: 15
 	    Rectangle {
 		id: imageRect
@@ -92,10 +89,6 @@ Item {
 		    position: 0.0
 		    color: "#FFE6A3"
 		}
-		// GradientStop {
-		//     position: 0.5
-		//     color: "#fceac5"
-		// }
 		GradientStop {
 		    position: 1.0
 		    color: "#FFCE83"
@@ -126,7 +119,6 @@ Item {
 		Row {
 		    spacing: 10
 		    width: parent.width
-		    //width: parent.width
 		    Label {
 			id: modelLabel
 			text: "Model:"
@@ -319,20 +311,16 @@ Item {
 		anchors.left: tableView.left
 		anchors.top: parent.top
 		anchors.topMargin: 1
-		//anchors.topMargin: 10
 		syncView: tableView
 		clip: true
 		resizableColumns: true
 
 		delegate: Rectangle {
-		    //color: "#FFB84D"
+
 		    implicitHeight: 50
-		    //height: 30
-		    //width: tableView.width / 5
-		    //border.color: "black"
+
 		    Text {
 			text: display
-			//anchors.centerIn: parent
 			anchors.fill: parent
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
@@ -346,10 +334,6 @@ Item {
 			    position: 0.0
 			    color: "#FFB84D"
 			}
-			// GradientStop {
-			//     position: 0.5
-			//     color: "#fceac5"
-			// }
 			GradientStop {
 			    position: 1.0
 			    color: "#ed9a1c"
@@ -363,16 +347,11 @@ Item {
 		id: tableView
 		anchors.top: horizontalHeader.bottom
 		anchors.bottom: parent.bottom
-		//anchors.bottomMargin: 10
-		//anchors.horizontalCenter: parent.horizontalCenter
-		//anchors.verticalCenter: parent.verticalCenter
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottomMargin: 1
 		anchors.leftMargin: 1
 		anchors.rightMargin: 1
-		//anchors.rightMargin: 10
-		//anchors.leftMargin: 10
 		clip: true
 		columnSpacing: 1
 		rowSpacing: 1
@@ -396,41 +375,6 @@ Item {
 			    return 140;
 			} else
 			    return explicitColumnWidth(column);
-		    // case 3:
-		    //     if (width <= 120) {
-		    // 	return 120;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
-		    // case 4:
-		    //     if (width <= 80) {
-		    // 	return 80;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
-		    // case 5:
-		    //     if (width <= 120) {
-		    // 	return 120;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
-		    // case 6:
-		    //     if (width <= 120) {
-		    // 	return 120;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
-		    // case 7:
-		    //     if (width <= 120) {
-		    // 	return 120;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
-		    // case 8:
-		    //     if (width <= 135) {
-		    // 	return 135;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
-		    // case 9:
-		    //     if (width <= 95) {
-		    // 	return 95;
-		    //     } else
-		    // 	return explicitColumnWidth(column);
 		    case 14:
 			return 180;
 		    default:
@@ -461,8 +405,6 @@ Item {
 		    Component {
 			id: textDelegate
 			Rectangle {
-			    //width: parent.width
-			    //height: parent.height
 			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    clip: true
 			    border.color: "#C99A6B"
@@ -472,12 +414,10 @@ Item {
 				anchors.fill: parent
 				contentWidth: parent.width
 				contentHeight: text.implicitHeight > parent.height ? text.implicitHeight : parent.height
-				//flickableDirection: Flickable.VerticalFlick
 				clip: true
 				interactive: false
 				ScrollBar.vertical: ScrollBar {
 				    policy: ScrollBar.AsNeeded
-				    //anchors.left: parent.right
 				    clip: true
 				}
 
@@ -543,7 +483,6 @@ Item {
 
 				onCheckedChanged: {
 				    customer.getVehicles().getVehicleById(selectedVehicleId).getServices().toggleSelection(index);
-				    //customer.getVehicles().getVehicleById(selectedVehicleId).getServices().getSelectedServices();
 				}
 			    }
 			}
@@ -760,13 +699,11 @@ Item {
 		}
 		ScrollBar.horizontal: ScrollBar {
 		    policy: ScrollBar.AlwaysOn
-		    //anchors.bottom: parent.bottom
 		    clip: true
 		}
 
 		ScrollBar.vertical: ScrollBar {
 		    policy: ScrollBar.AsNeeded
-		    //anchors.left: parent.right
 		    clip: true
 		}
 	    }
@@ -880,11 +817,4 @@ Item {
     function setSelectedService(serviceId) {
 	selectedServiceId = serviceId;
     }
-
-    //     function showService(vehicleId, serviceId) {
-    //         //selectedVehicleId = vehicleId;
-    //         mainLoader.source = "ServiceView.qml";
-    //         mainLoader.item.selectedVehicleId = vehicleId;
-    //         mainLoader.item.selectedServiceId = serviceId;
-    //     }
 }

@@ -24,7 +24,7 @@ qt_add_qml_module(appAutoServiceQML
     VERSION 1.0
     QML_FILES
     Main.qml
-    QML_FILES NotificationQML.qml
+    QML_FILES
     SOURCES customer.h customer.cpp
     SOURCES registercontroller.h registercontroller.cpp
     SOURCES vehicle.h vehicle.cpp

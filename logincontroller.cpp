@@ -20,7 +20,6 @@ bool LoginController::login(QString email, QString password)
         return false;
     }
     QByteArray storedSalt = QByteArray::fromBase64(parts[1].toUtf8());
-    //QByteArray storedPassword = QByteArray::fromBase64(parts[0].toUtf8());
 
     RegisterController temp;
     if(temp.hashPassword(password,storedSalt) == customerFromDB.value("password").toString()) {

@@ -60,11 +60,11 @@ bool VehicleTypeContainer::findType(QString type) const
 int VehicleTypeContainer::findIndex(int id) const
 {
     for (int i = 0; i < types.size(); ++i) {
-        if (types[i].first == id) { // `first` to ID
-            return i; // Zwróć indeks
+        if (types[i].first == id) {
+            return i;
         }
     }
-    return -1; // Zwróć -1, jeśli nie znaleziono
+    return -1;
 }
 
 

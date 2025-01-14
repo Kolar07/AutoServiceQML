@@ -30,7 +30,6 @@ Item {
 	    cabinFilterRow.visible = false;
 	    timingRow.visible = false;
 
-	    //customPartsRow.visible = true;
 	} else if (serviceType === "ServiceOil") {
 	    timingRow.visible = false;
 	    customPartsRow.visible = false;
@@ -65,7 +64,7 @@ Item {
 	    MouseArea {
 		anchors.fill: parent
 		onClicked: {
-		    main.showBackVehicle(selectedVehicleId, selectedServiceId);//backToVehicle(selectedVehicleId, selectedServiceId);
+		    main.showBackVehicle(selectedVehicleId, selectedServiceId);
 		}
 		cursorShape: "PointingHandCursor"
 	    }
@@ -74,14 +73,12 @@ Item {
 	Rectangle {
 	    id: pageTitleRect
 	    anchors.top: parent.top
-	    //anchors.left: backButton.right
 	    anchors.topMargin: 10
 	    anchors.leftMargin: 10
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    width: vehicleInfoLabel.width + imageRect.width + 30
 	    height: 100
 	    color: "#FFD9B3"
-	    //border.color: "black"
 	    radius: 15
 	    Rectangle {
 		id: imageRect
@@ -112,7 +109,6 @@ Item {
 
 	Rectangle {
 	    id: vehicleInfoRect
-	    //color: "#fceac5"
 	    anchors.left: parent.left
 	    anchors.right: pageTitleRect.left
 	    anchors.top: pageTitleRect.bottom
@@ -128,10 +124,7 @@ Item {
 		    position: 0.0
 		    color: "#FFE6A3"
 		}
-		// GradientStop {
-		//     position: 0.5
-		//     color: "#fceac5"
-		// }
+
 		GradientStop {
 		    position: 1.0
 		    color: "#FFCE83"
@@ -162,7 +155,6 @@ Item {
 		Row {
 		    spacing: 10
 		    width: parent.width
-		    //width: parent.width
 		    Label {
 			id: modelLabel
 			text: "Model:"
@@ -353,12 +345,9 @@ Item {
 	    gradient: Gradient {
 		GradientStop {
 		    position: 0.0
-		    color: "#FFD6A5"//"#FFFFFF"//"#FFC48C"
+		    color: "#FFD6A5"
 		}
-		// GradientStop {
-		//     position: 0.5
-		//     color: "#fceac5"
-		// }
+
 		GradientStop {
 		    position: 1.0
 		    color: "#fff4e3"
@@ -390,7 +379,6 @@ Item {
 		    id: mileageRow
 		    spacing: 10
 		    width: parent.width
-		    //width: parent.width
 		    Label {
 			id: mileageLabel
 			text: "Mileage:"
@@ -660,10 +648,4 @@ Item {
 	    shadowHorizontalOffset: 0
 	}
     }
-
-    //    function backToVehicle(vehicleId, serviceId) {
-    // mainLoader.source = "VehicleView.qml";
-    // mainLoader.item.selectedVehicleId = vehicleId;
-    // mainLoader.item.selectedServiceId = serviceId;
-    //    }
 }

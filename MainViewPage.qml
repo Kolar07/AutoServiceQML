@@ -3,7 +3,6 @@ import QtQuick.Controls 2
 
 Item {
     id: mainViewPage
-    //visible: viewLoader.source === "MainViewPage.qml" ? true : false
     property int selectedVehicleId: -1
     property int selectedServiceId: -1
 
@@ -33,7 +32,6 @@ Item {
 
 	    Text {
 		anchors.verticalCenter: parent.verticalCenter
-		// anchors.horizontalCenter: parent.horizontalCenter
 		color: "white"
 		font.pixelSize: 15
 		text: "Logout"
@@ -76,7 +74,6 @@ Item {
 
 	    Text {
 		anchors.verticalCenter: parent.verticalCenter
-		// anchors.horizontalCenter: parent.horizontalCenter
 		color: "white"
 		font.pixelSize: 15
 		text: "find"
@@ -135,8 +132,6 @@ Item {
 
 	    delegate: Rectangle {
 		color: "#2B2B2B"
-		//height: 30
-		//width: tableView.width / 5
 		implicitHeight: 40
 		border.color: "black"
 		Text {
@@ -160,7 +155,6 @@ Item {
 	    clip: true
 	    columnSpacing: 1
 	    rowSpacing: 1
-	    //scrollBarPolicy: Qt.ScrollBarAlwaysOff
 	    model: customer.getVehicles()
 
 	    columnWidthProvider: function (column) {
@@ -246,19 +240,17 @@ Item {
 		    Rectangle {
 			id: textRect
 			height: 40
-			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
+			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")
 			border.color: "#CCCCCC"
 			Flickable {
 			    id: flickable
 			    anchors.fill: parent
 			    contentWidth: parent.width
 			    contentHeight: text.implicitHeight > parent.height ? text.implicitHeight : parent.height
-			    //flickableDirection: Flickable.VerticalFlick
 			    clip: true
 			    interactive: false
 			    ScrollBar.vertical: ScrollBar {
 				policy: ScrollBar.AsNeeded
-				//anchors.left: parent.right
 				clip: true
 			    }
 
@@ -266,9 +258,7 @@ Item {
 				id: text
 				width: parent.width - 4
 				height: implicitHeight
-				//anchors.horizontalCenter: parent.horizontalCenter
 				anchors.centerIn: parent
-				//anchors.verticalCenter: parent.verticalCenter
 				font.pixelSize: 14
 				wrapMode: "Wrap"
 				verticalAlignment: Text.AlignVCenter
@@ -306,9 +296,7 @@ Item {
 		    id: checkBoxDelegate
 		    Rectangle {
 			id: checkBoxRect
-			//width: parent.width
-			//height: parent.height
-			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
+			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")
 			border.color: "#CCCCCC"
 
 			CheckBox {
@@ -327,9 +315,7 @@ Item {
 		Component {
 		    id: actionFieldDelegate
 		    Rectangle {
-			//width: parent.width
-			//height: parent.height
-			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")//"lightgray"
+			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")
 			border.color: "#CCCCCC"
 			Row {
 			    anchors.horizontalCenter: parent.horizontalCenter
@@ -528,13 +514,11 @@ Item {
 
 	    ScrollBar.horizontal: ScrollBar {
 		policy: ScrollBar.AsNeeded
-		//anchors.bottom: parent.bottom
 		clip: true
 	    }
 
 	    ScrollBar.vertical: ScrollBar {
 		policy: ScrollBar.AsNeeded
-		//anchors.left: parent.right
 		clip: true
 	    }
 	}
@@ -951,8 +935,6 @@ Item {
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    TextField {
 		id: typeInput
-		//anchors.verticalCenter: parent.verticalCenter
-		//anchors.horizontalCenter: parent.horizontalCenter
 		width: 200
 		height: 40
 		wrapMode: "Wrap"
@@ -1000,40 +982,8 @@ Item {
 	source: ""
     }
 
-    //    function showVehicle(vehicleId) {
-    // //selectedVehicleId = vehicleId;
-    // mainLoader.source = "VehicleView.qml";
-    // mainLoader.item.selectedVehicleId = vehicleId;
-    //    }
-
-    //    function showService(vehicleId, serviceId) {
-    // //selectedVehicleId = vehicleId;
-    // mainLoader.source = "ServiceView.qml";
-    // mainLoader.item.selectedVehicleId = vehicleId;
-    // mainLoader.item.selectedServiceId = serviceId;
-    //    }
 
     function setSelectedVehicle(vehicleId) {
 	selectedVehicleId = vehicleId;
     }
-
-    //    function goBack() {
-    // mainLoader.source = "MainViewPage.qml";
-    //    }
-
-    //    function backToVehicle(vehicleId, serviceId) {
-    // mainLoader.source = "VehicleView.qml";
-    // mainLoader.item.selectedVehicleId = vehicleId;
-    // mainLoader.item.selectedServiceId = serviceId;
-    //    }
-
-    //    Connections {
-    // target: mainLoader.item
-    // function onShowService(vehicleId, serviceId) {
-    //     showService(vehicleId, serviceId);
-    // }
-    // function onBackToVehicle(vehicleId, serviceId) {
-    //     backToVehicle(vehicleId, serviceId);
-    // }
-    //    }
 }

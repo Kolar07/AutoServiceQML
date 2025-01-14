@@ -100,8 +100,6 @@ void VehicleModel::setData(QVector<Vehicle*> &_vehicles) {
     }
     vehicles = _vehicles;
     selected.fill(false, vehicles.size());
-    // vehicles = _vehicles;
-    // selected.resize(vehicles.size(), false);
         qDebug()<<"Till now works, vehicles size: "<<vehicles.size();
     endResetModel();
 }
@@ -112,7 +110,7 @@ void VehicleModel::toggleSelection(int index) {
 
     selected[index] = !selected[index];
     qDebug()<<"Method working, selected: "<<selected;
-    emit dataChanged(createIndex(index, 0), createIndex(index, columnCount() - 1), {SelectedRole});//(createIndex(index, 0), createIndex(index,0), {SelectedRole});
+    emit dataChanged(createIndex(index, 0), createIndex(index, columnCount() - 1), {SelectedRole});
 }
 
 QVector<Vehicle*> VehicleModel::getSelectedVehicles() const {
@@ -152,17 +150,14 @@ Vehicle *VehicleModel::getVehicleByRow(int row) const
 
 Vehicle *VehicleModel::getVehicleById(int id) const
 {
-    //qDebug() << "DEBUG - Searching for vehicle ID:" << id;
     if(id>=0) {
        auto it = std::find_if(vehicles.begin(), vehicles.end(), [id]( Vehicle *vehicle){
             return vehicle->getId() == id;
 });
 if (it != vehicles.end()) {
-    //qDebug() << "DEBUG - Vehicle found!";
            return *it;
         }
     }
-    //qDebug() << "DEBUG - Vehicle not found.";
     return nullptr;
 }
 

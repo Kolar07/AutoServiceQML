@@ -320,7 +320,7 @@ bool DatabaseController::checkVin(QString vin)
     }
 
     QSqlQuery query;
-    query.prepare("SELECT 1 FROM vehicles WHERE vin = :vin LIMIT 1"); // Limit to one row, optimizing the query
+    query.prepare("SELECT 1 FROM vehicles WHERE vin = :vin LIMIT 1");
     query.bindValue(":vin", vin);
 
     if (!query.exec()) {
@@ -534,7 +534,6 @@ void DatabaseController::onFetchVehicles(int customer_id)
 
 void DatabaseController::onFetchServices(int vehicleId)
 {
-    //qDebug()<<"Started fetching services for vehicle id: "<<vehicleId;
 
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -570,7 +569,6 @@ void DatabaseController::onFetchServices(int vehicleId)
 
 void DatabaseController::onServicesFetchVersionSpecifiedVehicle(int vehicleId)
 {
-    //qDebug()<<"DEBUGING SERVICES FETCHING FOR VEHICLE ID: "<<vehicleId;
 
     if(!db.open()) {
         qDebug()<<"Database is not open!"<<db.lastError();
@@ -596,9 +594,7 @@ void DatabaseController::onServicesFetchVersionSpecifiedVehicle(int vehicleId)
                 services.push_back(std::move(service));
             } else return;
         }
-        //qDebug()<<"SERVICESS SUCCESSFULLY FETCHED - DEBUG";
         emit servicesFetchedVersionSpecifiedVehicle(vehicleId,services);
-        //qDebug() << "DEBUG - Emitting servicesFetched for vehicle ID:" << vehicleId << ", Services size:" << services.size();
     } else {
         qDebug()<<"Query execution failed: "<<query.lastError();
         return;

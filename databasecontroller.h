@@ -75,7 +75,6 @@ public:
 
     public slots:
     void registrationSuccess(const QString &name, const QString &surname, const QString &email, const QString &password);
-    //void customerPasswordChanged(const int &customerId, const QString &newPassword);
     void onFetchVehicles(int customerId);
     void onFetchServices(int vehicleId);
 
