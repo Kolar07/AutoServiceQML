@@ -29,6 +29,8 @@ public:
     void init();
     bool executeQuery(const QString &query);
 
+    Q_INVOKABLE QString debug();
+
     bool addCustomer(QString name, QString surname, QString email, QString password);
     Q_INVOKABLE bool changeCustomerPassword(QString _email, QString _name, QString _surname, QString _password);
     QMap<QString, QVariant> getCustomerByEmail(QString &email);
@@ -64,7 +66,9 @@ public:
     Q_INVOKABLE bool removeNotification(int notificationId);
     Q_INVOKABLE bool updateNotificationWithService(int serviceId, int customerId);
 
- signals:
+    Q_INVOKABLE QString getDbDrivers() const;
+
+signals:
     void vehicleTypesFetched(QVector<QPair<int, QString>> vehicleTypes);
     void vehiclesFetched(QVector<Vehicle*> &vehiclesVector);
 

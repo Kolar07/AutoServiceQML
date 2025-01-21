@@ -38,7 +38,6 @@ Item {
 	    placeholderText: "Email"
 	}
 
-
 	TextField {
 	    id: passwordInput
 	    font.pixelSize: 14
@@ -131,4 +130,16 @@ Item {
     ChangePasswordDialog {
 	id: changePasswordDialog
     }
+
+    //    Dialog {
+    // id: debugDialogForSql
+    // width: 500
+    // height: 500
+    // Label {
+    //     text: dbController.debug()
+    //     font.pixelSize: 20
+    //     color: "black"
+    // }
+    // standardButtons: Dialog.Ok | Dialog.Cancel
+    //    }
 }

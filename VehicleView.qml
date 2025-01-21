@@ -7,6 +7,14 @@ Item {
     property int selectedVehicleId: -1
     property int selectedServiceId: -1
     signal showService(int vehicleId, int serviceId)
+
+    Component.onCompleted: {
+	console.log("TableView initial width:", tableView.width, "height:", tableView.height);
+    }
+
+    onWidthChanged: console.log("TableView width changed to:", tableView.width)
+    onHeightChanged: console.log("TableView height changed to:", tableView.height)
+
     Rectangle {
 	width: parent.width
 	height: parent.height
@@ -407,6 +415,7 @@ Item {
 			Rectangle {
 			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    clip: true
+			    height: 50
 			    border.color: "#C99A6B"
 
 			    Flickable {
@@ -472,7 +481,7 @@ Item {
 			Rectangle {
 			    id: checkBoxRect
 			    width: parent.width
-			    height: parent.height
+			    height: 50
 			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    clip: true
 			    border.color: "#C99A6B"
@@ -492,7 +501,7 @@ Item {
 			id: actionFieldDelegate
 			Rectangle {
 			    width: parent.width
-			    height: parent.height
+			    height: 40
 			    color: selectedService ? "#FFCC80" : (row % 2 === 0 ? "#faf2e1" : "#fcecca")
 			    border.color: "#C99A6B"
 			    clip: true

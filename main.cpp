@@ -17,6 +17,8 @@
 #include "notification.h"
 #include "reportsgenerator.h"
 
+
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);

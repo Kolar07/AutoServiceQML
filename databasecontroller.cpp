@@ -142,6 +142,15 @@ bool DatabaseController::executeQuery(const QString &query)
     }
 }
 
+QString DatabaseController::debug()
+{
+    if (!db.open()) {
+        return "Błąd otwierania bazy danych: " + db.lastError().text();
+    } else {
+        return "Połączenie udane!";
+    }
+}
+
 bool DatabaseController::addCustomer(QString name, QString surname, QString email, QString password)
 {
     if(!db.open()) {
@@ -1058,6 +1067,11 @@ bool DatabaseController::updateNotificationWithService(int serviceId, int custom
         }
     }
     return true;
+}
+
+QString DatabaseController::getDbDrivers() const
+{
+    return db.drivers().join(",");
 }
 
 

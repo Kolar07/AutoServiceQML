@@ -18,23 +18,46 @@ ApplicationWindow {
 	id: mainLoader
 	anchors.fill: parent
 	source: "LoginPage.qml"
+
+	// onLoaded: {
+	//     if (mainLoader.item && mainLoader.item.setVehicleData) {
+	// 	mainLoader.item.setVehicleData(mainLoader.vehicleId, mainLoader.serviceId);
+	//     }
+	// }
     }
 
-    onShowLogin: mainLoader.source = "LoginPage.qml"
-    onShowRegister: mainLoader.source = "RegistrationPage.qml"
-    onShowMainView: mainLoader.source = "MainViewPage.qml"
-    onShowVehicle: {
+    function loadLoginPage() {
+	mainLoader.source = "LoginPage.qml";
+    }
+
+    function loadRegisterPage() {
+	mainLoader.source = "RegistrationPage.qml";
+    }
+
+    function loadMainViewPage() {
+	mainLoader.source = "MainViewPage.qml";
+    }
+
+    function loadVehiclePage(vehicleId) {
 	mainLoader.source = "VehicleView.qml";
 	mainLoader.item.selectedVehicleId = vehicleId;
     }
-    onShowBackVehicle: {
+    function loadBackVehiclePage(vehicleId, serviceId) {
 	mainLoader.source = "VehicleView.qml";
 	mainLoader.item.selectedVehicleId = vehicleId;
 	mainLoader.item.selectedServiceId = serviceId;
     }
-    onShowService: {
+
+    function loadServicePage(vehicleId, serviceId) {
 	mainLoader.source = "ServiceView.qml";
 	mainLoader.item.selectedVehicleId = vehicleId;
 	mainLoader.item.selectedServiceId = serviceId;
     }
+
+    onShowLogin: loadLoginPage()
+    onShowRegister: loadRegisterPage()
+    onShowMainView: loadMainViewPage()
+    onShowVehicle: vehicleId => loadVehiclePage(vehicleId)
+    onShowBackVehicle: (vehicleId, serviceId) => loadBackVehiclePage(vehicleId, serviceId)
+    onShowService: (vehicleId, serviceId) => loadServicePage(vehicleId, serviceId)
 }

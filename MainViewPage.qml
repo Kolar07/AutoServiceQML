@@ -6,6 +6,13 @@ Item {
     property int selectedVehicleId: -1
     property int selectedServiceId: -1
 
+    Component.onCompleted: {
+	console.log("TableView initial width:", tableView.width, "height:", tableView.height);
+    }
+
+    onWidthChanged: console.log("TableView width changed to:", tableView.width)
+    onHeightChanged: console.log("TableView height changed to:", tableView.height)
+
     Image {
 	id: logoId
 	anchors.left: parent.left
@@ -125,8 +132,8 @@ Item {
 	    id: horizontalHeader
 	    anchors.left: tableView.left
 	    anchors.top: parent.top
-	    //anchors.topMargin: 1
 	    syncView: tableView
+	    height: 40
 	    clip: true
 	    resizableColumns: true
 
@@ -296,6 +303,7 @@ Item {
 		    id: checkBoxDelegate
 		    Rectangle {
 			id: checkBoxRect
+			height: 40
 			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")
 			border.color: "#CCCCCC"
 
@@ -317,6 +325,7 @@ Item {
 		    Rectangle {
 			color: selected ? "#f7daf2" : (row % 2 === 0 ? "#FFFFFF" : "#f5f2ed")
 			border.color: "#CCCCCC"
+			height: 40
 			Row {
 			    anchors.horizontalCenter: parent.horizontalCenter
 			    anchors.verticalCenter: parent.verticalCenter
@@ -981,7 +990,6 @@ Item {
 	anchors.fill: parent
 	source: ""
     }
-
 
     function setSelectedVehicle(vehicleId) {
 	selectedVehicleId = vehicleId;
